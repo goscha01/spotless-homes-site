@@ -13,8 +13,8 @@ export const LOCATIONS = {
     address: "7508 N Cameron Ave, Tampa, FL 33614",
     phone: "(656) 400-1469",
     phoneRaw: "6564001469",
-    heroPhoto: "/assets/tampa.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    heroPhoto: "/assets/cities/tampa.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Tampa, FL",
     intro:
       "Looking for a reliable Tampa maid service? Look no further than Spotless Homes, your premier source for top-notch cleaning services in Tampa. Our house cleaning services for Tampa residents are trusted to deliver consistent results, from occasional deep cleans to ongoing maintenance. Our Tampa maids are trained, insured, and background-checked for your peace of mind.",
@@ -43,8 +43,8 @@ export const LOCATIONS = {
     address: "12001 Dr M.L.K. Jr St N, St. Petersburg, FL 33716",
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
-    heroPhoto: "/assets/saint-petersburg/pier.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    heroPhoto: "/assets/cities/saint-petersburg.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Saint Petersburg, FL",
     intro:
       "Require a reliable and professional Saint Petersburg maid service? Our dedicated maids Saint Petersburg offer you superior outcomes on each visit, making your home tidy and renewed. We offer comprehensive house cleaning services Saint Petersburg tailored to your schedule and lifestyle, ranging from one-time deep clean to routine upkeep.",
@@ -74,7 +74,7 @@ export const LOCATIONS = {
     phone: "(727) 390-8889",
     phoneRaw: "7273908889",
     heroPhoto: "/assets/cities/clearwater.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Clearwater, FL",
     intro:
       "Need a dependable house cleaning service in Clearwater? Spotless Homes delivers exceptional home cleaning services to keep your living space pristine and refreshed. Whether you require a deep cleaning, routine upkeep, or a move-in cleaning service, our skilled team is here to help. As a trusted cleaning company in your area, we are committed to excellence and customer satisfaction.",
@@ -104,7 +104,7 @@ export const LOCATIONS = {
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
     heroPhoto: "/assets/cities/jacksonville.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Jacksonville, FL",
     intro:
       "Looking for a trusted Jacksonville maid service? Spotless Homes brings the same family-run, results-first cleaning standard to Duval County that has earned us 4.5★ across 500 reviews. From the St. Johns River to the beaches, our Jacksonville cleaners are trained, insured, and background-checked.",
@@ -134,7 +134,7 @@ export const LOCATIONS = {
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
     heroPhoto: "/assets/cities/orlando.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Orlando, FL",
     intro:
       "Searching for a dependable Orlando maid service? Spotless Homes serves Central Florida with the same vetted team and pay-after-satisfaction promise that built our Tampa Bay reputation. From Winter Park to Lake Nona, our Orlando cleaners are trained, insured, and ready when you are.",
@@ -164,7 +164,7 @@ export const LOCATIONS = {
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
     heroPhoto: "/assets/cities/miami.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Miami, FL",
     intro:
       "Need a reliable Miami maid service that shows up on time and leaves a 5-star clean? Spotless Homes brings the same family-run standard to Miami-Dade — Brickell condos, Coral Gables homes, South Beach turnovers — vetted cleaners, insured and bonded, paid only when you're happy.",
@@ -194,7 +194,7 @@ export const LOCATIONS = {
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
     heroPhoto: "/assets/cities/boca-raton.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Boca Raton, FL",
     intro:
       "Looking for a trustworthy Boca Raton maid service? Spotless Homes brings the same vetted, insured, family-run cleaning standard to South Palm Beach County. From Boca West to East Boca and the country-club communities in between — clean homes, on time, every time.",
@@ -224,7 +224,7 @@ export const LOCATIONS = {
     phone: "(813) 921-2100",
     phoneRaw: "8139212100",
     heroPhoto: "/assets/cities/fort-myers.jpg",
-    proofPhoto: "/assets/saint-petersburg/fridge.jpg",
+    proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Fort Myers, FL",
     intro:
       "Need a dependable Fort Myers maid service? Spotless Homes serves Lee County with the same vetted team and pay-after-satisfaction promise we built our reputation on. From McGregor Boulevard to the islands, our cleaners are trained, insured, and ready when you are.",
