@@ -89,9 +89,10 @@ export default function Booking() {
   const [serviceType, setServiceType] = useState("regular");
   const [beds, setBeds]   = useState(1);
   const [baths, setBaths] = useState(1);
-  const [cond, setCond]   = useState("Fair");
-  const [pets, setPets]   = useState("Yes");
-  const [extras, setExtras] = useState(["fridge", "dish"]);
+  const [cond, setCond]   = useState(null);
+  const [pets, setPets]   = useState(null);
+  const [extras, setExtras] = useState([]);
+  const [step2Error, setStep2Error] = useState(false);
 
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [viewYear,  setViewYear]  = useState(today.getFullYear());
@@ -315,8 +316,13 @@ export default function Booking() {
             <Step2
               cond={cond} setCond={setCond}
               pets={pets} setPets={setPets}
-              onBack={() => goStep(1)}
-              onNext={() => goStep(3)}
+              error={step2Error}
+              onBack={() => { setStep2Error(false); goStep(1); }}
+              onNext={() => {
+                if (!cond || !pets) { setStep2Error(true); return; }
+                setStep2Error(false);
+                goStep(3);
+              }}
             />
           )}
           {step === 3 && (
@@ -515,7 +521,7 @@ function Step1({ beds, setBeds, baths, setBaths, onBack, onNext }) {
   );
 }
 
-function Step2({ cond, setCond, pets, setPets, onBack, onNext }) {
+function Step2({ cond, setCond, pets, setPets, error, onBack, onNext }) {
   return (
     <>
       <span className="step-eyebrow">Step 2 · Condition</span>
@@ -546,6 +552,12 @@ function Step2({ cond, setCond, pets, setPets, onBack, onNext }) {
           ))}
         </div>
       </div>
+
+      {error && (
+        <p style={{ color: "#C8102E", fontFamily: "var(--sans)", fontSize: 13, marginTop: 16 }}>
+          Please pick a condition and pet option to continue.
+        </p>
+      )}
 
       <div className="actions">
         <button className="btn-link" onClick={onBack}>← Back</button>
