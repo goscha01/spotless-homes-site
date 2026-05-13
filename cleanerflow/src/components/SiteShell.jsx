@@ -1,0 +1,99 @@
+import { Link } from "react-router-dom";
+import "../styles/site.css";
+
+export function TopBar() {
+  return (
+    <div className="topbar">
+      <div className="topbar-inner">
+        <div>Florida · Tampa · St. Pete · Clearwater · Jacksonville</div>
+        <div><span className="pill">★ 4.5/5</span> · 500 Google reviews · Insured &amp; Bonded</div>
+      </div>
+    </div>
+  );
+}
+
+export function NavBar({ active }) {
+  const isActive = (key) => (active === key ? "active" : undefined);
+  return (
+    <nav className="nav">
+      <div className="nav-inner">
+        <Link className="logo" to="/">SPOTLESS<span className="dot"></span>HOMES</Link>
+        <div className="nav-links">
+          <Link className={isActive("checklist")} to="/cleaning-checklist">What's included</Link>
+          <Link className={isActive("airbnb")} to="/airbnb-checklist">Airbnb checklist</Link>
+          <Link className={isActive("products")} to="/cleaning-products">Products</Link>
+          <Link className={isActive("about")} to="/about">Our story</Link>
+          <Link className={isActive("areas")} to="/#areas">Areas</Link>
+        </div>
+        <div className="nav-cta">
+          <span className="nav-phone">813-921-2100</span>
+          <Link to="/booking" className="btn btn-primary">Get Quote</Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer>
+      <div className="container">
+        <div className="foot-grid">
+          <div>
+            <Link className="logo" style={{ color: "var(--w)" }} to="/">SPOTLESS<span className="dot"></span>HOMES</Link>
+            <p className="brand-copy">Florida's trusted local house cleaning — family-run since 2018.</p>
+            <p className="brand-copy" style={{ marginTop: 6 }}>813-921-2100 · info@spotless.homes</p>
+          </div>
+          <div>
+            <h4>Services</h4>
+            <ul>
+              <li><Link to="/cleaning-checklist">What's included</Link></li>
+              <li><Link to="/airbnb-checklist">Airbnb checklist</Link></li>
+              <li><Link to="/cleaning-products">Products we use</Link></li>
+              <li>Move In / Out</li>
+              <li>Eco Cleaning</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Areas</h4>
+            <ul>
+              <li><Link to="/locations/tampa">Tampa</Link></li>
+              <li><Link to="/locations/saint-petersburg">Saint Petersburg</Link></li>
+              <li><Link to="/locations/clearwater">Clearwater</Link></li>
+              <li><Link to="/locations/jacksonville">Jacksonville</Link></li>
+              <li><Link to="/locations/orlando">Orlando</Link></li>
+              <li><Link to="/locations/miami">Miami</Link></li>
+              <li><Link to="/locations/boca-raton">Boca Raton</Link></li>
+              <li><Link to="/locations/fort-myers">Fort Myers</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li><Link to="/about">About</Link></li>
+              <li>FAQ</li>
+              <li>Careers</li>
+              <li>Blog</li>
+              <li>Terms · Privacy</li>
+            </ul>
+          </div>
+        </div>
+        <div className="legal">
+          <div>© 2026 Spotless Homes. All rights reserved.</div>
+          <div>Insured by Hiscox · Surety Bonded · Florida DBA</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function SiteShell({ active, children }) {
+  return (
+    <div className="site-root">
+      <TopBar />
+      <NavBar active={active} />
+      {children}
+      <SiteFooter />
+    </div>
+  );
+}

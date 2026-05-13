@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+table {
+  width: -webkit-fill-available;
+}
+
+.rdp-button_previous:disabled {
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.rdp-disabled {
+  cursor: not-allowed;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.rdp-selected {
+  color: white;
+  background-color: #f2c31b;
+}
+
+body {
+  font-family: "Garamond";
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html,
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+
+@layer components {
+  .continue-button {
+    @apply mt-12 mb-12; /* 4px margin (1 = 0.25rem = 4px in Tailwind) */
+  }
+  .equal-button {
+  @apply min-h-[60px] flex items-center justify-center text-center;
+}
+}

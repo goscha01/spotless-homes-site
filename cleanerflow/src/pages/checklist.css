@@ -1,0 +1,14 @@
+/* Checklist page-specific overrides */
+.site-root .checklist-hero .h1 { font-size: 76px; }
+.site-root .checklist-hero .lead { font-size: 20px; max-width: 580px; }
+.site-root .checklist-hero .page-hero-photo { aspect-ratio: auto; height: 440px; }
+.site-root .checklist-hero .page-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.site-root .quick-jump { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+.site-root .quick-jump a {
+  font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  padding: 10px 18px; border: 1px solid var(--k); cursor: pointer; transition: background .15s, color .15s;
+}
+.site-root .quick-jump a:hover { background: var(--k); color: var(--w); }
+.site-root .badge-line { display: flex; gap: 30px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--g-200); flex-wrap: wrap; }
+.site-root .badge-line .item { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--g-500); }
+.site-root .badge-line .item strong { color: var(--k); font-weight: 600; }

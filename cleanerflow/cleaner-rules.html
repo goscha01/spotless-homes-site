@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotless Homes - Cleaner Onboarding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            color: #000;
+            line-height: 1.3;
+        }
+        
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            padding: 15mm;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 8mm;
+            padding-bottom: 5mm;
+            border-bottom: 3px solid #F2C31B;
+        }
+        
+        .logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 5px;
+        }
+        
+        .header h1 {
+            font-size: 20pt;
+            color: #000;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5mm;
+        }
+        
+        .section {
+            background: #fff;
+            border: 2px solid #B3B3B3;
+            border-radius: 8px;
+            padding: 4mm;
+            position: relative;
+        }
+        
+        .section-header {
+            background: #F2C31B;
+            color: #000;
+            padding: 3mm;
+            margin: -4mm -4mm 3mm -4mm;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            font-size: 11pt;
+            display: flex;
+            align-items: center;
+        }
+        
+        .icon {
+            font-size: 18pt;
+            margin-right: 8px;
+        }
+        
+        .subsection-title {
+            font-weight: bold;
+            color: #000;
+            font-size: 9pt;
+            margin: 3mm 0 1mm 0;
+            border-bottom: 1px solid #F2C31B;
+            padding-bottom: 1mm;
+        }
+        
+        .content-text {
+            font-size: 8pt;
+            margin-bottom: 2mm;
+        }
+        
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 8pt;
+        }
+        
+        .bullet-list li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 1mm;
+        }
+        
+        .bullet-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #F2C31B;
+            font-weight: bold;
+        }
+        
+        .bullet-list li {
+            font-size: 1.2em;
+        }
+        
+        .bullet-list li:first-child,
+        .bullet-list li:first-child * {
+            font-size: 1.2em;
+        }
+        
+        .highlight-word {
+            font-weight: bold;
+        }
+        
+        .bullet-list li emoji,
+        .bullet-list li span[style*="font-size"],
+        .content-text emoji {
+            font-size: 1.4em !important;
+            display: inline-block;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2mm 0;
+            gap: 2mm;
+        }
+        
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            padding: 2mm;
+            background: #f8f8f8;
+            border: 2px solid #F2C31B;
+            border-radius: 6px;
+            font-size: 7pt;
+        }
+        
+        .timeline-month {
+            font-weight: bold;
+            color: #000;
+            font-size: 9pt;
+            display: block;
+            background: #F2C31B;
+            margin: -2mm -2mm 1mm -2mm;
+            padding: 1mm;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .pay-rate {
+            background: #000;
+            color: #F2C31B;
+            padding: 1mm 3mm;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 9pt;
+            display: inline-block;
+        }
+        
+        .highlight-box {
+            background: #fffbf0;
+            border-left: 3px solid #F2C31B;
+            padding: 2mm;
+            margin: 2mm 0;
+            font-size: 8pt;
+        }
+        
+        .warning {
+            background: #F2C31B;
+            color: #000;
+            padding: 2mm;
+            margin: 2mm 0;
+            border-radius: 4px;
+            font-size: 7.5pt;
+            font-weight: bold;
+        }
+        
+        .warning-red {
+            background: #ff4444;
+            color: #fff;
+            padding: 3mm;
+            margin: 2mm 0;
+            border-radius: 4px;
+            font-size: 10pt;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+        
+        .step {
+            display: inline-block;
+            background: #F2C31B;
+            color: #000;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            font-size: 18pt;
+            margin-right: 3px;
+            flex-shrink: 0;
+        }
+        
+        .illustration {
+            text-align: center;
+            font-size: 32pt;
+            margin: 2mm 0;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin: 2mm 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-link {
+            display: inline-block;
+            text-align: center;
+            margin: 2mm 0;
+            padding: 2mm 4mm;
+            background: #F2C31B;
+            color: #000;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 9pt;
+        }
+        
+        .video-link:hover {
+            background: #e0b019;
+        }
+        
+        .section.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .flex-row {
+            display: flex;
+            gap: 3mm;
+        }
+        
+        .flex-col {
+            flex: 1;
+        }
+        
+        .signature-section {
+            margin-top: 8mm;
+            padding: 4mm;
+            border: 2px solid #B3B3B3;
+            border-radius: 8px;
+            background: #fff;
+        }
+        
+        .agreement-text {
+            font-size: 8pt;
+            margin-bottom: 3mm;
+            line-height: 1.4;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 3mm;
+            gap: 2mm;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #F2C31B;
+        }
+        
+        .checkbox-container label {
+            font-size: 8pt;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .signature-button {
+            background: #F2C31B;
+            color: #000;
+            border: 2px solid #000;
+            padding: 3mm 8mm;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 10pt;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 3mm;
+        }
+        
+        .signature-button:hover {
+            background: #e0b019;
+        }
+        
+        .signature-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .signature-line {
+            border-top: 2px solid #000;
+            margin-top: 4mm;
+            padding-top: 2mm;
+            font-size: 8pt;
+        }
+        
+        strong {
+            color: #000;
+        }
+        
+        /* Make emojis/icons bigger */
+        .icon-emoji {
+            font-size: 1.4em;
+            display: inline-block;
+            margin-right: 4px;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        
+        .highlight-word {
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .page {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .section {
+                padding: 12px;
+            }
+            
+            .section-header {
+                font-size: 16px;
+                padding: 10px;
+                margin: -12px -12px 10px -12px;
+            }
+            
+            .icon {
+                font-size: 24px;
+            }
+            
+            .subsection-title {
+                font-size: 14px;
+                margin: 10px 0 5px 0;
+            }
+            
+            .content-text {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+            
+            .bullet-list {
+                font-size: 13px;
+            }
+            
+            .bullet-list li {
+                margin-bottom: 5px;
+                padding-left: 18px;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .timeline-item {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .timeline-month {
+                font-size: 14px;
+                padding: 5px;
+                margin: -10px -10px 5px -10px;
+            }
+            
+            .pay-rate {
+                font-size: 14px;
+                padding: 5px 12px;
+            }
+            
+            .highlight-box {
+                padding: 10px;
+                margin: 10px 0;
+                font-size: 13px;
+            }
+            
+            .warning {
+                padding: 10px;
+                margin: 10px 0;
+                font-size: 12px;
+            }
+            
+            .warning-red {
+                padding: 10px;
+                margin: 10px 0;
+                font-size: 12px;
+            }
+            
+            .step {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 22px;
+                margin-right: 5px;
+            }
+            
+            .illustration {
+                font-size: 40px;
+                margin: 10px 0;
+            }
+            
+            .section.full-width {
+                grid-column: 1;
+            }
+            
+            .flex-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .icon-emoji {
+                font-size: 1.5em;
+            }
+            
+            .highlight-word {
+                font-weight: bold;
+            }
+            
+            .signature-section {
+                margin-top: 20px;
+                padding: 15px;
+            }
+            
+            .agreement-text {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+            
+            .checkbox-container {
+                margin-bottom: 10px;
+            }
+            
+            .checkbox-container input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .checkbox-container label {
+                font-size: 13px;
+            }
+            
+            .signature-button {
+                padding: 12px 20px;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+            
+            .signature-line {
+                margin-top: 15px;
+                padding-top: 10px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <h1>CLEANER ONBOARDING GUIDE</h1>
+        </div>
+        
+        <div class="grid">
+            <!-- Pre-Arrival -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">1</span>
+                    <span class="icon">🚗</span>
+                    PRE-ARRIVAL
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">⏰</span> Leave early so you can arrive <strong class="highlight-word">10 minutes before</strong> the appointment.</li>
+                    <li><span class="icon-emoji">📱</span> Press the <strong class="highlight-word">"En Route"</strong> button in the app — this sends a message to the client and notifies the dispatcher that you are on the way.</li>
+                    <li><span class="icon-emoji">📦</span> Arrive <strong class="highlight-word">5–10 minutes early</strong> to unload equipment and review the assignment details (time, notes, special instructions).</li>
+                </ul>
+            </div>
+            
+            <!-- Upon Arrival -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">2</span>
+                    <span class="icon">🚪</span>
+                    UPON ARRIVAL
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">👟</span> <strong class="highlight-word">Change shoes</strong> before entering the home.</li>
+                    <li><span class="icon-emoji">📸</span> Take <strong class="highlight-word">BEFORE photos</strong> — at least <strong class="highlight-word">one photo per room</strong>. Be sure to photograph any <strong class="highlight-word">damaged, broken, stained, or unusual areas</strong>.</li>
+                    <li><span class="icon-emoji">⚠️</span> If the property condition is <strong class="highlight-word">worse than expected</strong>, <strong class="highlight-word">immediately</strong> send the photos to the WhatsApp chat and contact the dispatcher.</li>
+                </ul>
+            </div>
+            
+            <!-- During Cleaning -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">3</span>
+                    <span class="icon">🧹</span>
+                    DURING CLEANING
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">▶️</span> <strong class="highlight-word">Start the job</strong> in the app.</li>
+                    <li><span class="icon-emoji">🧹</span> Begin cleaning.</li>
+                    <li><span class="icon-emoji">⏸️</span> Do not waste time on <strong class="highlight-word">extremely difficult areas</strong>. If something is too hard to clean, <strong class="highlight-word">take a photo</strong> and send it to the dispatcher, then move on to the next area.</li>
+                    <li><span class="icon-emoji">⏰</span> <strong class="highlight-word">Mid-cleaning check:</strong> If the cleaning is <strong class="highlight-word">4 hours</strong>, check progress after <strong class="highlight-word">2 hours</strong>. If you cannot finish on time, take photos showing the reason and notify the dispatcher.</li>
+                    <li><span class="icon-emoji">🍽️</span> <strong class="highlight-word">Always clean the microwave.</strong></li>
+                </ul>
+            </div>
+            
+            <!-- Completion -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">4</span>
+                    <span class="icon">✅</span>
+                    COMPLETION
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">📸</span> When finished, take <strong class="highlight-word">AFTER photos</strong> for each room.</li>
+                    <li><span class="icon-emoji">🔥</span> <strong class="highlight-word">Check the oven</strong>, make sure it is <strong class="highlight-word">off</strong>, and take a picture of it.</li>
+                    <li><span class="icon-emoji">👤</span> If the client is home, ask if they are <strong class="highlight-word">satisfied</strong> and if anything was missed.</li>
+                    <li><span class="icon-emoji">📞</span> If the client requests <strong class="highlight-word">extra tasks</strong> not included in the assignment, politely tell them these must be <strong class="highlight-word">approved by the dispatcher</strong>. You can call the dispatcher yourself as well.</li>
+                    <li><span class="icon-emoji">💰</span> If the client is satisfied, show the <strong class="highlight-word">QR code</strong> for the review. You will earn <strong class="highlight-word">$20</strong> for every completed review.</li>
+                </ul>
+            </div>
+            
+            <!-- If Client Not Home -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">5</span>
+                    <span class="icon">🏠</span>
+                    IF CLIENT NOT HOME
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">🐾</span> Verify <strong class="highlight-word">pets are secure</strong></li>
+                    <li><span class="icon-emoji">💡</span> All <strong class="highlight-word">lights are off</strong></li>
+                    <li><span class="icon-emoji">🔒</span> The <strong class="highlight-word">door is locked</strong> as the client or dispatcher instructed</li>
+                </ul>
+            </div>
+            
+            <!-- Final Steps -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="step" style="margin-right: 5px;">6</span>
+                    <span class="icon">🏁</span>
+                    FINAL STEPS
+                </div>
+                
+                <ul class="bullet-list">
+                    <li><span class="icon-emoji">⏹️</span> Click <strong class="highlight-word">"Stop"</strong> in the app to end the job.</li>
+                    <li><span class="icon-emoji">📁</span> <strong class="highlight-word">Upload all BEFORE and AFTER photos</strong> to the designated folder.</li>
+                </ul>
+            </div>
+            
+            <!-- BEFORE AND AFTER PHOTO RULES - Full Width -->
+            <div class="section full-width">
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="section-header">
+                            <span class="icon">📸</span>
+                            BEFORE AND AFTER PHOTO RULES
+                        </div>
+                        
+                        <div class="subsection-title">Important:</div>
+                        
+                        <div style="margin-top: 1mm;">
+                            <p class="content-text" style="margin-bottom: 3mm;">
+                                Click the button to see short 2 minutes video how to take the before and after photos
+                            </p>
+                            
+                            <a href="https://www.spotless.homes/videos/photo-report-instructions" target="_blank" class="video-link">
+                                Photo Report Instructions
+                            </a>
+                            
+                            <div class="warning-red" style="margin-top: 3mm;">
+                                ⚠️ PAYMENT RULE: No time extension approval or required photos = paid at regular time only!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <div class="section-header">
+                            <span class="icon">📱</span>
+                            NOTIFICATIONS
+                        </div>
+                        
+                        <div class="subsection-title">Clients Receive:</div>
+                        <ul class="bullet-list">
+                            <li><span class="icon-emoji">⏰</span> <strong class="highlight-word">24-hour reminder</strong></li>
+                            <li><span class="icon-emoji">📱</span> <strong class="highlight-word">"On the way"</strong> message</li>
+                        </ul>
+                        
+                        <div class="subsection-title">Cleaners Receive:</div>
+                        <ul class="bullet-list">
+                            <li><span class="icon-emoji">📲</span> Updates via <strong class="highlight-word">ZenBooker app</strong></li>
+                        </ul>
+                        
+                        <div class="illustration">📲→🧹→✨</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

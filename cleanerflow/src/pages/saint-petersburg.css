@@ -1,0 +1,106 @@
+/* Saint Petersburg location page */
+
+.site-root .loc-hero { padding: 28px 0 80px; border-bottom: 1px solid var(--g-200); }
+.site-root .loc-hero .hero-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: center; margin-top: 30px; }
+.site-root .loc-h1 { font-size: 92px; }
+.site-root .loc-hero .hero-ctas { display: flex; gap: 12px; margin-top: 32px; align-items: center; flex-wrap: wrap; }
+.site-root .loc-hero .hero-meta { display: flex; gap: 36px; margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--g-200); }
+.site-root .loc-hero-photo { position: relative; aspect-ratio: 4/5; max-height: 720px; }
+.site-root .loc-hero-photo .img-main { width: 100%; height: 100%; object-fit: cover; background: var(--g-100); }
+.site-root .loc-hero-photo .yellow-corner { width: 140px; height: 140px; right: -24px; top: -24px; }
+.site-root .loc-hero-photo .city-stamp {
+  position: absolute; left: -34px; bottom: 40px;
+  background: var(--w); padding: 18px 24px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.10);
+  border: 1px solid var(--g-200);
+  display: flex; align-items: center; gap: 16px;
+}
+.site-root .city-stamp .pin {
+  width: 38px; height: 38px; border-radius: 99px; background: var(--y);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.site-root .city-stamp .pin svg { width: 20px; height: 20px; }
+.site-root .city-stamp .city { font-family: var(--serif); font-size: 22px; font-weight: 500; line-height: 1; }
+.site-root .city-stamp .sub { font-family: var(--sans); font-size: 11px; color: var(--g-500); margin-top: 4px; letter-spacing: .14em; text-transform: uppercase; }
+
+/* Intro */
+.site-root .intro { padding: 100px 0; }
+.site-root .intro-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+.site-root .intro h2 { font-family: var(--serif); font-size: 56px; line-height: 1.04; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; }
+.site-root .intro h2 em { font-style: italic; }
+.site-root .intro .copy p { font-family: var(--serif); font-size: 21px; line-height: 1.6; color: var(--g-700); margin: 22px 0 0; }
+.site-root .intro .copy p:first-child { color: var(--k); font-size: 24px; }
+.site-root .intro .copy .actions { margin-top: 36px; display: flex; gap: 12px; }
+
+/* Neighborhoods */
+.site-root .hoods { padding: 90px 0; background: var(--g-50); border-top: 1px solid var(--g-200); border-bottom: 1px solid var(--g-200); }
+.site-root .hoods-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: end; margin-bottom: 50px; }
+.site-root .hoods h2 { font-family: var(--serif); font-size: 56px; line-height: 1.04; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; }
+.site-root .hoods h2 em { font-style: italic; }
+.site-root .hoods .blurb { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--g-700); }
+.site-root .hood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--g-200); background: var(--w); }
+.site-root .hood {
+  padding: 28px 30px; border-right: 1px solid var(--g-200); border-bottom: 1px solid var(--g-200);
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; transition: background .15s;
+}
+.site-root .hood:hover { background: var(--g-50); }
+.site-root .hood:nth-child(3n) { border-right: none; }
+.site-root .hood:nth-last-child(-n+3) { border-bottom: none; }
+.site-root .hood .name { font-family: var(--serif); font-size: 26px; font-weight: 500; }
+.site-root .hood .arrow { color: var(--y); font-size: 22px; }
+.site-root .hood-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; font-family: var(--sans); font-size: 14px; color: var(--g-500); }
+.site-root .hood-foot strong { color: var(--k); font-weight: 600; }
+
+/* Proof */
+.site-root .proof { padding: 0; background: var(--k); color: var(--w); }
+.site-root .proof-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 460px; }
+.site-root .proof-photo { background-size: cover; background-position: center; }
+.site-root .proof-copy { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+.site-root .proof .eyebrow { color: var(--w); }
+.site-root .proof h3 { font-family: var(--serif); font-size: 48px; line-height: 1.05; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; max-width: 460px; }
+.site-root .proof h3 em { font-style: italic; color: var(--y); }
+.site-root .proof p { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: rgba(255,255,255,.7); margin: 22px 0 0; max-width: 460px; }
+.site-root .proof .badges { margin-top: 32px; display: flex; gap: 26px; }
+.site-root .proof .b .num { font-family: var(--serif); font-size: 32px; font-weight: 500; color: var(--y); }
+.site-root .proof .b .lbl { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,.55); margin-top: 4px; letter-spacing: .08em; }
+
+/* Contact */
+.site-root .contact { padding: 100px 0; }
+.site-root .contact-head { text-align: center; max-width: 680px; margin: 0 auto 56px; }
+.site-root .contact h2 { font-family: var(--serif); font-size: 64px; line-height: 1.04; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; }
+.site-root .contact h2 em { font-style: italic; }
+.site-root .contact-sub { font-family: var(--sans); font-size: 16px; color: var(--g-500); margin-top: 14px; }
+.site-root .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 0; border: 1px solid var(--g-200); }
+.site-root .contact-info { padding: 56px 48px; background: var(--y); position: relative; overflow: hidden; }
+.site-root .contact-info::before {
+  content: ""; position: absolute; right: -80px; bottom: -80px; width: 240px; height: 240px;
+  border-radius: 99px; background: rgba(0,0,0,.05);
+}
+.site-root .contact-info h3 { font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin: 0 0 22px; }
+.site-root .contact-info .addr { font-family: var(--serif); font-size: 24px; line-height: 1.4; font-weight: 500; }
+.site-root .contact-info .div { width: 40px; height: 2px; background: var(--k); margin: 22px 0; }
+.site-root .contact-info .row { font-family: var(--serif); font-size: 19px; margin: 8px 0; }
+.site-root .contact-info .row .lbl { font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(0,0,0,.6); display: block; margin-bottom: 2px; }
+.site-root .contact-info .socials { margin-top: 28px; display: flex; gap: 12px; position: relative; z-index: 1; }
+.site-root .contact-info .soc {
+  width: 38px; height: 38px; border: 1.5px solid var(--k); border-radius: 99px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background .15s, color .15s;
+}
+.site-root .contact-info .soc:hover { background: var(--k); color: var(--y); }
+
+.site-root .contact-form { padding: 56px 48px; background: var(--w); }
+.site-root .contact-form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.site-root .contact-form label { font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--g-500); display: block; margin: 18px 0 8px; font-weight: 600; }
+.site-root .contact-form input,
+.site-root .contact-form textarea {
+  width: 100%; border: none; border-bottom: 1px solid var(--g-300); background: transparent;
+  padding: 10px 0 14px; font-family: var(--serif); font-size: 18px; color: var(--k);
+  outline: none; transition: border-color .15s;
+}
+.site-root .contact-form input:focus,
+.site-root .contact-form textarea:focus { border-color: var(--k); }
+.site-root .contact-form textarea { resize: vertical; min-height: 110px; font-family: var(--serif); }
+.site-root .contact-form .submit { margin-top: 32px; width: 100%; padding: 18px; }

@@ -1,0 +1,28 @@
+# Local-only state
+.backups/
+
+# Legacy raw assets (root-only, not curated for git)
+# Anchored with leading slash so it does NOT match cleanerflow/public/assets/
+/Assets/
+
+# Build artifacts (each subproject has its own ignore for node_modules / dist)
+**/node_modules/
+**/dist/
+**/.vite/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db

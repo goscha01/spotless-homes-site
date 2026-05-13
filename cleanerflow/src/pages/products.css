@@ -1,0 +1,48 @@
+.site-root .products-hero { padding: 60px 0 0; }
+.site-root .products-hero h1 { font-family: var(--serif); font-size: 80px; line-height: 1; font-weight: 400; margin: 14px 0 0; letter-spacing: -.018em; }
+.site-root .products-hero h1 em { font-style: italic; }
+.site-root .products-hero .h-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 70px; align-items: end; padding-bottom: 80px; border-bottom: 1px solid var(--g-200); }
+.site-root .products-hero .lead { font-size: 19px; line-height: 1.65; max-width: 580px; }
+
+.site-root .product-row {
+  display: grid; grid-template-columns: 1fr 1fr; min-height: 460px;
+  border-bottom: 1px solid var(--g-200);
+}
+.site-root .product-row.flip .photo { order: 2; }
+.site-root .product-row.flip .copy { order: 1; }
+.site-root .product-row .photo { background-size: contain; background-repeat: no-repeat; background-position: center; }
+.site-root .product-row .copy { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+.site-root .product-row .num { font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--g-500); font-weight: 600; }
+.site-root .product-row h2 { font-family: var(--serif); font-size: 52px; line-height: 1.05; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; }
+.site-root .product-row h2 em { font-style: italic; }
+.site-root .product-row .blurb { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--g-700); margin: 22px 0 0; max-width: 460px; }
+.site-root .product-row ul { list-style: none; padding: 0; margin: 22px 0 0; max-width: 480px; }
+.site-root .product-row ul li {
+  font-family: var(--sans); font-size: 14px; line-height: 1.5; color: var(--k);
+  padding: 8px 0 8px 22px; position: relative; border-bottom: 1px dashed var(--g-200);
+}
+.site-root .product-row ul li::before {
+  content: ""; position: absolute; left: 0; top: 14px; width: 12px; height: 12px;
+  background: var(--y); border: 2px solid var(--k);
+}
+.site-root .product-row .read-more {
+  font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  margin-top: 28px; display: inline-flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--k); padding-bottom: 4px; align-self: flex-start; cursor: pointer;
+}
+.site-root .product-row .read-more:hover { color: var(--g-500); border-color: var(--g-500); }
+
+.site-root .product-row.purple .photo { background-color: #B9A3E0; background-image: url('/assets/products/method.jpg'); }
+.site-root .product-row.blue .photo { background-color: #1E3F8A; background-image: url('/assets/products/dawn.jpg'); }
+.site-root .product-row.cream .photo { background-color: #F4F1EA; }
+.site-root .product-row.charcoal .photo { background-color: #2A2A2A; }
+.site-root .product-row.mint .photo { background-color: #C7E5D7; }
+.site-root .product-row.pink .photo { background-color: #F3C9D5; }
+.site-root .product-row.amber .photo { background-color: #E8A93C; }
+
+.site-root .placeholder-bottle {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 28px; font-style: italic; color: rgba(255,255,255,.85);
+  text-align: center; padding: 40px;
+}
+.site-root .product-row.cream .placeholder-bottle { color: var(--g-700); }

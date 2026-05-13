@@ -1,0 +1,136 @@
+/* ────────────────────────────────────────────────────
+   Spotless Homes · global site design system
+   Used by all non-booking pages.
+   ──────────────────────────────────────────────────── */
+
+:root {
+  --y: #F2C31B;
+  --y-soft: #FFE679;
+  --k: #0E0E0E;
+  --k-2: #1a1a1a;
+  --w: #FFFFFF;
+  --g-50: #FAFAFA;
+  --g-100: #F4F4F4;
+  --g-200: #EAEAEA;
+  --g-300: #D6D6D6;
+  --g-500: #8A8A8A;
+  --g-700: #4A4A4A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.site-root { background: var(--w); color: var(--k); font-family: var(--serif); min-width: 1280px; }
+.site-root * { box-sizing: border-box; }
+.site-root a { color: inherit; text-decoration: none; }
+.site-root button { font-family: inherit; }
+.site-root img { display: block; }
+
+.site-root .container { max-width: 1320px; margin: 0 auto; padding: 0 56px; }
+
+/* ── Top utility bar ── */
+.site-root .topbar { background: var(--k); color: var(--w); font-family: var(--sans); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.site-root .topbar-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 56px; max-width: 1320px; margin: 0 auto; }
+.site-root .topbar .pill { color: var(--y); }
+
+/* ── Nav ── */
+.site-root .nav { border-bottom: 1px solid var(--g-200); background: var(--w); position: sticky; top: 0; z-index: 50; }
+.site-root .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 18px 56px; max-width: 1320px; margin: 0 auto; }
+.site-root .logo { display: flex; align-items: center; gap: .5em; font-family: var(--serif); font-size: 20px; letter-spacing: .26em; font-weight: 600; }
+.site-root .logo .dot { display: inline-block; width: 8px; height: 8px; border-radius: 99px; background: var(--y); }
+.site-root .nav-links { display: flex; gap: 30px; font-family: var(--sans); font-size: 14px; color: var(--k); font-weight: 500; }
+.site-root .nav-links a { transition: color .15s; cursor: pointer; }
+.site-root .nav-links a:hover { color: var(--g-500); }
+.site-root .nav-links a.active { color: var(--g-500); }
+.site-root .nav-cta { display: flex; align-items: center; gap: 18px; }
+.site-root .nav-phone { font-family: var(--serif); font-size: 19px; font-weight: 600; }
+
+/* ── Buttons ── */
+.site-root .btn {
+  border: none; cursor: pointer; transition: transform .12s, background .15s, color .15s;
+  font-family: var(--serif); font-weight: 500; letter-spacing: .01em;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+}
+.site-root .btn:hover { transform: translateY(-1px); }
+.site-root .btn-primary { background: var(--y); color: var(--k); padding: 14px 26px; font-size: 17px; }
+.site-root .btn-primary:hover { background: #FFD42E; }
+.site-root .btn-dark { background: var(--k); color: var(--w); padding: 14px 26px; font-size: 17px; }
+.site-root .btn-dark:hover { background: #2a2a2a; }
+.site-root .btn-outline { background: transparent; color: var(--k); border: 1px solid var(--k); padding: 13px 24px; font-size: 17px; }
+.site-root .btn-outline:hover { background: var(--k); color: var(--w); }
+.site-root .btn-lg { padding: 18px 32px; font-size: 19px; }
+
+/* ── Breadcrumb ── */
+.site-root .crumbs { padding: 18px 0 0; font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--g-500); }
+.site-root .crumbs a:hover { color: var(--k); }
+.site-root .crumbs .sep { margin: 0 10px; color: var(--g-300); }
+.site-root .crumbs .here { color: var(--k); }
+
+/* ── Eyebrow + headings ── */
+.site-root .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--k); font-weight: 500; }
+.site-root .eyebrow .bar { display: inline-block; width: 32px; height: 2px; background: var(--y); }
+.site-root .h1 { font-family: var(--serif); font-size: 96px; line-height: .96; font-weight: 400; letter-spacing: -.018em; margin: 22px 0 0; color: var(--k); }
+.site-root .h1 em { font-style: italic; font-weight: 400; }
+.site-root .h1 .y-mark { background: var(--y); padding: 0 .12em; }
+.site-root .h2 { font-family: var(--serif); font-size: 64px; line-height: 1.04; font-weight: 400; margin: 14px 0 0; letter-spacing: -.012em; }
+.site-root .h2 em { font-style: italic; }
+.site-root .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; color: var(--g-700); margin: 26px 0 0; max-width: 540px; }
+
+/* ── Page hero (compact for inner pages) ── */
+.site-root .page-hero { padding: 28px 0 70px; border-bottom: 1px solid var(--g-200); }
+.site-root .page-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; margin-top: 30px; }
+.site-root .page-hero-photo { position: relative; aspect-ratio: 4/3; }
+.site-root .page-hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+.site-root .yellow-corner { position: absolute; right: -22px; top: -22px; width: 130px; height: 130px; background: var(--y); z-index: -1; }
+
+/* ── Section ── */
+.site-root .section { padding: 100px 0; }
+.site-root .section-head { text-align: center; max-width: 720px; margin: 0 auto 60px; }
+.site-root .section-sub { font-family: var(--sans); font-size: 16px; color: var(--g-500); margin-top: 14px; line-height: 1.6; }
+
+/* ── Checklist cards ── */
+.site-root .checklist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.site-root .cl-card { background: var(--w); border: 1px solid var(--g-200); display: flex; flex-direction: column; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.site-root .cl-card:hover { transform: translateY(-3px); border-color: var(--k); box-shadow: 0 22px 40px rgba(0,0,0,.06); }
+.site-root .cl-card .photo { aspect-ratio: 4/3; overflow: hidden; background: var(--g-100); }
+.site-root .cl-card .photo img { width: 100%; height: 100%; object-fit: cover; }
+.site-root .cl-card .body { padding: 26px 28px 30px; }
+.site-root .cl-card h3 { font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; color: var(--g-500); margin: 0 0 10px; }
+.site-root .cl-card .name { font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: 1.05; margin: 0 0 16px; }
+.site-root .cl-card ul { list-style: none; padding: 0; margin: 0; }
+.site-root .cl-card ul li {
+  font-family: var(--sans); font-size: 14px; line-height: 1.5; color: var(--k);
+  padding: 8px 0 8px 22px; position: relative; border-bottom: 1px dashed var(--g-200);
+}
+.site-root .cl-card ul li:last-child { border-bottom: none; }
+.site-root .cl-card ul li::before {
+  content: ""; position: absolute; left: 0; top: 14px; width: 12px; height: 12px;
+  background: var(--y); border: 2px solid var(--k);
+}
+.site-root .cl-card.dark { background: var(--k); color: var(--w); border-color: var(--k); }
+.site-root .cl-card.dark h3 { color: var(--y); }
+.site-root .cl-card.dark ul li { color: rgba(255,255,255,.85); border-color: rgba(255,255,255,.12); }
+
+/* ── Two-tone band (rotating section header) ── */
+.site-root .band-head { background: var(--g-50); padding: 70px 0; border-top: 1px solid var(--g-200); border-bottom: 1px solid var(--g-200); text-align: center; }
+.site-root .band-head h2 { font-family: var(--serif); font-size: 56px; font-weight: 400; margin: 14px 0 0; }
+.site-root .band-head h2 em { font-style: italic; }
+
+/* ── CTA band ── */
+.site-root .ctaband { background: var(--y); padding: 80px 0; color: var(--k); }
+.site-root .ctaband .row { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.site-root .ctaband h2 { font-family: var(--serif); font-size: 64px; line-height: 1; margin: 0; font-weight: 400; max-width: 700px; letter-spacing: -.012em; }
+.site-root .ctaband h2 em { font-style: italic; }
+.site-root .ctaband .ctaband-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+.site-root .ctaband .phone { font-family: var(--serif); font-size: 36px; font-weight: 500; }
+.site-root .ctaband .small { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+
+/* ── Footer ── */
+.site-root footer { background: var(--k); color: var(--w); padding: 60px 0 30px; }
+.site-root .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.site-root footer h4 { font-family: var(--sans); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--y); margin: 0 0 18px; font-weight: 600; }
+.site-root footer ul { list-style: none; padding: 0; margin: 0; }
+.site-root footer ul li { font-family: var(--sans); font-size: 14px; color: rgba(255,255,255,.7); padding: 6px 0; cursor: pointer; transition: color .15s; }
+.site-root footer ul li:hover { color: var(--y); }
+.site-root footer ul li a { color: inherit; }
+.site-root footer .brand-copy { font-family: var(--serif); font-size: 18px; line-height: 1.5; color: rgba(255,255,255,.7); margin-top: 14px; max-width: 320px; }
+.site-root footer .legal { margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); display: flex; justify-content: space-between; font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,.5); letter-spacing: .04em; }
