@@ -40,7 +40,7 @@ export const  calculatePrice = (formData) => {
 
   switch (formData.propertyCondition) {
     case "Well maintained":
-      basePrice += 20;
+      // No surcharge — clean home is the baseline.
       break;
     case "Fair":
       basePrice += 100;
