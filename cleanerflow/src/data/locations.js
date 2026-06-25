@@ -107,7 +107,7 @@ export const LOCATIONS = {
     proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Jacksonville, FL",
     intro:
-      "Looking for a trusted Jacksonville maid service? Spotless Homes brings the same family-run, results-first cleaning standard to Duval County that has earned us 4.5★ across 500 reviews. From the St. Johns River to the beaches, our Jacksonville cleaners are trained, insured, and background-checked.",
+      "Looking for a trusted Jacksonville maid service? Spotless Homes brings the same family-run, results-first cleaning standard to Duval County that has earned us 4.5★ across 150+ reviews. From the St. Johns River to the beaches, our Jacksonville cleaners are trained, insured, and background-checked.",
     whyParas: [
       "Our routine house cleaning service in Jacksonville is built around your week. Whether you're in Riverside, San Marco, or Atlantic Beach, our professional cleaners deliver consistent results that hold up between visits.",
       "Need something deeper? Our move-in/move-out and deep cleaning services in Jacksonville cover baseboards, inside appliances, and the corners most teams skip — perfect for first cleans, end-of-lease, or seasonal resets.",

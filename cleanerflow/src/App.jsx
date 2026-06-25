@@ -9,6 +9,10 @@ import CleaningChecklist from "@/pages/cleaning-checklist";
 import AirbnbChecklist from "@/pages/airbnb-checklist";
 import OfficeChecklist from "@/pages/office-checklist";
 import CleaningProducts from "@/pages/cleaning-products";
+import TermsAndConditions from "@/pages/terms-and-conditions";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import Careers from "@/pages/careers";
+import CareersApply from "@/pages/careers-apply";
 import LocationPage from "@/pages/location";
 import ReactGA from "react-ga4";
 import GoogleTag from "./GoogleTag";
@@ -49,6 +53,10 @@ function App() {
         <Route path="/airbnb-checklist" element={<AirbnbChecklist />} />
         <Route path="/office-checklist" element={<OfficeChecklist />} />
         <Route path="/cleaning-products" element={<CleaningProducts />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/careers" element={<Careers />} />
+        <Route path="/careers/apply" element={<CareersApply />} />
         <Route path="/locations/:city" element={<LocationPage />} />
         <Route path="/locations/:city/:subcity" element={<LocationPage />} />
         <Route path="*" element={<NotFound />} />

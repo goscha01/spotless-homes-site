@@ -77,9 +77,10 @@ export function SiteFooter() {
             <ul>
               <li><Link to="/about">About</Link></li>
               <li>FAQ</li>
-              <li>Careers</li>
+              <li><Link to="/careers">Careers</Link></li>
               <li>Blog</li>
-              <li>Terms · Privacy</li>
+              <li><Link to="/terms-and-conditions">Terms &amp; Conditions</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>

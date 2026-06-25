@@ -26,3 +26,6 @@ yarn-debug.log*
 .vscode/
 .idea/
 Thumbs.db
+
+# Claude Code local config
+.claude/

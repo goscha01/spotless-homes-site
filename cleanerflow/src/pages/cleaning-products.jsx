@@ -4,19 +4,22 @@ import "./products.css";
 
 const PRODUCTS = [
   { tone: "purple",   num: "01 · Method",        h: <>All Purpose <em>Cleaner</em></>,
+    img: "/assets/products/method.png",
     items: [
       "Plant-based cleaning power cuts through grease + grime",
       "Cleans most non-porous surfaces including counters, tile, stone, wood and glass",
       "Made with plant-based wood cleaners",
       "Cruelty free. Tested by people, not on animals",
       "Bottle (minus nozzle) made from 100% recycled plastic (PCR)",
-    ], placeholder: null },
+    ] },
   { tone: "blue", flip: true, num: "02 · Dawn",  h: <>Powerwash <em>Dish Spray</em></>,
+    img: "/assets/products/dawn.png",
     items: [
       "Get dishes done faster. Just spray, wipe, and rinse",
       "Cuts through grease 5× faster vs Dawn Non-Concentrated",
-    ], placeholder: null },
+    ] },
   { tone: "cream",   num: "03 · Sprayway",       h: <>Glass <em>Cleaner</em></>,
+    img: "/assets/products/sprayway.png",
     blurb: "Clean and polish any glass surface with this easy-to-use, fast-acting glass cleaner. Sprayway Glass Cleaner is ammonia-free, cleans thoroughly without leaving streaks, dries quickly and leaves a clean, fresh scent.",
     items: [
       "Ammonia free",
@@ -24,15 +27,17 @@ const PRODUCTS = [
       "Fresh scent · Streakless",
       "Removes fingerprints, dust, dirt and smoke film",
       "Can be used on all glass surfaces",
-    ], placeholder: <>Sprayway<br/>Glass Cleaner</> },
+    ] },
   { tone: "charcoal", flip: true, num: "04 · Lysol", h: <>Power <em>Toilet Cleaner</em></>,
+    img: "/assets/products/lysol.png",
     items: [
       "Cleans and disinfects your entire toilet and removes tough stains and toilet bowl rings",
       "Thick gel coats above and below the water line",
       "Kills 99.9% of bacteria and viruses*",
       "The angled bottle targets hard-to-reach areas",
-    ], placeholder: <>Lysol<br/>Power Toilet</> },
+    ] },
   { tone: "mint",    num: "05 · Easy-Off",       h: <>Oven <em>Cleaner</em></>,
+    img: "/assets/products/easyoff.png",
     items: [
       "Perfect for spot-cleaning and everyday use",
       "Destroys tough burned-on grease and spills with no caustic fumes",
@@ -40,27 +45,31 @@ const PRODUCTS = [
       "Safe for self-cleaning ovens — just spray, wait, and wipe away",
       "Ideal for ovens / oven doors, broilers / broiler pans, and stainless-steel surfaces",
       "Lemon scent",
-    ], placeholder: <>Easy-Off<br/>Oven Cleaner</>, placeholderDark: true },
+    ] },
   { tone: "amber", flip: true, num: "06 · Lime-A-Way®", h: <>Hard water <em>stain remover</em></>,
+    img: "/assets/products/limeaway.png",
     items: [
       "The expert hard water stain remover",
       "Eliminates lime scale, rust and calcium stains",
       "Cleans small surfaces like basins, sinks, faucets, taps and fixtures",
       "Easy to use spray bottle",
-    ], placeholder: <>Lime-A-Way</> },
+    ] },
   { tone: "charcoal", num: "07 · Clorox",        h: <>Clean-Up <em>Cleaner + Bleach</em></>,
+    img: "/assets/products/clorox.png",
     items: [
       "Kills COVID-19 virus in 30 seconds*",
       "Specially designed to clean a variety of surfaces",
       "Kills 99.9% of bacteria & viruses",
       "Removes allergens†",
-    ], placeholder: <>Clorox<br/>Clean-Up + Bleach</> },
+    ] },
   { tone: "pink", flip: true, num: "08 · The Pink Stuff", h: <>Cleaning <em>Paste</em></>,
+    img: "/assets/products/pink.png",
     blurb: "The Pink Stuff Miracle Cleaning Paste is perfect for cleaning dirt, grime and stains on saucepans, cooker tops, sinks, uPVC, barbecues, ceramic tiles, glass, showers, garden furniture, paintwork, boats and brass — the list is endless. Its natural formulation has been developed to provide high performance without the need for harsh chemicals.",
-    items: null, placeholder: <>The Pink Stuff<br/>Miracle Paste</>, placeholderDark: true },
+    items: null },
   { tone: "amber",   num: "09 · Orange Glo®",    h: <>Wood polish &amp; <em>conditioner</em></>,
+    img: "/assets/products/orangeglo.png",
     blurb: "Orange Glo® is a high quality wood conditioner, cleaner and polish made from the natural oils found in the peels of oranges. It contains no alcohol, wax or water. Orange Glo® removes grease, wax and accumulated dirt and revitalizes wood. Best of all it gives wood a brilliant luster that fills the air with the scent of fresh oranges. Easy to use plastic spray bottle — requires no aerosol propellants.",
-    items: null, placeholder: <>Orange Glo®<br/>Wood Polish</> },
+    items: null },
 ];
 
 export default function CleaningProducts() {
@@ -89,49 +98,30 @@ export default function CleaningProducts() {
         </div>
       </section>
 
-      {PRODUCTS.map((p, i) => (
-        <section key={i} className={`product-row ${p.tone}${p.flip ? " flip" : ""}`}>
-          {p.flip ? (
-            <>
-              <div className="copy">
-                <span className="num">{p.num}</span>
-                <h2>{p.h}</h2>
-                {p.blurb && <p className="blurb">{p.blurb}</p>}
-                {p.items && (
-                  <ul>{p.items.map((it, j) => <li key={j}>{it}</li>)}</ul>
-                )}
-                <a className="read-more">Read more →</a>
-              </div>
-              <div className="photo">
-                {p.placeholder && (
-                  <div className="placeholder-bottle" style={p.placeholderDark ? { color: "var(--k)" } : undefined}>
-                    {p.placeholder}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="photo">
-                {p.placeholder && (
-                  <div className="placeholder-bottle" style={p.placeholderDark ? { color: "var(--k)" } : undefined}>
-                    {p.placeholder}
-                  </div>
-                )}
-              </div>
-              <div className="copy">
-                <span className="num">{p.num}</span>
-                <h2>{p.h}</h2>
-                {p.blurb && <p className="blurb">{p.blurb}</p>}
-                {p.items && (
-                  <ul>{p.items.map((it, j) => <li key={j}>{it}</li>)}</ul>
-                )}
-                <a className="read-more">Read more →</a>
-              </div>
-            </>
-          )}
-        </section>
-      ))}
+      {PRODUCTS.map((p, i) => {
+        const photo = (
+          <div
+            className="photo"
+            style={p.img ? { backgroundImage: `url('${p.img}')` } : undefined}
+          />
+        );
+        const copy = (
+          <div className="copy">
+            <span className="num">{p.num}</span>
+            <h2>{p.h}</h2>
+            {p.blurb && <p className="blurb">{p.blurb}</p>}
+            {p.items && (
+              <ul>{p.items.map((it, j) => <li key={j}>{it}</li>)}</ul>
+            )}
+            <a className="read-more">Read more →</a>
+          </div>
+        );
+        return (
+          <section key={i} className={`product-row ${p.tone}${p.flip ? " flip" : ""}`}>
+            {p.flip ? <>{copy}{photo}</> : <>{photo}{copy}</>}
+          </section>
+        );
+      })}
 
       <section className="ctaband">
         <div className="container">

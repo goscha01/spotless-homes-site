@@ -1,0 +1,26 @@
+.site-root .careers-hero { padding: 40px 0 90px; background: var(--g-50); }
+.site-root .careers-hero .crumbs { margin-bottom: 24px; }
+.site-root .careers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 12px; }
+.site-root .careers-grid .h1 { font-size: 60px; line-height: 1.04; margin: 14px 0 16px; letter-spacing: -.012em; }
+.site-root .careers-grid .h1 em { font-style: italic; }
+.site-root .careers-grid .lead { font-family: var(--serif); font-size: 22px; line-height: 1.5; margin: 0 0 28px; color: var(--g-700); max-width: 480px; }
+.site-root .careers-grid .checks { list-style: none; padding: 0; margin: 0 0 22px; }
+.site-root .careers-grid .checks li { font-family: var(--sans); font-size: 16px; line-height: 1.6; padding: 8px 0 8px 30px; position: relative; color: var(--k); }
+.site-root .careers-grid .checks li::before { content: "✔"; position: absolute; left: 0; top: 8px; color: var(--y); font-weight: 700; font-size: 16px; }
+.site-root .careers-grid .post-checks { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--g-500); margin: 0 0 28px; max-width: 460px; }
+.site-root .careers-grid .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.site-root .careers-grid .video-wrap { position: relative; }
+.site-root .careers-grid .video-frame { position: relative; aspect-ratio: 16/9; background: var(--k); overflow: hidden; }
+.site-root .careers-grid .video-frame::before {
+  content: ""; position: absolute; right: -16px; top: -16px;
+  width: 96px; height: 96px; background: var(--y); z-index: -1;
+}
+.site-root .careers-grid .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.site-root .careers-grid .video-cap { font-family: var(--sans); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--g-500); margin-top: 14px; }
+
+@media (max-width: 900px) {
+  .site-root .careers-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .site-root .careers-grid .video-wrap { order: -1; }
+  .site-root .careers-grid .h1 { font-size: 44px !important; }
+}

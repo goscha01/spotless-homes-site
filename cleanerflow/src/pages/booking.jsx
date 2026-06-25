@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import emailjs from "emailjs-com";
 import { calculatePrice } from "@/lib/calculatePrice";
 import { extras as EXTRAS_DATA, conditions as COND_DATA, pets as PET_DATA } from "@/constants/price";
+import MobileMenu from "@/components/MobileMenu";
 import "./booking-design.css";
+import "../styles/mobile.css";
 
 // ─── Service catalog (base "from" prices match pricingData 1bed/1bath row) ─────
 const SERVICES = {
@@ -82,9 +84,25 @@ const USER_ID            = import.meta.env.VITE_USER_ID;
 const ADMIN_TEMPLATE_ID  = import.meta.env.VITE_ADMIN_TEMPLATE_ID;
 const USER_TEMPLATE_ID   = import.meta.env.VITE_USER_TEMPLATE_ID;
 const ADMIN_EMAIL        = import.meta.env.VITE_ADMIN_EMAIL;
+const ADMIN_CC           = import.meta.env.VITE_ADMIN_CC;
+
+const SPEC_HOURS = ["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM"];
+const SPEC_MINS  = ["00","15","30","45"];
+const hourLabelTo24 = (label) => {
+  const [n, ap] = label.split(" ");
+  let h = parseInt(n, 10);
+  if (ap === "PM" && h !== 12) h += 12;
+  if (ap === "AM" && h === 12) h = 0;
+  return h;
+};
+const slotMinutes = (h, m) => hourLabelTo24(h) * 60 + parseInt(m, 10);
 
 export default function Booking() {
   const today = new Date();
+  const todayDay   = today.getDate();
+  const todayMonth = today.getMonth();
+  const todayYear  = today.getFullYear();
+  const nowMinutes = today.getHours() * 60 + today.getMinutes();
   const [step, setStep] = useState(0);
   const [serviceType, setServiceType] = useState("regular");
   const [beds, setBeds]   = useState(1);
@@ -111,6 +129,7 @@ export default function Booking() {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showFallbackNotice, setShowFallbackNotice] = useState(false);
 
   // Use the real production pricing engine.
   const { total, subtotal, discount, sqft } = useMemo(() => {
@@ -139,25 +158,74 @@ export default function Booking() {
     setExtras((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
+  const isPastDay = (day, month, year) =>
+    year < todayYear ||
+    (year === todayYear && month < todayMonth) ||
+    (year === todayYear && month === todayMonth && day < todayDay);
+
   const navMonth = (dir) => {
     let m = viewMonth + dir, y = viewYear;
     if (m < 0)  { m = 11; y -= 1; }
     if (m > 11) { m = 0;  y += 1; }
+    if (y < todayYear || (y === todayYear && m < todayMonth)) return;
     setViewMonth(m); setViewYear(y);
   };
 
   const pickDate = (day) => {
+    if (isPastDay(day, viewMonth, viewYear)) return;
     const dateStr = `${MONTHS[viewMonth]} ${day}${ordinal(day)}, ${viewYear}`;
     setSelectedDate({ day, month: viewMonth, year: viewYear, label: dateStr });
     setShowTimeDialog(true);
   };
 
+  const isToday =
+    !!selectedDate &&
+    selectedDate.day === todayDay &&
+    selectedDate.month === todayMonth &&
+    selectedDate.year === todayYear;
+
+  const validSpecHours = isToday
+    ? SPEC_HOURS.filter((h) => SPEC_MINS.some((m) => slotMinutes(h, m) > nowMinutes))
+    : SPEC_HOURS;
+  const validSpecMinsFor = (h) =>
+    isToday ? SPEC_MINS.filter((m) => slotMinutes(h, m) > nowMinutes) : SPEC_MINS;
+
+  const beforeNoonDisabled = isToday && nowMinutes >= 12 * 60;
+  const afterNoonDisabled  = isToday && nowMinutes >= 15 * 60 + 45;
+
+  // When the selected date or current time invalidates the chosen specific
+  // slot, snap the dropdowns to the next valid value so submitted state and
+  // visible state can't drift apart.
+  useEffect(() => {
+    if (!isToday) return;
+    if (validSpecHours.length && !validSpecHours.includes(specHour)) {
+      setSpecHour(validSpecHours[0]);
+    }
+  }, [isToday, nowMinutes, specHour, validSpecHours]);
+
+  useEffect(() => {
+    if (!isToday) return;
+    const mins = validSpecMinsFor(specHour);
+    if (mins.length && !mins.includes(specMin)) {
+      setSpecMin(mins[0]);
+    }
+  }, [isToday, nowMinutes, specHour, specMin]);
+
   const pickTime = (label, isSpecific) => {
+    if (label === "Before noon" && beforeNoonDisabled) return;
+    if (label === "After noon"  && afterNoonDisabled)  return;
+    if (label === "Specific time" && validSpecHours.length === 0) return;
     setTimeMode(label);
     if (!isSpecific) setTime(label);
   };
 
+  const canConfirmTime =
+    (timeMode === "Before noon"  && !beforeNoonDisabled) ||
+    (timeMode === "After noon"   && !afterNoonDisabled)  ||
+    (timeMode === "Specific time" && validSpecHours.includes(specHour) && validSpecMinsFor(specHour).includes(specMin));
+
   const closeTime = () => {
+    if (!canConfirmTime) return;
     if (timeMode === "Specific time") {
       setTime(`${specHour.replace(" ", "")}:${specMin}`);
     } else {
@@ -212,6 +280,16 @@ export default function Booking() {
           { ...emailData, admin_email: ADMIN_EMAIL || "info@spotless.homes" },
           USER_ID,
         );
+        if (ADMIN_CC) {
+          try {
+            await emailjs.send(
+              SERVICE_ID,
+              ADMIN_TEMPLATE_ID,
+              { ...emailData, admin_email: ADMIN_CC },
+              USER_ID,
+            );
+          } catch (e) { /* CC is best-effort, primary already sent */ }
+        }
         if (USER_TEMPLATE_ID && email) {
           try {
             await emailjs.send(SERVICE_ID, USER_TEMPLATE_ID, { ...emailData, user_email: email }, USER_ID);
@@ -229,12 +307,7 @@ export default function Booking() {
     setSubmitted(true);
 
     if (!emailOk) {
-      // Always show a confirmation so the user knows the form was received
-      // even if delivery failed — we still have the GA event + the dev console log.
-      window.alert(
-        "Request received — we'll call you within 1 business hour to confirm. " +
-        "If you don't hear back, call 813-921-2100.",
-      );
+      setShowFallbackNotice(true);
     }
   };
 
@@ -250,13 +323,15 @@ export default function Booking() {
         selectedDate.day === d &&
         selectedDate.month === viewMonth &&
         selectedDate.year === viewYear;
-      cells.push({ kind: isSelected ? "selected" : "day", n: d });
+      const past = isPastDay(d, viewMonth, viewYear);
+      const kind = past ? "past" : isSelected ? "selected" : "day";
+      cells.push({ kind, n: d });
     }
     const totalCells = first + lastDay;
     const tail = (7 - (totalCells % 7)) % 7;
     for (let i = 1; i <= tail; i++) cells.push({ kind: "muted", n: i });
     return cells;
-  }, [viewMonth, viewYear, selectedDate]);
+  }, [viewMonth, viewYear, selectedDate, todayDay, todayMonth, todayYear]);
 
   const showProgress = step > 0;
 
@@ -273,6 +348,20 @@ export default function Booking() {
             </p>
             <div className="actions">
               <a className="btn-yellow" href="/">← Back to home</a>
+            </div>
+          </div>
+        </div>
+
+        <div className={`scrim${showFallbackNotice ? " open" : ""}`}>
+          <div className="dialog">
+            <span className="x" onClick={() => setShowFallbackNotice(false)}>×</span>
+            <span className="step-eyebrow">Request received</span>
+            <h4>We'll call you within <em>1 business hour</em>.</h4>
+            <p className="help" style={{ marginTop: 8 }}>
+              If you don't hear back, call <strong>813-921-2100</strong>.
+            </p>
+            <div className="actions" style={{ marginTop: 24, justifyContent: "flex-end" }}>
+              <button className="btn-yellow" onClick={() => setShowFallbackNotice(false)}>Got it</button>
             </div>
           </div>
         </div>
@@ -378,24 +467,38 @@ export default function Booking() {
           <span className="x" onClick={() => setShowTimeDialog(false)}>×</span>
           <h4>Select times for {selectedDate ? selectedDate.label.replace(", " + selectedDate.year, "") : ""}</h4>
           <div className="time-opts">
-            <div className={`time-opt${timeMode === "Before noon" ? " selected" : ""}`} onClick={() => pickTime("Before noon", false)}>Before noon</div>
-            <div className={`time-opt${timeMode === "After noon"  ? " selected" : ""}`} onClick={() => pickTime("After noon", false)}>After noon</div>
-            <div className={`time-opt${timeMode === "Specific time" ? " selected" : ""}`} onClick={() => pickTime("Specific time", true)}>Specific time</div>
+            <div
+              className={`time-opt${timeMode === "Before noon" && !beforeNoonDisabled ? " selected" : ""}${beforeNoonDisabled ? " disabled" : ""}`}
+              onClick={() => pickTime("Before noon", false)}
+            >Before noon</div>
+            <div
+              className={`time-opt${timeMode === "After noon" && !afterNoonDisabled ? " selected" : ""}${afterNoonDisabled ? " disabled" : ""}`}
+              onClick={() => pickTime("After noon", false)}
+            >After noon</div>
+            <div
+              className={`time-opt${timeMode === "Specific time" && validSpecHours.length > 0 ? " selected" : ""}${validSpecHours.length === 0 ? " disabled" : ""}`}
+              onClick={() => pickTime("Specific time", true)}
+            >Specific time</div>
           </div>
+          {isToday && beforeNoonDisabled && afterNoonDisabled && validSpecHours.length === 0 && (
+            <p className="cal-help" style={{ marginTop: 12 }}>
+              All time slots for today have passed — please pick another day.
+            </p>
+          )}
           <div className={`specific-row${timeMode === "Specific time" ? " open" : ""}`}>
             <select value={specHour} onChange={(e) => setSpecHour(e.target.value)}>
-              {["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM"].map((h) => <option key={h}>{h}</option>)}
+              {validSpecHours.map((h) => <option key={h}>{h}</option>)}
             </select>
             <span style={{ fontFamily: "var(--serif)", fontSize: 24 }}>:</span>
             <select value={specMin} onChange={(e) => setSpecMin(e.target.value)}>
-              {["00","15","30","45"].map((m) => <option key={m}>{m}</option>)}
+              {validSpecMinsFor(specHour).map((m) => <option key={m}>{m}</option>)}
             </select>
             <button className="add">+</button>
-            <button className="ok" onClick={closeTime}>✓</button>
+            <button className="ok" onClick={closeTime} disabled={!canConfirmTime}>✓</button>
           </div>
           {timeMode !== "Specific time" && (
             <div className="actions" style={{ marginTop: 24, justifyContent: "flex-end" }}>
-              <button className="btn-yellow" onClick={closeTime}>Confirm</button>
+              <button className="btn-yellow" onClick={closeTime} disabled={!canConfirmTime}>Confirm</button>
             </div>
           )}
         </div>
@@ -410,7 +513,7 @@ function TopChrome() {
       <div className="topbar">
         <div className="topbar-inner">
           <div>Florida · Tampa · St. Pete · Clearwater · Jacksonville</div>
-          <div><span className="pill">★ 4.5/5</span> · 500 Google reviews · Insured &amp; Bonded</div>
+          <div><span className="pill">★ 4.5/5</span> · 150+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded</div>
         </div>
       </div>
       <nav className="nav">
@@ -426,6 +529,7 @@ function TopChrome() {
             <span className="nav-phone">813-921-2100</span>
             <a href="/booking" className="btn btn-primary">Get Quote</a>
           </div>
+          <MobileMenu />
         </div>
       </nav>
     </>
@@ -610,13 +714,16 @@ function Step4({ viewMonth, viewYear, navMonth, calendarCells, pickDate, onBack,
         </div>
         <div className="cal-grid">
           {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d) => <div key={d} className="dow">{d}</div>)}
-          {calendarCells.map((c, i) => (
-            <div
-              key={i}
-              className={c.kind === "muted" ? "day muted" : c.kind === "selected" ? "day selected" : "day"}
-              onClick={c.kind === "muted" ? undefined : () => pickDate(c.n)}
-            >{c.n}</div>
-          ))}
+          {calendarCells.map((c, i) => {
+            const dim = c.kind === "muted" || c.kind === "past";
+            return (
+              <div
+                key={i}
+                className={dim ? "day muted" : c.kind === "selected" ? "day selected" : "day"}
+                onClick={dim ? undefined : () => pickDate(c.n)}
+              >{c.n}</div>
+            );
+          })}
         </div>
       </div>
       <p className="cal-help">Please select a date and time.</p>

@@ -69,6 +69,7 @@
 .bk-root .booking-wrap.solo { grid-template-columns: 1fr; }
 .bk-root .panel { background: var(--w); border: 1px solid var(--g-200); padding: 48px 52px; min-height: 540px; display: flex; flex-direction: column; }
 .bk-root .panel .step-eyebrow { font-family: var(--sans); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--y); font-weight: 700; }
+.bk-root .dialog .step-eyebrow { font-family: var(--sans); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--y); font-weight: 700; display: block; margin-bottom: 10px; }
 .bk-root .panel h1 { font-family: var(--serif); font-size: 44px; line-height: 1.06; font-weight: 400; margin: 10px 0 0; letter-spacing: -.012em; }
 .bk-root .panel h1 em { font-style: italic; }
 .bk-root .panel .help { font-family: var(--sans); font-size: 13px; color: var(--g-500); margin: 12px 0 0; }
@@ -203,6 +204,8 @@
 }
 .bk-root .time-opt:hover { border-color: var(--k); }
 .bk-root .time-opt.selected { background: #FFF8DA; border-color: var(--y); border-width: 2px; padding: 13px 21px; font-weight: 600; }
+.bk-root .time-opt.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+.bk-root .specific-row .ok:disabled { opacity: 0.4; cursor: not-allowed; }
 .bk-root .specific-row { display: none; align-items: center; gap: 10px; margin-top: 18px; }
 .bk-root .specific-row.open { display: flex; }
 .bk-root .specific-row select { font-family: var(--serif); font-size: 16px; padding: 10px 14px; border: 1px solid var(--g-200); background: var(--w); cursor: pointer; min-width: 90px; }

@@ -1,0 +1,14 @@
+.site-root .legal-page { padding: 60px 0 100px; background: var(--w); }
+.site-root .legal-page .crumbs { margin-bottom: 28px; }
+.site-root .legal-page h1 { font-family: var(--serif); font-size: 56px; line-height: 1.06; font-weight: 400; letter-spacing: -.012em; margin: 0 0 8px; }
+.site-root .legal-page h1 em { font-style: italic; }
+.site-root .legal-page .effective { font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--g-500); font-weight: 600; }
+.site-root .legal-page .prose { max-width: 760px; margin-top: 50px; }
+.site-root .legal-page .prose h2 { font-family: var(--serif); font-size: 28px; font-weight: 500; line-height: 1.2; margin: 44px 0 14px; letter-spacing: -.005em; }
+.site-root .legal-page .prose h2:first-child { margin-top: 0; }
+.site-root .legal-page .prose p,
+.site-root .legal-page .prose li { font-family: var(--serif); font-size: 17px; line-height: 1.7; color: var(--g-700); margin: 0 0 14px; }
+.site-root .legal-page .prose ul { padding-left: 22px; margin: 0 0 14px; }
+.site-root .legal-page .prose li { margin: 0 0 8px; }
+.site-root .legal-page .prose strong { color: var(--k); font-weight: 600; }
+.site-root .legal-page .prose a { color: var(--k); text-decoration: underline; text-decoration-color: var(--y); text-underline-offset: 3px; }

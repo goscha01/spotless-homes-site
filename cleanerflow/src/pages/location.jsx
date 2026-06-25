@@ -51,7 +51,7 @@ export default function LocationPage() {
                 <a href={`tel:${city.phoneRaw}`} className="btn btn-outline btn-lg">Call {city.phone}</a>
               </div>
               <div className="hero-meta">
-                <div className="hero-stat"><div className="num">4.5★</div><div className="lbl">500 Google reviews</div></div>
+                <div className="hero-stat"><div className="num">4.5★</div><div className="lbl">150+ verified reviews</div></div>
                 <div className="hero-stat"><div className="num">{city.name.split(" ").slice(-1)[0]}</div><div className="lbl">Local team since 2018</div></div>
                 <div className="hero-stat"><div className="num">7 days</div><div className="lbl">Booking lead-time</div></div>
               </div>
