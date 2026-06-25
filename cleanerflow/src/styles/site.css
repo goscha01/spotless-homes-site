@@ -38,11 +38,13 @@
 .site-root .logo { display: flex; align-items: center; gap: .5em; font-family: var(--serif); font-size: 20px; letter-spacing: .26em; font-weight: 600; }
 .site-root .logo .dot { display: inline-block; width: 8px; height: 8px; border-radius: 99px; background: var(--y); }
 .site-root .nav-links { display: flex; gap: 30px; font-family: var(--sans); font-size: 14px; color: var(--k); font-weight: 500; }
-.site-root .nav-links a { transition: color .15s; cursor: pointer; }
+.site-root .nav-links a { transition: color .15s; cursor: pointer; white-space: nowrap; }
 .site-root .nav-links a:hover { color: var(--g-500); }
 .site-root .nav-links a.active { color: var(--g-500); }
 .site-root .nav-cta { display: flex; align-items: center; gap: 18px; }
-.site-root .nav-phone { font-family: var(--serif); font-size: 19px; font-weight: 600; }
+.site-root .nav-phone { font-family: var(--serif); font-size: 19px; font-weight: 600; white-space: nowrap; }
+.site-root .hamburger, .bk-root .hamburger { display: none; }
+.mobile-menu { display: none; }
 
 /* ── Buttons ── */
 .site-root .btn {
