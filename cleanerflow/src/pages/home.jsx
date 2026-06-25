@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
 import "./home.css";
@@ -34,7 +34,7 @@ function Hero() {
               <a href="tel:8139212100" className="btn btn-outline btn-lg">Call 813-921-2100</a>
             </div>
             <div className="hero-meta">
-              <div className="hero-stat"><div className="num">4.5★</div><div className="lbl">500 Google reviews</div></div>
+              <div className="hero-stat"><div className="num">4.5★</div><div className="lbl">150+ verified reviews</div></div>
               <div className="hero-stat"><div className="num">$119</div><div className="lbl">Standard, from</div></div>
               <div className="hero-stat"><div className="num">8 yrs</div><div className="lbl">Family-run in FL</div></div>
             </div>
@@ -46,7 +46,7 @@ function Hero() {
             <div className="float-stat">
               <div className="stars">★★★★★</div>
               <div>
-                <div className="review-num">500+</div>
+                <div className="review-num">150+</div>
                 <div className="review-lbl">verified reviews</div>
               </div>
             </div>
@@ -105,11 +105,36 @@ function Services() {
   );
 }
 
+const GALLERY = [
+  { slug: "children-room",  label: "Child's Room",   beforeNote: "cluttered" },
+  { slug: "living-room",    label: "Living Room",    beforeNote: "lived-in" },
+  { slug: "bed-room",       label: "Bedroom",        beforeNote: "unmade" },
+  { slug: "dining-room",    label: "Dining Room",    beforeNote: "after dinner" },
+  { slug: "fridge",         label: "Refrigerator",   beforeNote: "grimy" },
+  { slug: "stove",          label: "Stove",          beforeNote: "greasy" },
+  { slug: "microwave",      label: "Microwave",      beforeNote: "splattered" },
+  { slug: "microwave-door", label: "Microwave Door", beforeNote: "smudged" },
+  { slug: "countertop",     label: "Countertop",     beforeNote: "crumbed" },
+  { slug: "shower",         label: "Shower",         beforeNote: "soap-scummed" },
+  { slug: "shower-glass",   label: "Shower Glass",   beforeNote: "hard-water" },
+  { slug: "blinds",         label: "Blinds",         beforeNote: "dusty" },
+  { slug: "lamp",           label: "Lamp",           beforeNote: "dusty" },
+  { slug: "studio",         label: "Studio",         beforeNote: "lived-in" },
+  { slug: "windows-sill",   label: "Window Sill",    beforeNote: "dusty" },
+  { slug: "wood-floor",     label: "Wood Floor",     beforeNote: "scuffed" },
+];
+
 function Magic() {
   const baRef = useRef(null);
   const beforeRef = useRef(null);
   const divRef = useRef(null);
   const handleRef = useRef(null);
+  const setPctRef = useRef(null);
+  const [idx, setIdx] = useState(0);
+
+  const current = GALLERY[idx];
+  const next = () => setIdx((i) => (i + 1) % GALLERY.length);
+  const prev = () => setIdx((i) => (i - 1 + GALLERY.length) % GALLERY.length);
 
   useEffect(() => {
     const ba = baRef.current;
@@ -121,6 +146,7 @@ function Magic() {
       if (divRef.current) divRef.current.style.left = pct + "%";
       if (handleRef.current) handleRef.current.style.left = pct + "%";
     };
+    setPctRef.current = set;
     const fromEvent = (e) => {
       const r = ba.getBoundingClientRect();
       const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
@@ -147,6 +173,10 @@ function Magic() {
     };
   }, []);
 
+  useEffect(() => {
+    if (setPctRef.current) setPctRef.current(50);
+  }, [idx]);
+
   return (
     <section className="section magic" id="magic">
       <div className="container">
@@ -154,19 +184,36 @@ function Magic() {
           <div className="copy">
             <span className="eyebrow"><span className="bar"></span>Cleaning Magic</span>
             <h2 className="h2">See what 4 hours<br/><em>can do</em>.</h2>
-            <p className="lead">A real client's child's room — drag the slider to compare. We don't stage and we don't tidy in advance. The room you walk into is the one we leave looking new.</p>
+            <p className="lead">Real client homes — drag the slider to compare. We don't stage and we don't tidy in advance. The room you walk into is the one we leave looking new.</p>
             <div className="quote">
               <p>"Everything was spotless and exceeded my expectations. Professional, reliable, and incredibly thorough."</p>
               <div className="who">— MILENA D. · VERIFIED · DEC 2025</div>
             </div>
           </div>
-          <div className="ba" ref={baRef}>
-            <div className="pane pane-after"><span className="ph-text">After · child's room · clean</span></div>
-            <div className="pane pane-before" ref={beforeRef}><span className="ph-text">Before · child's room · cluttered</span></div>
-            <span className="label label-before">Before</span>
-            <span className="label label-after">After</span>
-            <div className="divider" ref={divRef}></div>
-            <div className="handle" ref={handleRef}>‹›</div>
+          <div className="ba-wrap">
+            <div className="ba" ref={baRef}>
+              <div className="pane pane-after">
+                <img src={`/assets/before-after/${current.slug}-after.jpg`} alt={`${current.label} after professional cleaning by Spotless Homes`} />
+                <span className="ph-text">After · {current.label.toLowerCase()} · clean</span>
+              </div>
+              <div className="pane pane-before" ref={beforeRef}>
+                <img src={`/assets/before-after/${current.slug}-before.jpg`} alt={`${current.label} before cleaning, as found`} />
+                <span className="ph-text">Before · {current.label.toLowerCase()} · {current.beforeNote}</span>
+              </div>
+              <span className="label label-before">Before</span>
+              <span className="label label-after">After</span>
+              <div className="divider" ref={divRef}></div>
+              <div className="handle" ref={handleRef}>‹›</div>
+            </div>
+            <div className="ba-controls">
+              <button type="button" className="ba-nav" onClick={prev} aria-label="Previous transformation">‹</button>
+              <div className="ba-meta">
+                <span className="ba-count">{String(idx + 1).padStart(2, "0")} / {String(GALLERY.length).padStart(2, "0")}</span>
+                <span className="ba-sep">·</span>
+                <span className="ba-name">{current.label}</span>
+              </div>
+              <button type="button" className="ba-nav" onClick={next} aria-label="Next transformation">›</button>
+            </div>
           </div>
         </div>
       </div>
@@ -305,7 +352,7 @@ function Reviews() {
       <div className="container">
         <div className="section-head">
           <span className="eyebrow"><span className="bar"></span>What clients say<span className="bar"></span></span>
-          <h2 className="h2">4.5★ across <em>500 reviews</em>.</h2>
+          <h2 className="h2">4.5★ across <em>150+ reviews</em>.</h2>
         </div>
         <div className="reviews-grid">
           {reviews.map((r) => (

@@ -80,9 +80,8 @@
 .site-root .magic .quote .who { font-family: var(--sans); font-size: 12px; color: var(--g-500); margin-top: 12px; letter-spacing: .04em; }
 .site-root .ba { position: relative; user-select: none; cursor: ew-resize; overflow: hidden; aspect-ratio: 4/3; background: var(--g-200); }
 .site-root .ba .pane { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 16px; }
-.site-root .ba .pane-after { background-color: #f0ede6; background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.04) 0 2px, transparent 2px 14px), linear-gradient(135deg, #f7f4ec, #ddd6c5); }
-.site-root .ba .pane-before { background-color: #b9b1a0; background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.06) 0 2px, transparent 2px 14px), linear-gradient(135deg, #b8ad94, #8a7e62); }
-.site-root .ba .ph-text { font-family: 'Inter', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(0,0,0,.5); background: rgba(255,255,255,.85); padding: 6px 10px; }
+.site-root .ba .pane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.site-root .ba .ph-text { position: relative; z-index: 1; font-family: 'Inter', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(0,0,0,.7); background: rgba(255,255,255,.9); padding: 6px 10px; }
 .site-root .ba .divider { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--y); }
 .site-root .ba .handle {
   position: absolute; top: 50%; transform: translate(-50%,-50%);
@@ -94,6 +93,15 @@
 .site-root .ba .label { position: absolute; top: 18px; font-family: var(--sans); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; padding: 6px 12px; }
 .site-root .ba .label-before { left: 18px; background: var(--k); color: var(--w); }
 .site-root .ba .label-after { right: 18px; background: var(--y); color: var(--k); }
+.site-root .ba-wrap { display: flex; flex-direction: column; gap: 14px; }
+.site-root .ba-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 4px; }
+.site-root .ba-nav { width: 44px; height: 44px; border-radius: 99px; background: var(--w); border: 1px solid var(--g-200); color: var(--k); font-size: 22px; line-height: 1; font-family: var(--sans); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+.site-root .ba-nav:hover { background: var(--y); border-color: var(--k); transform: translateY(-1px); }
+.site-root .ba-nav:active { transform: translateY(0); }
+.site-root .ba-meta { display: flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--k); }
+.site-root .ba-count { color: var(--g-500); font-variant-numeric: tabular-nums; }
+.site-root .ba-sep { color: var(--g-300, #d4d4d4); }
+.site-root .ba-name { font-weight: 600; }
 
 /* ── How it works ── */
 .site-root .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--g-200); border-bottom: 1px solid var(--g-200); }
