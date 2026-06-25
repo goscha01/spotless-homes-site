@@ -6,6 +6,7 @@ const LINKS = [
   { to: "/airbnb-checklist",   label: "Airbnb checklist" },
   { to: "/office-checklist",   label: "Office checklist" },
   { to: "/cleaning-products",  label: "Products" },
+  { to: "/blog",               label: "Blog" },
   { to: "/about",              label: "Our story" },
   { to: "/#areas",             label: "Areas" },
 ];

@@ -13,6 +13,8 @@ import TermsAndConditions from "@/pages/terms-and-conditions";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Careers from "@/pages/careers";
 import CareersApply from "@/pages/careers-apply";
+import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
 import LocationPage from "@/pages/location";
 import ReactGA from "react-ga4";
 import GoogleTag from "./GoogleTag";
@@ -57,6 +59,9 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/careers/apply" element={<CareersApply />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/post/:slug" element={<BlogPost />} />
         <Route path="/locations/:city" element={<LocationPage />} />
         <Route path="/locations/:city/:subcity" element={<LocationPage />} />
         <Route path="*" element={<NotFound />} />
