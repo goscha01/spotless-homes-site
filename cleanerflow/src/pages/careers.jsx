@@ -50,7 +50,7 @@ export default function Careers() {
             <h2>Ready to <em>join the team</em>?</h2>
             <div className="ctaband-actions">
               <Link to="/careers/apply" className="btn btn-dark btn-lg">Apply now →</Link>
-              <div className="phone">813-921-2100</div>
+              <a className="phone" href="tel:+18139212100">813-921-2100</a>
               <div className="small">Mon–Sat · 7am–7pm EST</div>
             </div>
           </div>

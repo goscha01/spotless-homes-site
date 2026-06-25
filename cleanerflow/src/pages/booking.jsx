@@ -344,7 +344,7 @@ export default function Booking() {
             <span className="step-eyebrow">Booking received</span>
             <h1>Thanks — we'll be<br/>in touch <em>shortly</em>.</h1>
             <p className="help">
-              We'll call you within 1 business hour to confirm. If you don't hear from us, call 813-921-2100.
+              We'll call you within 1 business hour to confirm. If you don't hear from us, call <a href="tel:+18139212100">813-921-2100</a>.
             </p>
             <div className="actions">
               <a className="btn-yellow" href="/">← Back to home</a>
@@ -358,7 +358,7 @@ export default function Booking() {
             <span className="step-eyebrow">Request received</span>
             <h4>We'll call you within <em>1 business hour</em>.</h4>
             <p className="help" style={{ marginTop: 8 }}>
-              If you don't hear back, call <strong>813-921-2100</strong>.
+              If you don't hear back, call <strong><a href="tel:+18139212100">813-921-2100</a></strong>.
             </p>
             <div className="actions" style={{ marginTop: 24, justifyContent: "flex-end" }}>
               <button className="btn-yellow" onClick={() => setShowFallbackNotice(false)}>Got it</button>
@@ -526,7 +526,7 @@ function TopChrome() {
             <a href="/about">Our story</a>
           </div>
           <div className="nav-cta">
-            <span className="nav-phone">813-921-2100</span>
+            <a className="nav-phone" href="tel:+18139212100">813-921-2100</a>
             <a href="/booking" className="btn btn-primary">Get Quote</a>
           </div>
           <MobileMenu />

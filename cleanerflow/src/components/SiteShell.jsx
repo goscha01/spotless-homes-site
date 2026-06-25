@@ -29,7 +29,7 @@ export function NavBar({ active }) {
           <Link className={isActive("areas")} to="/#areas">Areas</Link>
         </div>
         <div className="nav-cta">
-          <span className="nav-phone">813-921-2100</span>
+          <a className="nav-phone" href="tel:+18139212100">813-921-2100</a>
           <Link to="/booking" className="btn btn-primary">Get Quote</Link>
         </div>
         <MobileMenu />
@@ -46,7 +46,7 @@ export function SiteFooter() {
           <div>
             <Link className="logo" style={{ color: "var(--w)" }} to="/">SPOTLESS<span className="dot"></span>HOMES</Link>
             <p className="brand-copy">Florida's trusted local house cleaning — family-run since 2018.</p>
-            <p className="brand-copy" style={{ marginTop: 6 }}>813-921-2100 · info@spotless.homes</p>
+            <p className="brand-copy" style={{ marginTop: 6 }}><a href="tel:+18139212100">813-921-2100</a> · <a href="mailto:info@spotless.homes">info@spotless.homes</a></p>
           </div>
           <div>
             <h4>Services</h4>
@@ -67,7 +67,7 @@ export function SiteFooter() {
               <li><Link to="/locations/clearwater">Clearwater</Link></li>
               <li><Link to="/locations/jacksonville">Jacksonville</Link></li>
               <li><Link to="/locations/orlando">Orlando</Link></li>
-              <li><Link to="/locations/miami">Miami</Link></li>
+              <li><Link to="/locations/fort-lauderdale">Fort Lauderdale</Link></li>
               <li><Link to="/locations/boca-raton">Boca Raton</Link></li>
               <li><Link to="/locations/fort-myers">Fort Myers</Link></li>
             </ul>

@@ -327,7 +327,7 @@ function Areas() {
     { name: "Clearwater",      to: "/locations/clearwater" },
     { name: "Jacksonville",    to: "/locations/jacksonville" },
     { name: "Orlando",         to: "/locations/orlando" },
-    { name: "Miami",           to: "/locations/miami" },
+    { name: "Fort Lauderdale", to: "/locations/fort-lauderdale" },
     { name: "Boca Raton",      to: "/locations/boca-raton" },
     { name: "Fort Myers",      to: "/locations/fort-myers" },
   ];
@@ -394,7 +394,7 @@ function CtaBand() {
           <h2>Ready for a spotless<br/>home this week?</h2>
           <div className="ctaband-actions">
             <Link to="/booking" className="btn btn-dark btn-lg">Get my instant quote →</Link>
-            <div className="phone">813-921-2100</div>
+            <a className="phone" href="tel:+18139212100">813-921-2100</a>
             <div className="small">Mon–Sat · 7am–7pm EST</div>
           </div>
         </div>

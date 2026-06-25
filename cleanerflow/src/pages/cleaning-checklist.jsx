@@ -162,7 +162,7 @@ export default function CleaningChecklist() {
             <h2>Ready to book a <em>spotless</em> clean?</h2>
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-dark btn-lg">Book online →</Link>
-              <div className="phone">813-921-2100</div>
+              <a className="phone" href="tel:+18139212100">813-921-2100</a>
               <div className="small">Mon–Sat · 7am–7pm EST</div>
             </div>
           </div>

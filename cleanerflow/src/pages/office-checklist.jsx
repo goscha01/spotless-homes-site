@@ -142,7 +142,7 @@ export default function OfficeChecklist() {
             <h2>Ready for a <em>spotless</em> office?</h2>
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-dark btn-lg">Request a quote →</Link>
-              <div className="phone">813-921-2100</div>
+              <a className="phone" href="tel:+18139212100">813-921-2100</a>
               <div className="small">Mon–Sat · 7am–7pm EST</div>
             </div>
           </div>

@@ -110,7 +110,7 @@ ${reason}`;
 
     if (!SERVICE_ID || !USER_ID || !ADMIN_TEMPLATE_ID) {
       console.warn("emailjs env vars not set — application data:", payload);
-      setSendError("Email is not configured. Please call 813-921-2100 to apply.");
+      setSendError(<>Email is not configured. Please call <a href="tel:+18139212100">813-921-2100</a> to apply.</>);
       setSubmitting(false);
       return;
     }
@@ -126,7 +126,7 @@ ${reason}`;
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       console.error("emailjs send failed:", err);
-      setSendError("Sorry — something went wrong sending your application. Please try again, or call 813-921-2100.");
+      setSendError(<>Sorry — something went wrong sending your application. Please try again, or call <a href="tel:+18139212100">813-921-2100</a>.</>);
     } finally {
       setSubmitting(false);
     }

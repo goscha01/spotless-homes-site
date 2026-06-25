@@ -74,7 +74,7 @@ export default function PrivacyPolicy() {
             <p>We may update this Privacy Policy as our services or the law evolve. The "Effective" date at the top of this page reflects the most recent revision. Material changes will be highlighted on this page for 30 days.</p>
 
             <h2>11. Contact</h2>
-            <p><strong>Spotless Homes · Privacy</strong><br/>info@spotless.homes<br/>813-921-2100<br/>Mon–Sat · 7am–7pm EST</p>
+            <p><strong>Spotless Homes · Privacy</strong><br/><a href="mailto:info@spotless.homes">info@spotless.homes</a><br/><a href="tel:+18139212100">813-921-2100</a><br/>Mon–Sat · 7am–7pm EST</p>
           </div>
         </div>
       </section>

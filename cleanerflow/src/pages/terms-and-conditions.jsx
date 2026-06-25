@@ -64,7 +64,7 @@ export default function TermsAndConditions() {
 
             <h2>13. Contact</h2>
             <p>Questions, complaints, or compliments are always welcome.</p>
-            <p><strong>Spotless Homes</strong><br/>info@spotless.homes<br/>813-921-2100<br/>Mon–Sat · 7am–7pm EST</p>
+            <p><strong>Spotless Homes</strong><br/><a href="mailto:info@spotless.homes">info@spotless.homes</a><br/><a href="tel:+18139212100">813-921-2100</a><br/>Mon–Sat · 7am–7pm EST</p>
           </div>
         </div>
       </section>

@@ -100,7 +100,7 @@ export default function About() {
             <h2 style={{ color: "var(--w)" }}>Ready to <em style={{ color: "var(--y)" }}>relax</em>?</h2>
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-primary btn-lg">Book online →</Link>
-              <div className="phone" style={{ color: "var(--y)" }}>813-921-2100</div>
+              <a className="phone" href="tel:+18139212100" style={{ color: "var(--y)" }}>813-921-2100</a>
               <div className="small" style={{ color: "rgba(255,255,255,.6)" }}>Mon–Sat · 7am–7pm EST</div>
             </div>
           </div>
