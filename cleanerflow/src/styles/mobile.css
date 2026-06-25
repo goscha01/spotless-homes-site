@@ -1,0 +1,180 @@
+/* ============================================================
+   Spotless Homes · mobile / responsive layer
+   Loaded LAST. Desktop rules live in site.css + per-page CSS;
+   these media queries override for tablet (<=900px) and phone (<=560px).
+   Ported from design_handoff_spotless_restyle/assets/mobile.css.
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  html, body { min-width: 0 !important; max-width: 100%; overflow-x: hidden; }
+  .site-root, .bk-root { min-width: 0 !important; max-width: 100%; }
+  .site-root .container, .bk-root .container { padding-left: 22px !important; padding-right: 22px !important; }
+
+  /* ---- Top utility bar: keep it, shrink + center ---- */
+  .site-root .topbar, .bk-root .topbar { font-size: 10px !important; }
+  .site-root .topbar-inner, .bk-root .topbar-inner { padding: 8px 22px !important; gap: 10px !important; justify-content: center !important; }
+  .site-root .topbar-inner > div:last-child, .bk-root .topbar-inner > div:last-child { display: none; }
+
+  /* ---- Nav becomes logo + hamburger ---- */
+  .site-root .nav-inner, .bk-root .nav-inner { padding: 14px 22px !important; gap: 12px !important; }
+  .site-root .nav .nav-links, .bk-root .nav .nav-links { display: none !important; }
+  .site-root .nav .nav-cta, .bk-root .nav .nav-cta { display: none !important; }
+  .site-root .hamburger, .bk-root .hamburger {
+    display: flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 44px; height: 44px; border: 1px solid var(--g-200); background: var(--w);
+    cursor: pointer; padding: 0 11px; margin-left: auto;
+  }
+  .site-root .hamburger span, .bk-root .hamburger span { display: block; height: 2px; background: var(--k); transition: transform .2s, opacity .2s; }
+  .site-root .nav.nav-open .hamburger span:nth-child(1), .bk-root .nav.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-root .nav.nav-open .hamburger span:nth-child(2), .bk-root .nav.nav-open .hamburger span:nth-child(2) { opacity: 0; }
+  .site-root .nav.nav-open .hamburger span:nth-child(3), .bk-root .nav.nav-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .site-root .logo, .bk-root .logo { font-size: 16px !important; letter-spacing: .2em !important; }
+
+  /* ---- Slide-in mobile menu ---- */
+  .mobile-menu {
+    display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--w); z-index: 200; padding: 80px 28px 40px;
+    transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.7,.3,1);
+    overflow-y: auto;
+  }
+  .mobile-menu.open { transform: translateX(0) !important; }
+  .mobile-menu .mm-close {
+    position: absolute; top: 22px; right: 22px; width: 44px; height: 44px;
+    border: 1px solid var(--g-200); background: var(--w); font-family: var(--serif);
+    font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .mobile-menu .mm-logo { font-family: var(--serif); font-size: 18px; letter-spacing: .24em; font-weight: 600; margin-bottom: 36px; display: flex; align-items: center; gap: .5em; color: var(--k); }
+  .mobile-menu .mm-logo .dot { width: 7px; height: 7px; border-radius: 99px; background: var(--y); display: inline-block; }
+  .mobile-menu a.mm-link {
+    display: block; font-family: var(--serif); font-size: 30px; font-weight: 500;
+    padding: 16px 0; border-bottom: 1px solid var(--g-200); color: var(--k); letter-spacing: -.01em;
+    text-decoration: none;
+  }
+  .mobile-menu .mm-foot { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+  .mobile-menu .mm-phone { font-family: var(--serif); font-size: 26px; font-weight: 600; color: var(--k); text-decoration: none; }
+  .mobile-menu .mm-cta {
+    background: var(--y); color: var(--k); text-align: center; padding: 18px;
+    font-family: var(--serif); font-size: 20px; font-weight: 600; text-decoration: none;
+  }
+  body.menu-open { overflow: hidden; }
+
+  /* ===== HOMEPAGE ===== */
+  .site-root .hero { padding: 36px 0 48px !important; }
+  .site-root .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .site-root .hero-photo { aspect-ratio: 4/3 !important; max-height: none !important; order: -1; }
+  .site-root .hero-photo .badge-award { width: 84px !important; height: 84px !important; }
+  .site-root .hero-meta { gap: 20px !important; flex-wrap: wrap; }
+  .site-root .hero-ctas { flex-wrap: wrap; }
+  .site-root .hero-ctas .btn { flex: 1; min-width: 0; }
+
+  .site-root .trust-strip .row { flex-direction: column; align-items: flex-start; gap: 12px; font-size: 12px; padding: 0 22px !important; }
+  .site-root .section { padding: 56px 0 !important; }
+  .site-root .section-head { margin-bottom: 38px !important; }
+
+  .site-root .services-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .site-root .steps { grid-template-columns: 1fr 1fr !important; }
+  .site-root .step { border-right: none !important; border-bottom: 1px solid var(--g-200); }
+  .site-root .extras-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .site-root .magic .grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .site-root .about .grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .site-root .about .photo-wrap .y-block { left: 16px !important; bottom: -18px !important; }
+  .site-root .areas .grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .site-root .city-list { grid-template-columns: 1fr !important; }
+  .site-root .reviews-grid { grid-template-columns: 1fr !important; }
+  .site-root .ctaband { padding: 48px 0 !important; }
+  .site-root .ctaband .row { grid-template-columns: 1fr !important; flex-direction: column; align-items: flex-start !important; gap: 28px !important; text-align: left; }
+  .site-root .ctaband-actions { justify-content: flex-start !important; align-items: flex-start !important; }
+  .site-root .foot-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+  .site-root footer .legal { flex-direction: column; gap: 8px; }
+
+  /* ===== SHARED INNER (site.css) ===== */
+  .site-root .page-hero { padding: 22px 0 48px !important; }
+  .site-root .page-hero-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .site-root .page-hero-photo { order: -1; }
+  .site-root .checklist-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+  .site-root .band-head { padding: 48px 0 !important; }
+
+  /* ===== ABOUT ===== */
+  .site-root .story-hero .grid { grid-template-columns: 1fr !important; }
+  .site-root .story-hero .photo { min-height: 280px !important; }
+  .site-root .story-hero .yellow-card { margin-left: 0 !important; margin-top: 0 !important; padding: 44px 28px !important; min-height: 0 !important; }
+  .site-root .chapter { padding: 56px 0 !important; }
+  .site-root .chapter .grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .site-root .chapter .num-big { font-size: 64px !important; }
+  .site-root .pillars { padding: 56px 0 !important; }
+  .site-root .pillars .head { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .site-root .pillars .pillar-grid { grid-template-columns: 1fr !important; }
+  .site-root .pillars .pillar { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,.15); padding: 26px 0 !important; }
+  .site-root .guarantee { padding: 56px 0 !important; }
+  .site-root .guarantee .grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+
+  /* ===== PRODUCTS ===== */
+  .site-root .products-hero .h-grid { grid-template-columns: 1fr !important; gap: 30px !important; padding-bottom: 48px !important; }
+  .site-root .product-row { grid-template-columns: 1fr !important; min-height: 0 !important; }
+  .site-root .product-row .photo { min-height: 260px; order: -1 !important; }
+  .site-root .product-row.flip .photo { order: -1 !important; }
+  .site-root .product-row.flip .copy { order: 1 !important; }
+  .site-root .product-row .copy { padding: 44px 28px !important; }
+
+  /* ===== AIRBNB ===== */
+  .site-root .airbnb-hero .bg { height: 240px !important; }
+  .site-root .airbnb-intro { padding: 48px 0 !important; }
+  .site-root .airbnb-intro-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .site-root .feature-strip .row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .site-root .checklist-grid-5 { grid-template-columns: 1fr !important; }
+  .site-root .checklist-grid-5 .cl-card:nth-child(4),
+  .site-root .checklist-grid-5 .cl-card:nth-child(5) { grid-column: auto !important; grid-row: auto !important; }
+
+  /* ===== LOCATION (Saint Petersburg + clones) ===== */
+  .site-root .intro-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .site-root .hoods-head { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .site-root .hood-grid { grid-template-columns: 1fr !important; }
+  .site-root .hood { border-right: none !important; }
+  .site-root .proof-grid { grid-template-columns: 1fr !important; }
+  .site-root .proof-photo { min-height: 280px; }
+  .site-root .proof-copy { padding: 48px 28px !important; }
+  .site-root .contact-grid { grid-template-columns: 1fr !important; }
+  .site-root .contact-info, .site-root .contact-form { padding: 40px 28px !important; }
+  .site-root .city-stamp { left: 12px !important; }
+
+  /* ===== BOOKING ===== */
+  .bk-root .booking-wrap { grid-template-columns: 1fr !important; padding: 24px 22px !important; gap: 20px !important; }
+  .bk-root .panel { padding: 32px 24px !important; min-height: 0 !important; }
+  .bk-root .services-pick { grid-template-columns: 1fr 1fr !important; }
+  .bk-root .options { grid-template-columns: 1fr 1fr !important; }
+  .bk-root .options.two { grid-template-columns: 1fr 1fr !important; }
+  .bk-root .extras-grid { grid-template-columns: 1fr 1fr !important; }
+  .bk-root .summary { position: static !important; top: auto !important; order: -1; }
+  .bk-root .progress { top: 0 !important; }
+  .bk-root .progress-inner { padding: 14px 22px !important; }
+  .bk-root .dialog { min-width: 0 !important; width: calc(100vw - 44px); max-width: 420px; }
+  .bk-root .panel .actions { flex-wrap: wrap; gap: 12px; }
+  .bk-root .panel .actions > div { width: 100%; display: flex; gap: 10px; }
+  .bk-root .input-row, .bk-root .input-row.equal { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Phone fine-tuning ---- */
+@media (max-width: 560px) {
+  .site-root .h1 { font-size: 44px !important; }
+  .site-root .h2 { font-size: 34px !important; }
+  .site-root .hero .h1 { font-size: 46px !important; }
+  .site-root .lead { font-size: 18px !important; }
+  .site-root .section-head .h2 { font-size: 36px !important; }
+
+  .bk-root .panel h1 { font-size: 30px !important; }
+  .site-root .product-row h2 { font-size: 34px !important; }
+  .site-root .products-hero h1 { font-size: 50px !important; }
+  .site-root .airbnb-intro h1 { font-size: 40px !important; }
+  .site-root .story-hero h1 { font-size: 40px !important; }
+  .site-root .chapter h2, .site-root .pillars h2, .site-root .guarantee h2 { font-size: 38px !important; }
+  .site-root .ctaband h2 { font-size: 40px !important; }
+
+  .site-root .extras-grid { grid-template-columns: 1fr 1fr !important; }
+  .site-root .steps { grid-template-columns: 1fr !important; }
+  .site-root .foot-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .bk-root .services-pick { grid-template-columns: 1fr !important; }
+
+  .site-root .hero-stat .num { font-size: 30px !important; }
+  .site-root .btn-lg, .bk-root .btn-lg { padding: 14px 22px !important; font-size: 16px !important; }
+}

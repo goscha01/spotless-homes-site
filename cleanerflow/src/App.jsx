@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import CleaningChecklist from "@/pages/cleaning-checklist";
 import AirbnbChecklist from "@/pages/airbnb-checklist";
+import OfficeChecklist from "@/pages/office-checklist";
 import CleaningProducts from "@/pages/cleaning-products";
 import LocationPage from "@/pages/location";
 import ReactGA from "react-ga4";
@@ -46,6 +47,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/cleaning-checklist" element={<CleaningChecklist />} />
         <Route path="/airbnb-checklist" element={<AirbnbChecklist />} />
+        <Route path="/office-checklist" element={<OfficeChecklist />} />
         <Route path="/cleaning-products" element={<CleaningProducts />} />
         <Route path="/locations/:city" element={<LocationPage />} />
         <Route path="/locations/:city/:subcity" element={<LocationPage />} />

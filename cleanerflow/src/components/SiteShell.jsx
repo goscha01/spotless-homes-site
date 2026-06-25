@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+import MobileMenu from "./MobileMenu";
 import "../styles/site.css";
+import "../styles/mobile.css";
 
 export function TopBar() {
   return (
     <div className="topbar">
       <div className="topbar-inner">
         <div>Florida · Tampa · St. Pete · Clearwater · Jacksonville</div>
-        <div><span className="pill">★ 4.5/5</span> · 500 Google reviews · Insured &amp; Bonded</div>
+        <div><span className="pill">★ 4.5/5</span> · 150+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded</div>
       </div>
     </div>
   );
@@ -21,6 +23,7 @@ export function NavBar({ active }) {
         <div className="nav-links">
           <Link className={isActive("checklist")} to="/cleaning-checklist">What's included</Link>
           <Link className={isActive("airbnb")} to="/airbnb-checklist">Airbnb checklist</Link>
+          <Link className={isActive("office")} to="/office-checklist">Office checklist</Link>
           <Link className={isActive("products")} to="/cleaning-products">Products</Link>
           <Link className={isActive("about")} to="/about">Our story</Link>
           <Link className={isActive("areas")} to="/#areas">Areas</Link>
@@ -29,6 +32,7 @@ export function NavBar({ active }) {
           <span className="nav-phone">813-921-2100</span>
           <Link to="/booking" className="btn btn-primary">Get Quote</Link>
         </div>
+        <MobileMenu />
       </div>
     </nav>
   );
@@ -49,6 +53,7 @@ export function SiteFooter() {
             <ul>
               <li><Link to="/cleaning-checklist">What's included</Link></li>
               <li><Link to="/airbnb-checklist">Airbnb checklist</Link></li>
+              <li><Link to="/office-checklist">Office checklist</Link></li>
               <li><Link to="/cleaning-products">Products we use</Link></li>
               <li>Move In / Out</li>
               <li>Eco Cleaning</li>

@@ -1,7 +1,7 @@
 /* Airbnb hero strip */
 .site-root .airbnb-hero { padding: 0; border-bottom: none; position: relative; }
 .site-root .airbnb-hero .bg {
-  height: 380px; background-image: url('/assets/airbnb/hero-bed.jpg');
+  height: 380px; background-image: url('/assets/airbnb/bedroom.avif');
   background-size: cover; background-position: center;
   position: relative;
 }

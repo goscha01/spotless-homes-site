@@ -1,7 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import reviewsData from "@/data/reviews.json";
 import "./home.css";
+
+const REVIEW_DISPLAY_LIMIT = 6;
+const displayedReviews = (reviewsData.reviews ?? [])
+  .filter((r) => (r.rating ?? 0) >= 4)
+  .slice(0, REVIEW_DISPLAY_LIMIT);
+const aggregate = reviewsData.aggregate ?? {};
+const ratingLabel = aggregate.averageRating ? `${aggregate.averageRating.toFixed(1)}★` : "4.5★";
+const ratingCountLabel = aggregate.totalRatingCount
+  ? `${aggregate.totalRatingCount}+ verified reviews`
+  : "150+ verified reviews";
+const ratingCountShort = aggregate.totalRatingCount
+  ? `${aggregate.totalRatingCount}+`
+  : "150+";
 
 export default function Home() {
   return (
@@ -34,7 +48,7 @@ function Hero() {
               <a href="tel:8139212100" className="btn btn-outline btn-lg">Call 813-921-2100</a>
             </div>
             <div className="hero-meta">
-              <div className="hero-stat"><div className="num">4.5★</div><div className="lbl">150+ verified reviews</div></div>
+              <div className="hero-stat"><div className="num">{ratingLabel}</div><div className="lbl">{ratingCountLabel}</div></div>
               <div className="hero-stat"><div className="num">$119</div><div className="lbl">Standard, from</div></div>
               <div className="hero-stat"><div className="num">8 yrs</div><div className="lbl">Family-run in FL</div></div>
             </div>
@@ -46,7 +60,7 @@ function Hero() {
             <div className="float-stat">
               <div className="stars">★★★★★</div>
               <div>
-                <div className="review-num">150+</div>
+                <div className="review-num">{ratingCountShort}</div>
                 <div className="review-lbl">verified reviews</div>
               </div>
             </div>
@@ -61,7 +75,7 @@ function TrustStrip() {
   return (
     <div className="trust-strip">
       <div className="row">
-        <div className="item">★ <span className="y">4.5/5 Google</span></div>
+        <div className="item">★ <span className="y">{ratingLabel}/5 Google</span></div>
         <div className="item">Hiscox · <span className="y">General Liability</span></div>
         <div className="item">Surety <span className="y">Bonded</span></div>
         <div className="item">Florida <span className="y">DBA Registered</span></div>
@@ -73,10 +87,10 @@ function TrustStrip() {
 
 function Services() {
   const items = [
-    { img: "/assets/services/regular.jpg", name: "Standard Home Cleaning", desc: "Recurring upkeep — dust, vacuum, mop, sanitize kitchens & baths. The keep-it-tidy plan.", price: 119 },
-    { img: "/assets/services/deep.jpg",    name: "Deep Home Cleaning",     desc: "Baseboards, fixtures, the corners that get skipped. The seasonal reset — perfect once or twice a year.", price: 149, featured: true, badge: "Most booked" },
-    { img: "/assets/services/move.jpg",    name: "Move In / Out",          desc: "Inside appliances, cabinets, closets — top to bottom. Ready for the next chapter.", price: 149 },
-    { img: "/assets/services/airbnb.jpg",  name: "Airbnb Turnover",        desc: "Linen change, laundry, glass, restock — between guests, on time, every time.", price: 129 },
+    { img: "/assets/house/modern.avif",       name: "Standard Home Cleaning", desc: "Recurring upkeep — dust, vacuum, mop, sanitize kitchens & baths. The keep-it-tidy plan.", price: 119 },
+    { img: "/assets/house/interior-1.avif",   name: "Deep Home Cleaning",     desc: "Baseboards, fixtures, the corners that get skipped. The seasonal reset — perfect once or twice a year.", price: 149, featured: true, badge: "Most booked" },
+    { img: "/assets/house/white-sofa.avif",   name: "Move In / Out",          desc: "Inside appliances, cabinets, closets — top to bottom. Ready for the next chapter.", price: 149 },
+    { img: "/assets/house/kitchen-island.avif", name: "Airbnb Turnover",      desc: "Linen change, laundry, glass, restock — between guests, on time, every time.", price: 129 },
   ];
   return (
     <section className="section" id="services">
@@ -342,32 +356,30 @@ function Areas() {
 }
 
 function Reviews() {
-  const reviews = [
-    { av: "E", name: "Erica Avallone", date: "Feb 2026", text: '"Their work holds true to their name — my house was truly spotless after they finished. Super satisfied customer!"' },
-    { av: "P", name: "Penny",          date: "Jan 2026", text: '"Attention to detail. Outstanding job on luxury vinyl floors with scuffs. Pleasant person, good communicator."' },
-    { av: "Z", name: "Zach Nicolaou",  date: "Aug 2025", text: '"Corners, baseboards, and all the little things most cleaners overlook were taken care of perfectly. Felt like walking into a fresh, new home."' },
-  ];
   return (
     <section className="section" id="reviews">
       <div className="container">
         <div className="section-head">
           <span className="eyebrow"><span className="bar"></span>What clients say<span className="bar"></span></span>
-          <h2 className="h2">4.5★ across <em>150+ reviews</em>.</h2>
+          <h2 className="h2">{ratingLabel} across <em>{ratingCountShort} reviews</em>.</h2>
         </div>
         <div className="reviews-grid">
-          {reviews.map((r) => (
-            <div key={r.name} className="review">
-              <div className="stars">★★★★★</div>
-              <p>{r.text}</p>
-              <div className="who">
-                <div className="av">{r.av}</div>
-                <div>
-                  <div className="name">{r.name}</div>
-                  <div className="date">{r.date}</div>
+          {displayedReviews.map((r) => {
+            const initial = (r.author || "G").trim().charAt(0).toUpperCase();
+            return (
+              <div key={r.id} className="review">
+                <div className="stars">{"★".repeat(r.rating || 5)}</div>
+                <p>"{r.text}"</p>
+                <div className="who">
+                  <div className="av">{initial}</div>
+                  <div>
+                    <div className="name">{r.author}{r.place ? ` · ${r.place}` : ""}</div>
+                    <div className="date">{r.relativeTime || ""}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

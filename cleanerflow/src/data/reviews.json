@@ -1,0 +1,46 @@
+{
+  "aggregate": {
+    "totalRatingCount": 150,
+    "averageRating": 4.5,
+    "lastUpdated": null,
+    "perPlace": []
+  },
+  "reviews": [
+    {
+      "id": "manual:erica-avallone-2026-02",
+      "manual": true,
+      "rating": 5,
+      "author": "Erica Avallone",
+      "authorPhoto": null,
+      "publishTime": "2026-02-01T00:00:00Z",
+      "relativeTime": "Feb 2026",
+      "text": "Their work holds true to their name — my house was truly spotless after they finished. Super satisfied customer!",
+      "place": null,
+      "sourceUrl": null
+    },
+    {
+      "id": "manual:penny-2026-01",
+      "manual": true,
+      "rating": 5,
+      "author": "Penny",
+      "authorPhoto": null,
+      "publishTime": "2026-01-01T00:00:00Z",
+      "relativeTime": "Jan 2026",
+      "text": "Attention to detail. Outstanding job on luxury vinyl floors with scuffs. Pleasant person, good communicator.",
+      "place": null,
+      "sourceUrl": null
+    },
+    {
+      "id": "manual:zach-nicolaou-2025-08",
+      "manual": true,
+      "rating": 5,
+      "author": "Zach Nicolaou",
+      "authorPhoto": null,
+      "publishTime": "2025-08-01T00:00:00Z",
+      "relativeTime": "Aug 2025",
+      "text": "Corners, baseboards, and all the little things most cleaners overlook were taken care of perfectly. Felt like walking into a fresh, new home.",
+      "place": null,
+      "sourceUrl": null
+    }
+  ]
+}

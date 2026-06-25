@@ -65,6 +65,7 @@ export default function AirbnbChecklist() {
           <div className="checklist-grid-5">
             <Card
               title="Area 01" name="Bathroom"
+              photo="/assets/airbnb/bathroom.avif"
               items={[
                 "Scrub and disinfect toilets, sinks, showers, and bathtubs",
                 "Replace towels and toiletries with fresh ones",
@@ -73,6 +74,7 @@ export default function AirbnbChecklist() {
             />
             <Card
               dark title="Area 02" name="General cleaning"
+              photo="/assets/airbnb/living-room.avif"
               items={[
                 "Dust all surfaces, including furniture, shelves, and decorations",
                 "Vacuum carpets and rugs; mop hard floors",
@@ -82,6 +84,7 @@ export default function AirbnbChecklist() {
             />
             <Card
               title="Area 03" name="Kitchen"
+              photo="/assets/airbnb/kitchen.avif"
               items={[
                 "Clean and sanitize all countertops, sinks, and backsplashes",
                 "Wash dishes and utensils thoroughly",
@@ -91,18 +94,19 @@ export default function AirbnbChecklist() {
             />
             <Card
               title="Area 04" name="Bedrooms"
+              photo="/assets/airbnb/bedroom.avif"
               items={[
-                "Tile grouting scrubbed",
-                "Doors and door frames wiped",
-                "Knickknacks individually cleaned",
-                "Fronts of cabinets wiped",
-                "Baseboards and window sills wiped",
-                "Floors given extra attention",
-                "Built-up soap scum removed",
+                "Strip and remake beds with fresh linens between guests",
+                "Dust nightstands, dressers, and decorative items",
+                "Wipe down window sills, blinds, and ledges",
+                "Vacuum carpets and rugs; mop hard floors",
+                "Tidy and stage the room for the next guest's arrival",
+                "Check under furniture for any items left behind",
               ]}
             />
             <Card
               dark title="Area 05" name="Final check"
+              photo="/assets/airbnb/door-lock.avif"
               items={[
                 "Inspect each room for any missed spots or items left behind",
                 "Replace any burned-out light bulbs",
@@ -117,6 +121,7 @@ export default function AirbnbChecklist() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="cl-card" style={{ maxWidth: 780, margin: "0 auto" }}>
+            <div className="photo"><img src="/assets/airbnb/appliance.avif" alt="Appliance check during turnover" /></div>
             <div className="body">
               <h3>Additional considerations</h3>
               <p className="name">Beyond the standard turnover</p>
@@ -145,9 +150,10 @@ export default function AirbnbChecklist() {
   );
 }
 
-function Card({ title, name, items, dark }) {
+function Card({ title, name, items, dark, photo }) {
   return (
     <div className={`cl-card${dark ? " dark" : ""}`}>
+      {photo && <div className="photo"><img src={photo} alt="" /></div>}
       <div className="body">
         <h3>{title}</h3>
         <p className="name">{name}</p>

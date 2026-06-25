@@ -5,6 +5,7 @@
 .site-root .story-hero .photo {
   min-height: 460px; background-image: url('/assets/about/founder.jpg');
   background-size: cover; background-position: center;
+  position: relative; z-index: 3;
 }
 .site-root .story-hero .yellow-card {
   background: var(--y); padding: 70px 60px; display: flex; flex-direction: column; justify-content: center;
@@ -39,7 +40,7 @@
 .site-root .pillars h2 em { font-style: italic; color: var(--y); }
 .site-root .pillars .sub { font-family: var(--serif); font-size: 20px; line-height: 1.6; color: rgba(255,255,255,.7); }
 .site-root .pillars .pillar-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.15); }
-.site-root .pillars .pillar { padding: 36px 28px 36px 0; border-right: 1px solid rgba(255,255,255,.15); }
+.site-root .pillars .pillar { padding: 36px 24px; border-right: 1px solid rgba(255,255,255,.15); text-align: center; }
 .site-root .pillars .pillar:last-child { border-right: none; }
 .site-root .pillars .pillar .n { font-family: var(--serif); font-size: 36px; color: var(--y); font-style: italic; }
 .site-root .pillars .pillar h3 { font-family: var(--serif); font-size: 24px; font-weight: 500; margin: 14px 0 10px; line-height: 1.15; }
