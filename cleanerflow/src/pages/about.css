@@ -1,14 +1,14 @@
 /* ── Story hero ── */
 .site-root .story-hero { padding: 0; border-bottom: none; background: var(--g-50); }
 .site-root .story-hero .container { padding-top: 30px; padding-bottom: 0; }
-.site-root .story-hero .grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 0; margin-top: 30px; }
+.site-root .story-hero .grid { display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch; gap: 0; margin-top: 30px; }
 .site-root .story-hero .photo {
   min-height: 460px; background-image: url('/assets/about/founder.jpg');
   background-size: cover; background-position: center;
 }
 .site-root .story-hero .yellow-card {
   background: var(--y); padding: 70px 60px; display: flex; flex-direction: column; justify-content: center;
-  margin-top: 40px; margin-left: -80px; min-height: 460px;
+  margin-top: 40px; min-height: 460px;
   position: relative; z-index: 2;
 }
 .site-root .story-hero .yellow-card .num { font-family: var(--sans); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; }
