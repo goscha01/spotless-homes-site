@@ -5,7 +5,6 @@
 .site-root .story-hero .photo {
   min-height: 460px; background-image: url('/assets/about/founder.jpg');
   background-size: cover; background-position: center;
-  position: relative; z-index: 3;
 }
 .site-root .story-hero .yellow-card {
   background: var(--y); padding: 70px 60px; display: flex; flex-direction: column; justify-content: center;

@@ -152,18 +152,26 @@ async function scrapePost(url, idx) {
   // Clean: drop scripts, styles, image expand buttons, share popovers, etc.
   $body.find("script, style, noscript, button, svg").remove();
 
-  // Rewrite inline images: download + swap src
+  // Rewrite inline images: download + swap src.
+  // Wix sets `src` to a tiny blurred LQIP placeholder (~74×42px, blur_2 transform).
+  // The real full-res image URL is on `data-pin-media` (Wix populates this for
+  // Pinterest sharing — happens to be ~888px at q_90). Prefer that.
   const imgEls = $body.find("img").toArray();
   for (let i = 0; i < imgEls.length; i++) {
     const $img = $(imgEls[i]);
-    const src = $img.attr("src") || $img.attr("data-src");
+    const src =
+      $img.attr("data-pin-media") ||
+      $img.attr("data-src") ||
+      $img.attr("src");
     if (!src || !src.startsWith("http")) continue;
     try {
       const local = await downloadImage(src, `${slug}-${String(i + 1).padStart(2, "0")}`);
       $img.attr("src", local);
-      // Strip srcset so turndown doesn't keep the cdn URLs
+      // Strip the lazy-load attrs so turndown doesn't keep cdn URLs around
       $img.removeAttr("srcset");
       $img.removeAttr("data-src");
+      $img.removeAttr("data-pin-media");
+      $img.removeAttr("data-pin-url");
     } catch (e) {
       console.warn(`    [${slug}] inline img skip: ${src.slice(0, 80)}…  (${e.message})`);
     }
