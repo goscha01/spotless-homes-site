@@ -78,13 +78,18 @@ async function listSpotlessLocations(accessToken) {
   const { accounts = [] } = await accountsRes.json();
   const out = [];
   for (const a of accounts) {
-    const url = `https://mybusinessbusinessinformation.googleapis.com/v1/${a.name}/locations?pageSize=100&readMask=name,title,storefrontAddress,serviceArea`;
+    const url = `https://mybusinessbusinessinformation.googleapis.com/v1/${a.name}/locations?pageSize=100&readMask=name,title,storefrontAddress,serviceArea,metadata`;
     const r = await fetch(url, { headers: h });
     if (!r.ok) continue;
     const { locations = [] } = await r.json();
     for (const l of locations) {
       if (!/spotless/i.test(l.title || "")) continue;
-      out.push({ account: a.name, location: l.name, title: l.title });
+      out.push({
+        account: a.name,
+        location: l.name,
+        title: l.title,
+        mapsUri: l.metadata?.mapsUri || null,
+      });
     }
   }
   return out;
@@ -116,9 +121,8 @@ function deriveLabel(title) {
   return stripped || null;
 }
 
-function normalize(rv, label, locationId) {
+function normalize(rv, label, mapsUri) {
   const rating = STAR_TO_NUM[rv.starRating] || 0;
-  const cid = locationId.replace(/^locations\//, "");
   return {
     id: `gmb:${rv.name}`,
     manual: false,
@@ -129,7 +133,7 @@ function normalize(rv, label, locationId) {
     relativeTime: relativeFrom(rv.createTime),
     text: rv.comment || "",
     place: label,
-    sourceUrl: `https://www.google.com/maps?cid=${cid}`,
+    sourceUrl: mapsUri,
   };
 }
 
@@ -209,7 +213,7 @@ async function main() {
       let placeCount = 0;
       let placeSum = 0;
       for (const rv of reviews) {
-        const norm = normalize(rv, label, loc.location);
+        const norm = normalize(rv, label, loc.mapsUri);
         if (norm.rating < MIN_RATING) continue;
         incoming.push(norm);
         placeSum += norm.rating;
