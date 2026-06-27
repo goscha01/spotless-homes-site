@@ -23,8 +23,10 @@ jobs:
 
       - name: Fetch reviews
         env:
-          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
-          PLACE_IDS: ${{ secrets.PLACE_IDS }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: node scripts/fetch-reviews.mjs
 
       - name: Commit changes
@@ -36,5 +38,5 @@ jobs:
           git config user.name  "spotless-reviews-bot"
           git config user.email "spotless-reviews-bot@users.noreply.github.com"
           git add cleanerflow/src/data/reviews.json
-          git commit -m "chore(reviews): refresh from Google Places API"
+          git commit -m "chore(reviews): refresh from Google Business Profile API"
           git push
