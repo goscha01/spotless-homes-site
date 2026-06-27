@@ -4,6 +4,8 @@
 // Tampa + Clearwater + Saint Petersburg use copy adapted from the live
 // www.spotless.homes site. Other cities are rewritten in the same voice.
 
+import { ratingSummary } from "./reviews-stats";
+
 export const LOCATIONS = {
   tampa: {
     slug: "tampa",
@@ -69,22 +71,22 @@ export const LOCATIONS = {
     slug: "clearwater",
     name: "Clearwater",
     state: "FL",
-    zip: "34683",
-    address: "2240 Alden Ln, Palm Harbor, FL 34683",
+    zip: "33755",
+    address: "Clearwater, FL · Service area: Pinellas County",
     phone: "(727) 390-8889",
     phoneRaw: "7273908889",
     heroPhoto: "/assets/cities/clearwater.jpg",
     proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Clearwater, FL",
     intro:
-      "Need a dependable house cleaning service in Clearwater? Spotless Homes delivers exceptional home cleaning services to keep your living space pristine and refreshed. Whether you require a deep cleaning, routine upkeep, or a move-in cleaning service, our skilled team is here to help. As a trusted cleaning company in your area, we are committed to excellence and customer satisfaction.",
+      "Looking for a Clearwater house cleaning service you can actually plan your week around? Spotless Homes runs a vetted, insured, family-led team across Pinellas County — from Cleveland Street condos and Island Estates waterfront to the beach rentals and quiet Countryside cul-de-sacs. Standard upkeep, deep resets, move-in/out, and Airbnb turnovers — booked in two minutes, paid only after you're happy.",
     whyParas: [
-      "Our routine house cleaning service in Clearwater is tailored to keep your home consistently tidy and refreshed. If you're looking for dependable home cleaning services or professional house cleaners near you, our dedicated team is here to ensure every space remains spotless and welcoming.",
-      "From dusting and vacuuming to sanitizing bathrooms and kitchens, we uphold the highest cleaning standards. With flexible scheduling and affordable pricing, maintaining a clean home has never been easier.",
-      "Enjoy top-tier house cleaning at competitive rates. Our deep house cleaning service in Clearwater offers a comprehensive, top-to-bottom clean that goes beyond routine upkeep.",
+      "Our recurring house cleaning in Clearwater is built for the salt-air, sand-tracked reality of Gulf Coast living. Whether you're on the bridge in Island Estates, behind a screen on the beach, or off Drew Street downtown, the same trained cleaner shows up on the same cadence — so they learn your floors, your fixtures, and how you like the kitchen left.",
+      "Hosting on the beach or near Pier 60? Our Airbnb turnover service handles fresh linens, photo-checked staging, and same-day turns between guests — so your listing stays five-star and your calendar stays full through season.",
+      "Selling, moving in, or finally tackling the post-storm reset? Our Clearwater deep cleans cover baseboards, inside the fridge, behind the stove, light fixtures, and the corners most teams skip. Transparent pricing, no card to get an estimate, and a satisfaction promise on every visit.",
     ],
     hoodsBlurb:
-      "Our Clearwater cleaners cover the beach, Belleair, Island Estates, Countryside, and points north into Palm Harbor — with the same standard in every ZIP.",
+      "From Cleveland Street downtown and Island Estates across the causeway to Clearwater Beach, Belleair, Countryside, and Morningside — one vetted team, one standard, every Pinellas ZIP.",
     hoods: [
       { slug: "clearwater-beach", name: "Clearwater Beach" },
       { slug: "island-estates",   name: "Island Estates" },
@@ -107,7 +109,7 @@ export const LOCATIONS = {
     proofPhoto: "/assets/fridge.jpg",
     eyebrow: "Cleaning services · Jacksonville, FL",
     intro:
-      "Looking for a trusted Jacksonville maid service? Spotless Homes brings the same family-run, results-first cleaning standard to Duval County that has earned us 4.5★ across 150+ reviews. From the St. Johns River to the beaches, our Jacksonville cleaners are trained, insured, and background-checked.",
+      `Looking for a trusted Jacksonville maid service? Spotless Homes brings the same family-run, results-first cleaning standard to Duval County that has earned us ${ratingSummary}. From the St. Johns River to the beaches, our Jacksonville cleaners are trained, insured, and background-checked.`,
     whyParas: [
       "Our routine house cleaning service in Jacksonville is built around your week. Whether you're in Riverside, San Marco, or Atlantic Beach, our professional cleaners deliver consistent results that hold up between visits.",
       "Need something deeper? Our move-in/move-out and deep cleaning services in Jacksonville cover baseboards, inside appliances, and the corners most teams skip — perfect for first cleans, end-of-lease, or seasonal resets.",

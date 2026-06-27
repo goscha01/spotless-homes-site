@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
+import { ratingLabel, ratingCount } from "@/data/reviews-stats";
 import "../styles/site.css";
 import "../styles/mobile.css";
 
@@ -8,7 +9,9 @@ export function TopBar() {
     <div className="topbar">
       <div className="topbar-inner">
         <div>Florida · Tampa · St. Pete · Clearwater · Jacksonville</div>
-        <div><span className="pill">★ 4.5/5</span> · 150+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded</div>
+        <Link to="/#reviews" className="topbar-rating">
+          <span className="pill">★ {ratingLabel.replace("★", "")}/5</span> · {ratingCount}+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded
+        </Link>
       </div>
     </div>
   );
