@@ -116,8 +116,9 @@ function deriveLabel(title) {
   return stripped || null;
 }
 
-function normalize(rv, label) {
+function normalize(rv, label, locationId) {
   const rating = STAR_TO_NUM[rv.starRating] || 0;
+  const cid = locationId.replace(/^locations\//, "");
   return {
     id: `gmb:${rv.name}`,
     manual: false,
@@ -128,7 +129,7 @@ function normalize(rv, label) {
     relativeTime: relativeFrom(rv.createTime),
     text: rv.comment || "",
     place: label,
-    sourceUrl: null,
+    sourceUrl: `https://www.google.com/maps?cid=${cid}`,
   };
 }
 
@@ -208,7 +209,7 @@ async function main() {
       let placeCount = 0;
       let placeSum = 0;
       for (const rv of reviews) {
-        const norm = normalize(rv, label);
+        const norm = normalize(rv, label, loc.location);
         if (norm.rating < MIN_RATING) continue;
         incoming.push(norm);
         placeSum += norm.rating;
