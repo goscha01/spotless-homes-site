@@ -3,8 +3,18 @@ import emailjs from "emailjs-com";
 import { calculatePrice } from "@/lib/calculatePrice";
 import { extras as EXTRAS_DATA, conditions as COND_DATA, pets as PET_DATA } from "@/constants/price";
 import MobileMenu from "@/components/MobileMenu";
+import SEO from "@/components/SEO";
+import { ratingLabel, ratingCount } from "@/data/reviews-stats";
+import { getStoredUTMs, summarizeUTMs } from "@/lib/utm";
 import "./booking-design.css";
 import "../styles/mobile.css";
+
+const BOOKING_SEO = (
+  <SEO
+    title="Instant Estimate | House Cleaning Booking | Spotless Homes"
+    description="Get a personalized cleaning estimate in 2 minutes — no email or credit card required. Transparent pricing for deep cleaning, move-out, and recurring service across Florida."
+  />
+);
 
 // ─── Service catalog (base "from" prices match pricingData 1bed/1bath row) ─────
 const SERVICES = {
@@ -238,14 +248,24 @@ export default function Booking() {
     if (submitting) return;
     setSubmitting(true);
 
+    const utms = getStoredUTMs();
+    const utmSummary = summarizeUTMs(utms);
+
     // GA4 lead event with the real total
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", "generate_lead", {
-        send_to: "G-8W7WSSFNC6",
+        send_to: "G-6ZB89H49SD",
         event_category: "Booking",
         event_label: "Booking Wizard Complete",
         value: total,
         currency: "USD",
+        utm_source: utms.utm_source || "",
+        utm_medium: utms.utm_medium || "",
+        utm_campaign: utms.utm_campaign || "",
+        utm_content: utms.utm_content || "",
+        utm_term: utms.utm_term || "",
+        gclid: utms.gclid || "",
+        landing_page: utms.landing_page || "",
       });
     }
 
@@ -269,6 +289,13 @@ export default function Booking() {
       totalPrice: total,
       date: selectedDate ? selectedDate.label : "Customer to confirm",
       time: time || "Customer to confirm",
+      utm_source: utms.utm_source || "",
+      utm_medium: utms.utm_medium || "",
+      utm_campaign: utms.utm_campaign || "",
+      utm_content: utms.utm_content || "",
+      utm_term: utms.utm_term || "",
+      gclid: utms.gclid || "",
+      utm_summary: utmSummary || "(direct / unknown)",
     };
 
     let emailOk = false;
@@ -338,6 +365,7 @@ export default function Booking() {
   if (submitted) {
     return (
       <div className="bk-root">
+        {BOOKING_SEO}
         <TopChrome />
         <div className="booking-wrap solo">
           <div className="panel">
@@ -371,6 +399,7 @@ export default function Booking() {
 
   return (
     <div className="bk-root">
+      {BOOKING_SEO}
       <TopChrome />
 
       {showProgress && (
@@ -513,7 +542,9 @@ function TopChrome() {
       <div className="topbar">
         <div className="topbar-inner">
           <div>Florida · Tampa · St. Pete · Clearwater · Jacksonville</div>
-          <div><span className="pill">★ 4.5/5</span> · 150+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded</div>
+          <a href="/#reviews" className="topbar-rating">
+            <span className="pill">★ {ratingLabel.replace("★", "")}/5</span> · {ratingCount}+ reviews on Google, Thumbtack &amp; Yelp · Insured &amp; Bonded
+          </a>
         </div>
       </div>
       <nav className="nav">

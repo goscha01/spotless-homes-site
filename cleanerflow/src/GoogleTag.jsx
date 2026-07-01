@@ -5,7 +5,7 @@ const GoogleTag = () => {
   useEffect(() => {
     // Load gtag script
     const script = document.createElement("script");
-    script.src = "https://www.googletagmanager.com/gtag/js?id=G-8W7WSSFNC6";
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-6ZB89H49SD";
     script.async = true;
     document.head.appendChild(script);
 
@@ -18,10 +18,7 @@ const GoogleTag = () => {
 
     gtag("js", new Date());
 
-    // ✅ GA4 with debug mode for DebugView
-    gtag("config", "G-8W7WSSFNC6", {
-      debug_mode: true,
-    });
+    gtag("config", "G-6ZB89H49SD", { send_page_view: false });
 
     // Optional: Google Ads
     gtag("config", "AW-17067419398");

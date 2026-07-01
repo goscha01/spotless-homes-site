@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import ReactGA from "react-ga4";
 
 const VITE_COUPON_CODE = import.meta.env.VITE_COUPON_CODE;
 
