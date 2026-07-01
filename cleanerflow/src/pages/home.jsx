@@ -1,25 +1,48 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import reviewsData from "@/data/reviews.json";
+import { ratingLabel, ratingCountLabel, ratingCountShort, aggregateRatingSchema } from "@/data/reviews-stats";
 import "./home.css";
+
+const HOME_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://www.spotless.homes/#business",
+  name: "Spotless Homes",
+  url: "https://www.spotless.homes/",
+  telephone: "+1-813-921-2100",
+  priceRange: "$$",
+  image: "https://www.spotless.homes/assets/og-default.png",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "7508 N Cameron Ave",
+    addressLocality: "Tampa",
+    addressRegion: "FL",
+    postalCode: "33614",
+    addressCountry: "US",
+  },
+  areaServed: [
+    "Tampa, FL", "Saint Petersburg, FL", "Clearwater, FL", "Jacksonville, FL",
+    "Orlando, FL", "Fort Lauderdale, FL", "Boca Raton, FL", "Fort Myers, FL",
+  ],
+  aggregateRating: aggregateRatingSchema,
+};
 
 const REVIEW_DISPLAY_LIMIT = 6;
 const displayedReviews = (reviewsData.reviews ?? [])
   .filter((r) => (r.rating ?? 0) >= 4)
   .slice(0, REVIEW_DISPLAY_LIMIT);
-const aggregate = reviewsData.aggregate ?? {};
-const ratingLabel = aggregate.averageRating ? `${aggregate.averageRating.toFixed(1)}★` : "4.5★";
-const ratingCountLabel = aggregate.totalRatingCount
-  ? `${aggregate.totalRatingCount}+ verified reviews`
-  : "150+ verified reviews";
-const ratingCountShort = aggregate.totalRatingCount
-  ? `${aggregate.totalRatingCount}+`
-  : "150+";
 
 export default function Home() {
   return (
     <SiteShell active="home">
+      <SEO
+        title="House Cleaning Services | Spotless Homes — Florida's Trusted Maids"
+        description="Professional house cleaning services from Spotless Homes across Tampa, Jacksonville, St. Pete, Clearwater, Orlando, Fort Lauderdale, Boca Raton, and Fort Myers. Book top-rated maids today."
+        jsonLd={HOME_JSONLD}
+      />
       <Hero />
       <TrustStrip />
       <Services />
@@ -48,22 +71,22 @@ function Hero() {
               <a href="tel:8139212100" className="btn btn-outline btn-lg">Call 813-921-2100</a>
             </div>
             <div className="hero-meta">
-              <div className="hero-stat"><div className="num">{ratingLabel}</div><div className="lbl">{ratingCountLabel}</div></div>
+              <a href="#reviews" className="hero-stat hero-stat-link"><div className="num">{ratingLabel}</div><div className="lbl">{ratingCountLabel}</div></a>
               <div className="hero-stat"><div className="num">$119</div><div className="lbl">Standard, from</div></div>
               <div className="hero-stat"><div className="num">8 yrs</div><div className="lbl">Family-run in FL</div></div>
             </div>
           </div>
           <div className="hero-photo">
             <div className="yellow-corner"></div>
-            <img className="img-main" src="/assets/hero-woman.webp" alt="Spotless Homes client relaxing at home" />
+            <img className="img-main" src="/assets/hero-woman.webp" alt="Spotless Homes client relaxing at home" fetchPriority="high" loading="eager" decoding="async" />
             <img className="badge-award" src="/assets/logo-circle.png" alt="Spotless Homes" />
-            <div className="float-stat">
+            <a href="#reviews" className="float-stat float-stat-link">
               <div className="stars">★★★★★</div>
               <div>
                 <div className="review-num">{ratingCountShort}</div>
                 <div className="review-lbl">verified reviews</div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -75,7 +98,7 @@ function TrustStrip() {
   return (
     <div className="trust-strip">
       <div className="row">
-        <div className="item">★ <span className="y">{ratingLabel}/5 Google</span></div>
+        <a href="#reviews" className="item trust-link">★ <span className="y">{ratingLabel}/5 Google</span></a>
         <div className="item">Hiscox · <span className="y">General Liability</span></div>
         <div className="item">Surety <span className="y">Bonded</span></div>
         <div className="item">Florida <span className="y">DBA Registered</span></div>
@@ -366,8 +389,8 @@ function Reviews() {
         <div className="reviews-grid">
           {displayedReviews.map((r) => {
             const initial = (r.author || "G").trim().charAt(0).toUpperCase();
-            return (
-              <div key={r.id} className="review">
+            const card = (
+              <>
                 <div className="stars">{"★".repeat(r.rating || 5)}</div>
                 <p>"{r.text}"</p>
                 <div className="who">
@@ -377,7 +400,21 @@ function Reviews() {
                     <div className="date">{r.relativeTime || ""}</div>
                   </div>
                 </div>
-              </div>
+              </>
+            );
+            return r.sourceUrl ? (
+              <a
+                key={r.id}
+                className="review review-link"
+                href={r.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Read ${r.author}'s review on Google`}
+              >
+                {card}
+              </a>
+            ) : (
+              <div key={r.id} className="review">{card}</div>
             );
           })}
         </div>
