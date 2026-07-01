@@ -35,27 +35,31 @@ const EXCLUDE = new Set(['og-default.png']);
 
 // Per-directory rules. First match wins. Match against the path relative to
 // the assets root (e.g. "icons/bath.png" or "before-after/foo.jpg").
+//
+// Rules tuned to actual display sizes measured by Lighthouse mobile audits.
+// Rule of thumb: max dimension = display CSS pixels × ~1.8 (retina headroom,
+// slightly under 2x to save bytes on the long tail of DPR-3 devices).
 const RULES = [
   // Per-file overrides (root-level images with known display dimensions).
-  { match: /^team\.jpg$/i,          maxW: 1100, maxH: 822,  quality: 82 },
+  { match: /^team\.jpg$/i,          maxW: 900,  maxH: 675,  quality: 78 },   // was 1100x822
   { match: /^logo-circle\.png$/i,   maxW: 220,  maxH: 220 },
-  { match: /^hero-woman\.webp$/i,   maxW: 1252, maxH: 1132, quality: 82 },
-  { match: /^fridge\.jpg$/i,        maxW: 1600, maxH: 1200, quality: 82 },
+  { match: /^hero-woman\.webp$/i,   maxW: 900,  maxH: 800,  quality: 78 },   // was 1252x1132 — LCP on Home
+  { match: /^fridge\.jpg$/i,        maxW: 1200, maxH: 900,  quality: 78 },
 
   // Directory-level rules.
-  { match: /^icons\//,              maxW: 320,  maxH: 320 },
-  { match: /^cities\//,             maxW: 1920, maxH: 1080, quality: 82 },
-  { match: /^before-after\//,       maxW: 1302, maxH: 1736, quality: 82 },
-  { match: /^blog\//,               maxW: 1600, maxH: 1200, quality: 82 },
-  { match: /^house\//,              maxW: 800,  maxH: 600,  quality: 82 },
-  { match: /^products\//,           maxW: 1000, maxH: 1000, quality: 82 },
-  { match: /^airbnb\//,             maxW: 1600, maxH: 1200, quality: 82 },
-  { match: /^about\//,              maxW: 1600, maxH: 1200, quality: 82 },
-  { match: /^checklist\//,          maxW: 1600, maxH: 1200, quality: 82 },
-  { match: /^office\//,             maxW: 1600, maxH: 1200, quality: 82 },
-  { match: /^services\//,           maxW: 1600, maxH: 1200, quality: 82 },
+  { match: /^icons\//,              maxW: 200,  maxH: 200 },                 // was 320 — displayed at 155
+  { match: /^cities\//,             maxW: 1200, maxH: 900,  quality: 78 },   // was 1920 — LCP on Location
+  { match: /^before-after\//,       maxW: 900,  maxH: 1200, quality: 76 },   // was 1302x1736 — big saver
+  { match: /^blog\//,               maxW: 1200, maxH: 900,  quality: 80 },
+  { match: /^house\//,              maxW: 700,  maxH: 525,  quality: 78 },   // cards, small display
+  { match: /^products\//,           maxW: 900,  maxH: 900,  quality: 80 },
+  { match: /^airbnb\//,             maxW: 1200, maxH: 900,  quality: 80 },
+  { match: /^about\//,              maxW: 1200, maxH: 900,  quality: 80 },
+  { match: /^checklist\//,          maxW: 1200, maxH: 900,  quality: 80 },
+  { match: /^office\//,             maxW: 1200, maxH: 900,  quality: 80 },
+  { match: /^services\//,           maxW: 1200, maxH: 900,  quality: 80 },
 ];
-const DEFAULT_RULE = { maxW: 1600, maxH: 1200, quality: 82 };
+const DEFAULT_RULE = { maxW: 1200, maxH: 900, quality: 78 };
 
 function ruleFor(relPath) {
   const normalized = relPath.split(path.sep).join('/');

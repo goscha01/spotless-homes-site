@@ -42,6 +42,7 @@ export default function Home() {
         title="House Cleaning Services | Spotless Homes — Florida's Trusted Maids"
         description="Professional house cleaning services from Spotless Homes across Tampa, Jacksonville, St. Pete, Clearwater, Orlando, Fort Lauderdale, Boca Raton, and Fort Myers. Book top-rated maids today."
         jsonLd={HOME_JSONLD}
+        preloadImage="/assets/hero-woman.webp"
       />
       <Hero />
       <TrustStrip />
@@ -78,7 +79,7 @@ function Hero() {
           </div>
           <div className="hero-photo">
             <div className="yellow-corner"></div>
-            <img className="img-main" src="/assets/hero-woman.webp" alt="Spotless Homes client relaxing at home" fetchPriority="high" loading="eager" decoding="async" />
+            <img className="img-main" src="/assets/hero-woman.webp" alt="Spotless Homes client relaxing at home" width="900" height="800" fetchPriority="high" loading="eager" decoding="async" />
             <img className="badge-award" src="/assets/logo-circle.png" alt="Spotless Homes" />
             <a href="#reviews" className="float-stat float-stat-link">
               <div className="stars">★★★★★</div>
@@ -230,11 +231,21 @@ function Magic() {
           <div className="ba-wrap">
             <div className="ba" ref={baRef}>
               <div className="pane pane-after">
-                <img src={`/assets/before-after/${current.slug}-after.jpg`} alt={`${current.label} after professional cleaning by Spotless Homes`} />
+                <img
+                  src={`/assets/before-after/${current.slug}-after.jpg`}
+                  alt={`${current.label} after professional cleaning by Spotless Homes`}
+                  width="900" height="1200"
+                  loading="lazy" decoding="async"
+                />
                 <span className="ph-text">After · {current.label.toLowerCase()} · clean</span>
               </div>
               <div className="pane pane-before" ref={beforeRef}>
-                <img src={`/assets/before-after/${current.slug}-before.jpg`} alt={`${current.label} before cleaning, as found`} />
+                <img
+                  src={`/assets/before-after/${current.slug}-before.jpg`}
+                  alt={`${current.label} before cleaning, as found`}
+                  width="900" height="1200"
+                  loading="lazy" decoding="async"
+                />
                 <span className="ph-text">Before · {current.label.toLowerCase()} · {current.beforeNote}</span>
               </div>
               <span className="label label-before">Before</span>
@@ -308,7 +319,7 @@ function Extras() {
         <div className="extras-grid">
           {items.map((it) => (
             <div key={it.l} className="extra">
-              <img src={it.src} alt="" />
+              <img src={it.src} alt="" width="200" height="200" loading="lazy" decoding="async" />
               <div className="lbl">{it.l}</div>
             </div>
           ))}
@@ -324,7 +335,7 @@ function About() {
       <div className="container">
         <div className="grid">
           <div className="photo-wrap">
-            <img src="/assets/team.jpg" alt="The Spotless Homes team" />
+            <img src="/assets/team.jpg" alt="The Spotless Homes team" width="900" height="675" loading="lazy" decoding="async" />
             <div className="y-block">
               <div className="big">7</div>
               <div className="lbl">Cleaners on the team</div>

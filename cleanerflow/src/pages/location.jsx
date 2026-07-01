@@ -2,7 +2,7 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
 import SEO from "@/components/SEO";
 import { getCity, getSubcity } from "@/data/locations";
-import { ratingLabel, ratingCountLabel, aggregateRatingSchema } from "@/data/reviews-stats";
+import { ratingLabel, ratingCountLabel, ratingSummary, aggregateRatingSchema } from "@/data/reviews-stats";
 import "./saint-petersburg.css";
 
 // Generate per-subcity intro / "why" copy. Uses real per-subcity data
@@ -17,7 +17,7 @@ function makeSubcityCopy(subcity, city) {
     : "Our vetted, insured cleaners — ";
 
   const lead = subcity.isCity
-    ? `Looking for a trusted house cleaning service in ${subcity.name}, ${city.state}? Spotless Homes brings our family-run cleaning standard from ${city.name} to ${subcity.name} (${countyStr}). ${zipPhrase}same team that's earned 4.5★ across 150+ reviews, now serving ${subcity.name} on the schedule that fits your week.`
+    ? `Looking for a trusted house cleaning service in ${subcity.name}, ${city.state}? Spotless Homes brings our family-run cleaning standard from ${city.name} to ${subcity.name} (${countyStr}). ${zipPhrase}same team that's earned ${ratingSummary}, now serving ${subcity.name} on the schedule that fits your week.`
     : `Looking for a reliable cleaning service in ${subcity.name}? Spotless Homes covers ${subcity.name} as part of our ${city.name} service area — same vetted team, same standard, scheduled around your week.`;
 
   const whyParas = subcity.isCity
@@ -120,6 +120,7 @@ export default function LocationPage() {
         description={seoDesc}
         ogImage={heroOg}
         jsonLd={jsonLd}
+        preloadImage={heroPhoto}
       />
       <section className="loc-hero">
         <div className="container">
@@ -160,7 +161,7 @@ export default function LocationPage() {
 
             <div className="hero-photo loc-hero-photo">
               <div className="yellow-corner"></div>
-              <img className="img-main" src={heroPhoto} alt={`${placeName} landmark`} fetchPriority="high" loading="eager" decoding="async" />
+              <img className="img-main" src={heroPhoto} alt={`${placeName} landmark`} width="1200" height="900" fetchPriority="high" loading="eager" decoding="async" />
               <div className="city-stamp">
                 <div className="pin">
                   <svg viewBox="0 0 20 20" fill="none">
