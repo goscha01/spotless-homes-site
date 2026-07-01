@@ -53,18 +53,18 @@ export function SiteFooter() {
             <p className="brand-copy" style={{ marginTop: 6 }}><a href="tel:+18139212100">813-921-2100</a> · <a href="mailto:info@spotless.homes">info@spotless.homes</a></p>
           </div>
           <div>
-            <h4>Services</h4>
+            <h3>Services</h3>
             <ul>
               <li><Link to="/cleaning-checklist">What's included</Link></li>
               <li><Link to="/airbnb-checklist">Airbnb checklist</Link></li>
               <li><Link to="/office-checklist">Office checklist</Link></li>
               <li><Link to="/cleaning-products">Products we use</Link></li>
-              <li>Move In / Out</li>
-              <li>Eco Cleaning</li>
+              <li><Link to="/eco">Eco Cleaning</Link></li>
+              <li><Link to="/booking">Move In / Out</Link></li>
             </ul>
           </div>
           <div>
-            <h4>Areas</h4>
+            <h3>Areas</h3>
             <ul>
               <li><Link to="/locations/tampa">Tampa</Link></li>
               <li><Link to="/locations/saint-petersburg">Saint Petersburg</Link></li>
@@ -77,7 +77,7 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h4>Company</h4>
+            <h3>Company</h3>
             <ul>
               <li><Link to="/about">About</Link></li>
               <li>FAQ</li>
@@ -102,7 +102,7 @@ export default function SiteShell({ active, children }) {
     <div className="site-root">
       <TopBar />
       <NavBar active={active} />
-      {children}
+      <main>{children}</main>
       <SiteFooter />
     </div>
   );

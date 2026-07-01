@@ -132,7 +132,7 @@
 /* ── Footer ── */
 .site-root footer { background: var(--k); color: var(--w); padding: 60px 0 30px; }
 .site-root .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
-.site-root footer h4 { font-family: var(--sans); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--y); margin: 0 0 18px; font-weight: 600; }
+.site-root footer h3 { font-family: var(--sans); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--y); margin: 0 0 18px; font-weight: 600; }
 .site-root footer ul { list-style: none; padding: 0; margin: 0; }
 .site-root footer ul li { font-family: var(--sans); font-size: 14px; color: rgba(255,255,255,.7); padding: 6px 0; cursor: pointer; transition: color .15s; }
 .site-root footer ul li:hover { color: var(--y); }
