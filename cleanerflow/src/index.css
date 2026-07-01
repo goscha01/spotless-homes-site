@@ -1,6 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+/* Self-hosted fonts via @fontsource — no third-party round trip to fonts.googleapis.com.
+   Vite bundles these CSS files + their .woff2 assets into the build. Keep this list in
+   sync with what the design uses (Cormorant for display/serif, Inter for UI/sans). */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/400-italic.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/500-italic.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/600-italic.css";
 
 @tailwind base;
 @tailwind components;

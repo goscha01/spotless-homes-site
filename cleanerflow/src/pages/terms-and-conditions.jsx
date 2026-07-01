@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./legal.css";
 
 export default function TermsAndConditions() {
   return (
     <SiteShell>
+      <SEO
+        title="Terms & Conditions | Spotless Homes"
+        description="Review the terms and conditions for booking cleaning services with Spotless Homes."
+      />
       <section className="legal-page">
         <div className="container">
           <nav className="crumbs">

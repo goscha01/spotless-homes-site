@@ -2,7 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import emailjs from "emailjs-com";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./careers-apply.css";
+
+const APPLY_SEO = (
+  <SEO
+    title="Job Application Form | Spotless Homes Careers"
+    description="Apply to join Spotless Homes as a residential cleaner. Quick application — share your experience, availability, and English level, and we'll be in touch."
+    noindex
+  />
+);
 
 const SERVICE_ID         = import.meta.env.VITE_SERVICE_ID;
 const USER_ID            = import.meta.env.VITE_USER_ID;
@@ -135,6 +144,7 @@ ${reason}`;
   if (submitted) {
     return (
       <SiteShell>
+        {APPLY_SEO}
         <section className="apply-page">
           <div className="container">
             <div className="apply-success">
@@ -162,6 +172,7 @@ ${reason}`;
 
   return (
     <SiteShell>
+      {APPLY_SEO}
       <section className="apply-page">
         <div className="container">
           <nav className="crumbs">

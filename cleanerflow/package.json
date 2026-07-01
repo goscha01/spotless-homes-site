@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "optimize:images": "node scripts/optimize-images.mjs",
-    "prebuild": "node scripts/optimize-images.mjs && node scripts/gen-sitemap.mjs",
+    "check:reviews": "node scripts/check-review-consistency.mjs",
+    "prebuild": "node scripts/optimize-images.mjs && node scripts/gen-llms.mjs && node scripts/gen-sitemap.mjs && node scripts/check-review-consistency.mjs",
     "build": "vite build && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview"

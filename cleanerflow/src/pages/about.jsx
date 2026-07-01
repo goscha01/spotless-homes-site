@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./about.css";
 
 export default function About() {
   return (
     <SiteShell active="about">
+      <SEO
+        title="Our Story | Spotless Homes"
+        description="Learn how Spotless Homes was built to serve busy Florida professionals with dependable, high-quality house cleaning that respects your time."
+      />
       <section className="story-hero">
         <div className="container">
           <nav className="crumbs">

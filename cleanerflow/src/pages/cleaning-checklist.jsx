@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./checklist.css";
 
 export default function CleaningChecklist() {
   return (
     <SiteShell active="checklist">
+      <SEO
+        title="What's Included | Cleaning Checklist | Spotless Homes"
+        description="Explore our detailed cleaning checklist. From standard cleaning to deep scrubbing, see what's included in our residential housekeeping services."
+      />
       <section className="page-hero checklist-hero">
         <div className="container">
           <nav className="crumbs">

@@ -1,68 +1,57 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
-import "./airbnb.css";
+import SEO from "@/components/SEO";
+import "./checklist.css";
 
 export default function AirbnbChecklist() {
   return (
     <SiteShell active="airbnb">
-      <section className="airbnb-hero">
+      <SEO
+        title="Airbnb & Vacation Rental Cleaning | Spotless Homes Florida"
+        description="Fast, reliable Airbnb turnover and vacation rental cleaning across Tampa, St. Pete, Clearwater, and Jacksonville. Fresh linens, photo-checked staging, same-day turns."
+      />
+      <section className="page-hero checklist-hero">
         <div className="container">
           <nav className="crumbs">
             <Link to="/">Home</Link>
             <span className="sep">/</span>
             <span className="here">Airbnb &amp; Vacation Rental</span>
           </nav>
-        </div>
-        <div className="bg"></div>
-      </section>
-
-      <section className="airbnb-intro">
-        <div className="container">
-          <div className="airbnb-intro-grid">
+          <div className="page-hero-grid">
             <div>
               <span className="eyebrow"><span className="bar"></span>Vacation Rental · Turnover</span>
-              <h1>Airbnb &amp; Vacation Rental cleaning that <em>impresses every guest</em>.</h1>
-              <div className="stars-row">
-                <span className="stars">★★★★★</span>
-                <span className="lbl">Five-star reviews, on time, every time</span>
+              <h1 className="h1">Airbnb cleaning that<br/><em><span className="y-mark">impresses</span></em> every guest.</h1>
+              <p className="lead">Keep your Airbnb or vacation rental guest-ready with professional turnover cleaning tailored for short-term stays. At Spotless Homes, we provide fast, reliable, and thorough cleanings between bookings — fresh linens, spotless bathrooms and kitchens, and detailed staging so your space always earns five-star reviews. Whether you manage one unit or twenty listings across Tampa, St. Pete, Jacksonville, or Clearwater, our trusted Airbnb cleaners ensure your home is clean, sanitized, and ready for the next guest on time, every time.</p>
+              <div className="quick-jump">
+                <a href="#every">Every turnover</a>
+                <a href="#final">Final check</a>
+                <a href="#book">Book a turnover</a>
+              </div>
+              <div className="badge-line">
+                <div className="item"><strong>5 areas</strong> covered every turn</div>
+                <div className="item"><strong>Same-day</strong> turnovers available</div>
+                <div className="item"><strong>Fresh linens</strong> &amp; restocked basics</div>
               </div>
             </div>
-            <div>
-              <p>Keep your Airbnb or vacation rental property guest-ready with our professional cleaning services tailored for short-term stays. At Spotless Homes, we provide fast, reliable, and thorough turnover cleaning between bookings.</p>
-              <p>Our vacation rental cleaning service includes fresh linens, spotless bathrooms and kitchens, and detailed staging so your space always earns five-star reviews. Whether you're managing one unit or multiple listings, our trusted Airbnb cleaners ensure your home is clean, sanitized, and ready for the next guest — on time, every time.</p>
-              <p style={{ marginTop: 14 }}>Book your Airbnb cleaning service today in Tampa, St. Pete, Jacksonville, or Clearwater and experience the convenience of hosting without the hassle.</p>
-              <div style={{ marginTop: 32, display: "flex", gap: 12 }}>
-                <Link to="/booking" className="btn btn-dark btn-lg">Book turnover →</Link>
-                <a href="tel:8139212100" className="btn btn-outline btn-lg">Call 813-921-2100</a>
-              </div>
+            <div className="page-hero-photo">
+              <div className="yellow-corner"></div>
+              <img src="/assets/airbnb/hero.jpg" alt="Freshly made bed in a vacation rental" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="feature-strip">
+      <section className="band-head" id="every">
         <div className="container">
-          <div className="row">
-            <div className="item"><strong>Fresh linens</strong> on every turn</div>
-            <div className="item"><strong>Same-day</strong> turnovers available</div>
-            <div className="item"><strong>Restocked</strong> toiletries &amp; basics</div>
-            <div className="item"><strong>Photo-checked</strong> staging</div>
-            <div className="item"><strong>Damage</strong> reporting</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="band-head" style={{ marginTop: 0 }}>
-        <div className="container">
-          <span className="eyebrow"><span className="bar"></span>The full checklist<span className="bar"></span></span>
-          <h2>Every <em>turnover</em>, top to bottom.</h2>
-          <p className="section-sub">Five focus areas, one obsessive process. Initial cleaning includes all these tasks.</p>
+          <span className="eyebrow"><span className="bar"></span>Every turnover<span className="bar"></span></span>
+          <h2><em>Every turn</em>, top to bottom.</h2>
+          <p className="section-sub">The non-negotiables — every area, every turnover. Photo-checked staging, no surprises.</p>
         </div>
       </section>
 
       <section className="section" style={{ paddingTop: 70 }}>
         <div className="container">
-          <div className="checklist-grid-5">
+          <div className="checklist-grid">
             <Card
               title="Area 01" name="Bathroom"
               photo="/assets/airbnb/bathroom.avif"
@@ -70,16 +59,19 @@ export default function AirbnbChecklist() {
                 "Scrub and disinfect toilets, sinks, showers, and bathtubs",
                 "Replace towels and toiletries with fresh ones",
                 "Ensure mirrors are clean and streak-free",
+                "Wipe down counters and all surfaces for guest-ready shine",
               ]}
             />
             <Card
-              dark title="Area 02" name="General cleaning"
+              dark
+              title="Area 02" name="General cleaning"
               photo="/assets/airbnb/living-room.avif"
               items={[
                 "Dust all surfaces, including furniture, shelves, and decorations",
                 "Vacuum carpets and rugs; mop hard floors",
                 "Wipe down windowsills, blinds, and light fixtures",
                 "Empty trash bins and replace liners",
+                "Sanitize high-touch areas like doorknobs, light switches, and remotes",
               ]}
             />
             <Card
@@ -88,10 +80,25 @@ export default function AirbnbChecklist() {
               items={[
                 "Clean and sanitize all countertops, sinks, and backsplashes",
                 "Wash dishes and utensils thoroughly",
-                "Check and clean appliances: microwave, toaster, coffee maker, etc.",
+                "Clean appliances: microwave, toaster, coffee maker, and more",
                 "Empty and sanitize refrigerator and freezer",
               ]}
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="band-head" id="final">
+        <div className="container">
+          <span className="eyebrow"><span className="bar"></span>Closing out<span className="bar"></span></span>
+          <h2>A thorough <em>final check</em>.</h2>
+          <p className="section-sub">Before we hand over the keys, every space gets a quality pass and a security sweep.</p>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 70 }}>
+        <div className="container">
+          <div className="checklist-grid">
             <Card
               title="Area 04" name="Bedrooms"
               photo="/assets/airbnb/bedroom.avif"
@@ -105,36 +112,31 @@ export default function AirbnbChecklist() {
               ]}
             />
             <Card
-              dark title="Area 05" name="Final check"
+              dark
+              title="Area 05" name="Final check"
               photo="/assets/airbnb/door-lock.avif"
               items={[
-                "Inspect each room for any missed spots or items left behind",
+                "Inspect each room for missed spots or items left behind",
                 "Replace any burned-out light bulbs",
-                "Ensure the property is secure",
-                "Windows locked, doors closed",
+                "Ensure the property is secure — windows locked, doors closed",
+                "Confirm the unit is staged and photo-ready",
+              ]}
+            />
+            <Card
+              title="On request" name="Additional considerations"
+              photo="/assets/airbnb/appliance.avif"
+              items={[
+                "Follow local health and safety guidelines, including sanitation protocols",
+                "Document any damages or issues encountered during cleaning",
+                "Restock toiletries, coffee, and welcome basics",
+                "Coordinate same-day turnovers between back-to-back bookings",
               ]}
             />
           </div>
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div className="cl-card" style={{ maxWidth: 780, margin: "0 auto" }}>
-            <div className="photo"><img src="/assets/airbnb/appliance.avif" alt="Appliance check during turnover" /></div>
-            <div className="body">
-              <h3>Additional considerations</h3>
-              <p className="name">Beyond the standard turnover</p>
-              <ul>
-                <li>Follow local health and safety guidelines regarding COVID-19 or other relevant health concerns</li>
-                <li>Document any damages or issues encountered during cleaning</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="ctaband">
+      <section className="ctaband" id="book">
         <div className="container">
           <div className="row">
             <h2>One unit or twenty — <em>we've got the turn</em>.</h2>

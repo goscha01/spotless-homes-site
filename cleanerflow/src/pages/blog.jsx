@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import { getAllPosts, formatPostDate, readingMinutes } from "@/lib/blog";
 import "./blog.css";
 
@@ -8,6 +9,10 @@ export default function Blog() {
 
   return (
     <SiteShell active="blog">
+      <SEO
+        title="Cleaning Tips & Routines | The Spotless Journal"
+        description="Discover expert cleaning tips, home maintenance advice, and field-tested routines from the Spotless Homes team — written for Florida homes."
+      />
       <section className="blog-page">
         <div className="container">
           <nav className="crumbs">

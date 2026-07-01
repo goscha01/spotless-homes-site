@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./careers.css";
 
 export default function Careers() {
   return (
     <SiteShell>
+      <SEO
+        title="Careers | Apply to Join Spotless Homes Cleaning Team"
+        description="Apply to join Spotless Homes as a house cleaner or maid in Florida. Flexible part-time hours, training, and supportive growth — independent contractor (1099)."
+      />
       <section className="careers-hero">
         <div className="container">
           <nav className="crumbs">

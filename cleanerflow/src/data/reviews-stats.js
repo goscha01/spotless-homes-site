@@ -1,4 +1,7 @@
-import reviewsData from "./reviews.json";
+// `with { type: 'json' }` is required by Node ESM (used by gen-sitemap.mjs +
+// prerender.mjs when they dynamic-import this module via locations.js).
+// Vite 5+ supports the same syntax so it works in the bundler too.
+import reviewsData from "./reviews.json" with { type: "json" };
 
 const aggregate = reviewsData.aggregate ?? {};
 

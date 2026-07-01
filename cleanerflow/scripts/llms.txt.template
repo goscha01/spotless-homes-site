@@ -1,0 +1,47 @@
+# Spotless Homes
+
+> Spotless Homes is a family-run Florida house-cleaning company providing trained, insured, and background-checked maid service to Tampa, Saint Petersburg, Clearwater, Jacksonville, Orlando, Fort Lauderdale, Boca Raton, and Fort Myers. Services include recurring residential cleaning, deep cleans, move-in/move-out cleans, Airbnb / short-term rental turnovers, and office cleaning. Average rating {{RATING_LABEL}} across {{RATING_COUNT_SHORT}} reviews.
+
+## Core pages
+
+- [Home](https://www.spotless.homes/): Service overview, areas covered, and instant booking entry point.
+- [About](https://www.spotless.homes/about/): Company background, team, and what makes Spotless Homes different.
+- [Book a cleaning](https://www.spotless.homes/booking/): Six-step booking flow — pick service type, bedrooms/bathrooms, frequency, date/time, and contact info.
+- [Careers](https://www.spotless.homes/careers/): Open positions for cleaners in Florida; apply page is intentionally noindex.
+
+## Service guides
+
+- [Standard cleaning checklist](https://www.spotless.homes/cleaning-checklist/): Room-by-room list of what's included in a recurring residential clean.
+- [Airbnb / short-term rental checklist](https://www.spotless.homes/airbnb-checklist/): Turnover checklist for Airbnb hosts and short-term rental managers.
+- [Office cleaning checklist](https://www.spotless.homes/office-checklist/): Tasks covered in commercial / office cleaning visits.
+- [Cleaning products we use](https://www.spotless.homes/cleaning-products/): Brand list of supplies and equipment, including eco-friendly options.
+
+## Service areas — cities
+
+- [Tampa, FL](https://www.spotless.homes/locations/tampa/): House cleaning across South Tampa, Hyde Park, Seminole Heights, Westchase, Carrollwood, Ybor City.
+- [Saint Petersburg, FL](https://www.spotless.homes/locations/saint-petersburg/): Old Northeast, Kenwood, Snell Isle, Crescent Heights, Jungle Terrace, Shore Acres.
+- [Clearwater, FL](https://www.spotless.homes/locations/clearwater/): Clearwater Beach, Island Estates, Belleair, Countryside, Downtown Clearwater, Morningside.
+- [Jacksonville, FL](https://www.spotless.homes/locations/jacksonville/): Riverside, Avondale, San Marco, Mandarin, Atlantic Beach, Jacksonville Beach.
+- [Orlando, FL](https://www.spotless.homes/locations/orlando/): Winter Park, Lake Nona, Thornton Park, Baldwin Park, College Park, Audubon Park.
+- [Fort Lauderdale, FL](https://www.spotless.homes/locations/fort-lauderdale/): Las Olas, Victoria Park, Coral Ridge, Rio Vista, Harbor Beach, Imperial Point.
+- [Boca Raton, FL](https://www.spotless.homes/locations/boca-raton/): Boca West, Royal Palm Polo, Old Floresta, The Sanctuary, Boca Bridges, East Boca.
+- [Fort Myers, FL](https://www.spotless.homes/locations/fort-myers/): McGregor Boulevard, Edison Park, Iona, Pelican Preserve, Gateway, Fort Myers Beach.
+
+## Blog
+
+- [All blog posts](https://www.spotless.homes/blog/): 60+ articles on cleaning tips, product comparisons, and home-maintenance guides. Each post is also reachable at `/blog/<slug>/`.
+
+## Policies
+
+- [Privacy Policy](https://www.spotless.homes/privacy-policy/)
+- [Terms and Conditions](https://www.spotless.homes/terms-and-conditions/)
+
+## Machine-readable resources
+
+- [Sitemap (XML)](https://www.spotless.homes/sitemap.xml): Full list of indexable URLs.
+- [robots.txt](https://www.spotless.homes/robots.txt): Crawler directives. GPTBot, ClaudeBot, PerplexityBot, and Google-Extended are explicitly allowed.
+
+## Optional
+
+- Structured data: Home and each city page emit `LocalBusiness` JSON-LD with `aggregateRating` ({{RATING_LABEL}} / {{RATING_COUNT}} reviews). Blog posts emit `Article` JSON-LD.
+- All pages are server-prerendered to static HTML, so content is fully available to crawlers without JavaScript execution.

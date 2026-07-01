@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated at build time by scripts/gen-llms.mjs — edit scripts/llms.txt.template instead
+public/llms.txt
+
 .env
 
 # Claude Code local permissions

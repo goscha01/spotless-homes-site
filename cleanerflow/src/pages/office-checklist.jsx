@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./checklist.css";
 
 export default function OfficeChecklist() {
   return (
     <SiteShell active="office">
+      <SEO
+        title="Office & Commercial Cleaning Checklist | Spotless Homes"
+        description="Dependable commercial cleaning services for offices, coworking spaces, clinics, and retail across Tampa, St. Pete, Clearwater, and Jacksonville."
+      />
       <section className="page-hero checklist-hero">
         <div className="container">
           <nav className="crumbs">

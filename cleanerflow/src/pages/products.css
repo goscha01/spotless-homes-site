@@ -39,3 +39,66 @@
 .site-root .product-row.mint     .photo { background-color: #C7E5D7; }
 .site-root .product-row.pink     .photo { background-color: #F3C9D5; }
 .site-root .product-row.amber    .photo { background-color: #E8A93C; }
+
+/* Tabs that flip between Standard / Eco product lines */
+.site-root .products-tabs {
+  display: flex; gap: 8px; margin-top: 40px;
+  border-bottom: 1px solid var(--g-200);
+  flex-wrap: wrap;
+}
+.site-root .products-tabs .tab {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 14px 22px; color: var(--g-700);
+  border-bottom: 3px solid transparent; margin-bottom: -1px;
+  text-decoration: none; transition: color .12s, border-color .12s;
+}
+.site-root .products-tabs .tab:hover { color: var(--k); }
+.site-root .products-tabs .tab.active {
+  color: var(--k); border-bottom-color: var(--k); cursor: default;
+}
+
+/* Premium-pricing notice on the eco page */
+.site-root .eco-notice {
+  margin-top: 48px; padding: 36px 40px;
+  background: #F4F1EA; border-left: 6px solid var(--y);
+}
+.site-root .eco-notice-head {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.site-root .eco-notice .eco-badge {
+  display: inline-block; padding: 6px 12px;
+  background: var(--k); color: var(--y);
+  font-family: var(--sans); font-size: 12px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.site-root .eco-notice h3 {
+  font-family: var(--serif); font-size: 32px; line-height: 1.1; font-weight: 400; margin: 0;
+}
+.site-root .eco-notice h3 em { font-style: italic; }
+.site-root .eco-notice p {
+  font-family: var(--sans); font-size: 15px; line-height: 1.6; color: var(--g-700); margin: 12px 0;
+}
+.site-root .eco-notice .eco-why {
+  list-style: none; padding: 0; margin: 16px 0;
+}
+.site-root .eco-notice .eco-why li {
+  font-family: var(--sans); font-size: 15px; line-height: 1.6;
+  padding: 10px 0 10px 26px; position: relative; color: var(--k);
+  border-bottom: 1px dashed var(--g-200);
+}
+.site-root .eco-notice .eco-why li:last-child { border-bottom: none; }
+.site-root .eco-notice .eco-why li::before {
+  content: ""; position: absolute; left: 0; top: 18px;
+  width: 12px; height: 12px; background: var(--y); border: 2px solid var(--k);
+}
+.site-root .eco-notice .eco-promise {
+  margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--g-200);
+  font-style: italic; color: var(--k);
+}
+.site-root .eco-notice .eco-promise a { color: var(--k); border-bottom: 1px solid var(--k); }
+
+@media (max-width: 700px) {
+  .site-root .eco-notice { padding: 24px 20px; }
+  .site-root .eco-notice h3 { font-size: 24px; }
+}

@@ -104,3 +104,46 @@
 .site-root .contact-form textarea:focus { border-color: var(--k); }
 .site-root .contact-form textarea { resize: vertical; min-height: 110px; font-family: var(--serif); }
 .site-root .contact-form .submit { margin-top: 32px; width: 100%; padding: 18px; }
+
+
+/* ZIP-coverage block — visible on distinct-city sub-pages (Brandon, Pompano Beach, etc.).
+   Local-SEO load-bearing: surfaces real ZIPs as on-page content so the page
+   ranks for "cleaner 33510" style searches and isn't just a thin doorway. */
+.site-root .zip-coverage { padding: 50px 0; background: var(--g-50); border-bottom: 1px solid var(--g-200); }
+.site-root .zip-card {
+  display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; align-items: center;
+  padding: 36px 40px; background: var(--w);
+  border-left: 6px solid var(--y);
+}
+.site-root .zip-card h3 { font-family: var(--serif); font-size: 36px; line-height: 1.05; font-weight: 400; margin: 12px 0 0; letter-spacing: -.01em; }
+.site-root .zip-card h3 em { font-style: italic; }
+.site-root .zip-card .county { font-family: var(--sans); font-size: 14px; color: var(--g-700); margin-top: 10px; }
+.site-root .zip-list .zip-label {
+  font-family: var(--sans); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--g-500); font-weight: 600; margin-bottom: 12px;
+}
+.site-root .zip-list .zip-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.site-root .zip-list .zip {
+  display: inline-block; padding: 8px 14px;
+  background: var(--k); color: var(--y);
+  font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: .05em;
+}
+.site-root .zip-list .zip-foot {
+  font-family: var(--sans); font-size: 13px; color: var(--g-700); margin-top: 16px;
+}
+.site-root .zip-list .zip-foot a { color: var(--k); border-bottom: 1px solid var(--k); }
+@media (max-width: 800px) {
+  .site-root .zip-card { grid-template-columns: 1fr; gap: 28px; padding: 24px 22px; }
+  .site-root .zip-card h3 { font-size: 28px; }
+}
+
+/* Parent-city ZIP list at the bottom of the hoods grid */
+.site-root .city-zips {
+  margin-top: 28px; padding: 18px 0; border-top: 1px dashed var(--g-200);
+  font-family: var(--sans); font-size: 13px; color: var(--g-700);
+}
+.site-root .city-zips .lbl {
+  text-transform: uppercase; letter-spacing: .14em; font-weight: 600;
+  color: var(--k); margin-right: 10px;
+}
+.site-root .city-zips .zips { font-variant-numeric: tabular-nums; }

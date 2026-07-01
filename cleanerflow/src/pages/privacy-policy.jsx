@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import "./legal.css";
 
 export default function PrivacyPolicy() {
   return (
     <SiteShell>
+      <SEO
+        title="Privacy Policy | Spotless Homes"
+        description="How Spotless Homes collects, uses, and protects the information you share when you book a cleaning service."
+      />
       <section className="legal-page">
         <div className="container">
           <nav className="crumbs">

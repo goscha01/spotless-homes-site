@@ -4,7 +4,7 @@
 // Tampa + Clearwater + Saint Petersburg use copy adapted from the live
 // www.spotless.homes site. Other cities are rewritten in the same voice.
 
-import { ratingSummary } from "./reviews-stats";
+import { ratingSummary } from "./reviews-stats.js";
 
 export const LOCATIONS = {
   tampa: {
@@ -27,13 +27,30 @@ export const LOCATIONS = {
     ],
     hoodsBlurb:
       "Our trained Tampa maids serve neighborhoods from South Tampa and Hyde Park to Seminole Heights, Westchase, and Carrollwood — with consistent attention to detail across every ZIP.",
+    // Parent ZIPs covered by Tampa (Hillsborough County):
+    serviceZips: ["33602","33603","33604","33605","33606","33607","33609","33614","33629","33647"],
     hoods: [
-      { slug: "south-tampa",       name: "South Tampa" },
-      { slug: "hyde-park",         name: "Hyde Park" },
+      // In-city Tampa neighborhoods (no isCity flag — they don't get their own JSON-LD)
+      { slug: "south-tampa",       name: "South Tampa" , heroPhoto: "/assets/cities/south-tampa.jpg" },
+      { slug: "hyde-park",         name: "Hyde Park" , heroPhoto: "/assets/cities/hyde-park.jpg" },
       { slug: "seminole-heights",  name: "Seminole Heights" },
-      { slug: "westchase",         name: "Westchase" },
+      { slug: "westchase",         name: "Westchase" , heroPhoto: "/assets/cities/westchase.jpg" },
       { slug: "carrollwood",       name: "Carrollwood" },
-      { slug: "ybor-city",         name: "Ybor City" },
+      { slug: "ybor-city",         name: "Ybor City" , heroPhoto: "/assets/cities/ybor-city.jpg" },
+      // Surrounding Hillsborough County cities (isCity=true → own LocalBusiness schema).
+      // `heroPhoto` set where a genuine Wikimedia Commons photo exists; when omitted,
+      // template falls back to the parent Tampa image (see location.jsx).
+      { slug: "brandon",           name: "Brandon",           isCity: true, county: "Hillsborough", zips: ["33510","33511"],                     heroPhoto: "/assets/cities/brandon.jpg" },
+      { slug: "riverview",         name: "Riverview",         isCity: true, county: "Hillsborough", zips: ["33569","33578","33579"] },
+      { slug: "apollo-beach",      name: "Apollo Beach",      isCity: true, county: "Hillsborough", zips: ["33572"],                             heroPhoto: "/assets/cities/apollo-beach.jpg" },
+      { slug: "sun-city-center",   name: "Sun City Center",   isCity: true, county: "Hillsborough", zips: ["33573"],                             heroPhoto: "/assets/cities/sun-city-center.jpg" },
+      { slug: "seffner",           name: "Seffner",           isCity: true, county: "Hillsborough", zips: ["33584"],                             heroPhoto: "/assets/cities/seffner.jpg" },
+      { slug: "thonotosassa",      name: "Thonotosassa",      isCity: true, county: "Hillsborough", zips: ["33592"],                             heroPhoto: "/assets/cities/thonotosassa.jpg" },
+      { slug: "dover",             name: "Dover",             isCity: true, county: "Hillsborough", zips: ["33527"],                             heroPhoto: "/assets/cities/dover.jpg" },
+      { slug: "valrico",           name: "Valrico",           isCity: true, county: "Hillsborough", zips: ["33594","33596"],                     heroPhoto: "/assets/cities/valrico.jpg" },
+      { slug: "lutz",              name: "Lutz",              isCity: true, county: "Hillsborough", zips: ["33548","33549","33558","33559"],     heroPhoto: "/assets/cities/lutz.jpg" },
+      { slug: "gibsonton",         name: "Gibsonton",         isCity: true, county: "Hillsborough", zips: ["33534"],                             heroPhoto: "/assets/cities/gibsonton.jpg" },
+      { slug: "balm",              name: "Balm",              isCity: true, county: "Hillsborough", zips: ["33503"] },
     ],
   },
 
@@ -57,13 +74,20 @@ export const LOCATIONS = {
     ],
     hoodsBlurb:
       "Our trained maids and cleaners serve neighborhoods like Old Northeast, Kenwood, and Snell Isle with exceptional attention to detail. Detailed results across Crescent Heights, Jungle Terrace, and Shore Acres.",
+    serviceZips: ["33701","33702","33703","33704","33705","33706","33707","33716"],
     hoods: [
+      // In-city St. Pete neighborhoods
       { slug: "old-northeast",    name: "Old Northeast" },
       { slug: "kenwood",          name: "Kenwood" },
-      { slug: "snell-isle",       name: "Snell Isle" },
+      { slug: "snell-isle",       name: "Snell Isle" , heroPhoto: "/assets/cities/snell-isle.jpg" },
       { slug: "crescent-heights", name: "Crescent Heights" },
       { slug: "jungle-terrace",   name: "Jungle Terrace" },
       { slug: "shore-acres",      name: "Shore Acres" },
+      // Surrounding south-Pinellas cities
+      { slug: "pinellas-park",    name: "Pinellas Park", isCity: true, county: "Pinellas", zips: ["33781","33782"] , heroPhoto: "/assets/cities/pinellas-park.jpg" },
+      { slug: "seminole",         name: "Seminole",      isCity: true, county: "Pinellas", zips: ["33772","33776","33777"] , heroPhoto: "/assets/cities/seminole.jpg" },
+      { slug: "largo",            name: "Largo",         isCity: true, county: "Pinellas", zips: ["33770","33771","33773","33774","33778"] , heroPhoto: "/assets/cities/largo.jpg" },
+      { slug: "bay-pines",        name: "Bay Pines",     isCity: true, county: "Pinellas", zips: ["33744"] },
     ],
   },
 
@@ -87,13 +111,25 @@ export const LOCATIONS = {
     ],
     hoodsBlurb:
       "From Cleveland Street downtown and Island Estates across the causeway to Clearwater Beach, Belleair, Countryside, and Morningside — one vetted team, one standard, every Pinellas ZIP.",
+    serviceZips: ["33755","33756","33759","33760","33761","33762","33763","33767"],
     hoods: [
-      { slug: "clearwater-beach", name: "Clearwater Beach" },
+      // In-city Clearwater neighborhoods
+      { slug: "clearwater-beach", name: "Clearwater Beach" , heroPhoto: "/assets/cities/clearwater-beach.jpg" },
       { slug: "island-estates",   name: "Island Estates" },
-      { slug: "belleair",         name: "Belleair" },
+      { slug: "belleair",         name: "Belleair" , heroPhoto: "/assets/cities/belleair.jpg" },
       { slug: "countryside",      name: "Countryside" },
       { slug: "downtown",         name: "Downtown Clearwater" },
       { slug: "morningside",      name: "Morningside" },
+      // Surrounding central/north-Pinellas + Pasco cities
+      { slug: "indian-rocks-beach", name: "Indian Rocks Beach", isCity: true, county: "Pinellas", zips: ["33785"] , heroPhoto: "/assets/cities/indian-rocks-beach.jpg" },
+      { slug: "belleair-beach",     name: "Belleair Beach",     isCity: true, county: "Pinellas", zips: ["33786"] , heroPhoto: "/assets/cities/belleair-beach.jpg" },
+      { slug: "dunedin",            name: "Dunedin",            isCity: true, county: "Pinellas", zips: ["34698"] , heroPhoto: "/assets/cities/dunedin.jpg" },
+      { slug: "tarpon-springs",     name: "Tarpon Springs",     isCity: true, county: "Pinellas", zips: ["34688","34689"] , heroPhoto: "/assets/cities/tarpon-springs.jpg" },
+      { slug: "oldsmar",            name: "Oldsmar",            isCity: true, county: "Pinellas", zips: ["34677"] , heroPhoto: "/assets/cities/oldsmar.jpg" },
+      { slug: "safety-harbor",      name: "Safety Harbor",      isCity: true, county: "Pinellas", zips: ["34695"] , heroPhoto: "/assets/cities/safety-harbor.jpg" },
+      { slug: "palm-harbor",        name: "Palm Harbor",        isCity: true, county: "Pinellas", zips: ["34683","34684","34685"] , heroPhoto: "/assets/cities/palm-harbor.jpg" },
+      { slug: "crystal-beach",      name: "Crystal Beach",      isCity: true, county: "Pinellas", zips: ["34681"] , heroPhoto: "/assets/cities/crystal-beach.jpg" },
+      { slug: "holiday",            name: "Holiday",            isCity: true, county: "Pasco",    zips: ["34690","34691"] , heroPhoto: "/assets/cities/holiday.jpg" },
     ],
   },
 
@@ -117,13 +153,22 @@ export const LOCATIONS = {
     ],
     hoodsBlurb:
       "From Riverside and Avondale up the river to San Marco, and out to Atlantic and Jacksonville Beach — our team covers every Duval ZIP with the same standard.",
+    serviceZips: ["32202","32204","32205","32206","32207","32208","32209","32250","32233","32266"],
     hoods: [
+      // In-city Jacksonville neighborhoods (Duval — same city, no separate JSON-LD)
       { slug: "riverside",          name: "Riverside" },
       { slug: "avondale",           name: "Avondale" },
-      { slug: "san-marco",          name: "San Marco" },
+      { slug: "san-marco",          name: "San Marco" , heroPhoto: "/assets/cities/san-marco.jpg" },
       { slug: "mandarin",           name: "Mandarin" },
-      { slug: "atlantic-beach",     name: "Atlantic Beach" },
-      { slug: "jacksonville-beach", name: "Jacksonville Beach" },
+      { slug: "atlantic-beach",     name: "Atlantic Beach" , heroPhoto: "/assets/cities/atlantic-beach.jpg" },
+      { slug: "jacksonville-beach", name: "Jacksonville Beach" , heroPhoto: "/assets/cities/jacksonville-beach.jpg" },
+      // Surrounding Duval/Clay/St. Johns cities
+      { slug: "neptune-beach",      name: "Neptune Beach",      isCity: true, county: "Duval",     zips: ["32266"] , heroPhoto: "/assets/cities/neptune-beach.jpg" },
+      { slug: "fleming-island",     name: "Fleming Island",     isCity: true, county: "Clay",      zips: ["32003"] , heroPhoto: "/assets/cities/fleming-island.jpg" },
+      { slug: "orange-park",        name: "Orange Park",        isCity: true, county: "Clay",      zips: ["32065","32073"] , heroPhoto: "/assets/cities/orange-park.jpg" },
+      { slug: "saint-johns",        name: "Saint Johns",        isCity: true, county: "St. Johns", zips: ["32259"] },
+      { slug: "ponte-vedra-beach",  name: "Ponte Vedra Beach",  isCity: true, county: "St. Johns", zips: ["32082"] , heroPhoto: "/assets/cities/ponte-vedra-beach.jpg" },
+      { slug: "ponte-vedra",        name: "Ponte Vedra",        isCity: true, county: "St. Johns", zips: ["32081"] },
     ],
   },
 
@@ -148,11 +193,11 @@ export const LOCATIONS = {
     hoodsBlurb:
       "We cover Winter Park, Lake Nona, Thornton Park, Baldwin Park, College Park, Audubon Park, Mills 50 and the Hourglass District — same standard in every ZIP.",
     hoods: [
-      { slug: "winter-park",      name: "Winter Park" },
+      { slug: "winter-park",      name: "Winter Park" , heroPhoto: "/assets/cities/winter-park.jpg" },
       { slug: "lake-nona",        name: "Lake Nona" },
-      { slug: "thornton-park",    name: "Thornton Park" },
-      { slug: "baldwin-park",     name: "Baldwin Park" },
-      { slug: "college-park",     name: "College Park" },
+      { slug: "thornton-park",    name: "Thornton Park" , heroPhoto: "/assets/cities/thornton-park.jpg" },
+      { slug: "baldwin-park",     name: "Baldwin Park" , heroPhoto: "/assets/cities/baldwin-park.jpg" },
+      { slug: "college-park",     name: "College Park" , heroPhoto: "/assets/cities/college-park.jpg" },
       { slug: "audubon-park",     name: "Audubon Park" },
     ],
   },
@@ -177,13 +222,19 @@ export const LOCATIONS = {
     ],
     hoodsBlurb:
       "From Las Olas and downtown to Victoria Park, Coral Ridge, Rio Vista, and the beach — same vetted team, same standard, every ZIP.",
+    serviceZips: ["33301","33304","33305","33306","33308","33309","33311","33312","33313","33315","33316","33317","33334"],
     hoods: [
+      // In-city Fort Lauderdale neighborhoods
       { slug: "las-olas",        name: "Las Olas" },
       { slug: "victoria-park",   name: "Victoria Park" },
       { slug: "coral-ridge",     name: "Coral Ridge" },
       { slug: "rio-vista",       name: "Rio Vista" },
       { slug: "harbor-beach",    name: "Harbor Beach" },
       { slug: "imperial-point",  name: "Imperial Point" },
+      // Surrounding Broward County cities
+      { slug: "pompano-beach",   name: "Pompano Beach",   isCity: true, county: "Broward", zips: ["33060","33062","33063","33064","33066","33067","33068"] , heroPhoto: "/assets/cities/pompano-beach.jpg" },
+      { slug: "coral-springs",   name: "Coral Springs",   isCity: true, county: "Broward", zips: ["33065","33071"] , heroPhoto: "/assets/cities/coral-springs.jpg" },
+      { slug: "deerfield-beach", name: "Deerfield Beach", isCity: true, county: "Broward", zips: ["33441","33442"] , heroPhoto: "/assets/cities/deerfield-beach.jpg" },
     ],
   },
 
@@ -208,7 +259,7 @@ export const LOCATIONS = {
     hoodsBlurb:
       "We serve Boca West, Royal Palm Polo, Old Floresta, Pearl City, The Sanctuary, Boca Bridges, and East Boca with one standard.",
     hoods: [
-      { slug: "boca-west",        name: "Boca West" },
+      { slug: "boca-west",        name: "Boca West" , heroPhoto: "/assets/cities/boca-west.jpg" },
       { slug: "royal-palm-polo",  name: "Royal Palm Polo" },
       { slug: "old-floresta",     name: "Old Floresta" },
       { slug: "the-sanctuary",    name: "The Sanctuary" },
@@ -243,7 +294,7 @@ export const LOCATIONS = {
       { slug: "iona",               name: "Iona" },
       { slug: "pelican-preserve",   name: "Pelican Preserve" },
       { slug: "gateway",            name: "Gateway" },
-      { slug: "fort-myers-beach",   name: "Fort Myers Beach" },
+      { slug: "fort-myers-beach",   name: "Fort Myers Beach" , heroPhoto: "/assets/cities/fort-myers-beach.jpg" },
     ],
   },
 };

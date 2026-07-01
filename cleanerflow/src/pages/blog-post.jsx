@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SiteShell from "@/components/SiteShell";
+import SEO from "@/components/SEO";
 import { getPostBySlug, getRelatedPosts, formatPostDate, readingMinutes } from "@/lib/blog";
 import "./blog.css";
 
@@ -14,8 +15,41 @@ export default function BlogPost() {
   const related = getRelatedPosts(post.slug, 3);
   const minutes = readingMinutes(post.content);
 
+  const description =
+    post.description ||
+    post.content.replace(/[#*_`>\[\]!()]/g, "").slice(0, 160).trim();
+  const heroImage = post.heroImage
+    ? post.heroImage.startsWith("http")
+      ? post.heroImage
+      : `https://www.spotless.homes${post.heroImage}`
+    : undefined;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description,
+    image: heroImage,
+    datePublished: post.date,
+    dateModified: post.updated || post.date,
+    author: { "@type": "Person", name: post.author || "Spotless Homes" },
+    publisher: {
+      "@type": "Organization",
+      name: "Spotless Homes",
+      logo: { "@type": "ImageObject", url: "https://www.spotless.homes/logo/logo.png" },
+    },
+    mainEntityOfPage: `https://www.spotless.homes/blog/${post.slug}/`,
+  };
+
   return (
     <SiteShell active="blog">
+      <SEO
+        title={`${post.title} | Spotless Homes`}
+        description={description}
+        ogType="article"
+        ogImage={heroImage}
+        jsonLd={articleJsonLd}
+      />
       <article className={`post-page${post.heroImage ? "" : " no-hero"}`}>
         <section
           className="post-hero"
