@@ -23,8 +23,17 @@
   .site-root .hamburger, .bk-root .hamburger {
     display: flex; flex-direction: column; justify-content: center; gap: 5px;
     width: 44px; height: 44px; border: 1px solid var(--g-200); background: var(--w);
-    cursor: pointer; padding: 0 11px; margin-left: auto;
+    cursor: pointer; padding: 0 11px;
   }
+
+  /* Mobile-only click-to-call button, sits between the logo and the hamburger.
+     margin-left: auto pushes it (and the hamburger) to the right edge. */
+  .site-root .nav-call-mobile, .bk-root .nav-call-mobile {
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; background: var(--y); color: var(--k);
+    border: 1px solid var(--k); text-decoration: none; margin-left: auto;
+  }
+  .site-root .nav-call-mobile:active, .bk-root .nav-call-mobile:active { background: #FFD42E; }
   .site-root .hamburger span, .bk-root .hamburger span { display: block; height: 2px; background: var(--k); transition: transform .2s, opacity .2s; }
   .site-root .nav.nav-open .hamburger span:nth-child(1), .bk-root .nav.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .site-root .nav.nav-open .hamburger span:nth-child(2), .bk-root .nav.nav-open .hamburger span:nth-child(2) { opacity: 0; }

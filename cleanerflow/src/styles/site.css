@@ -13,7 +13,10 @@
   --g-100: #F4F4F4;
   --g-200: #EAEAEA;
   --g-300: #D6D6D6;
-  --g-500: #8A8A8A;
+  /* WCAG AA requires 4.5:1 for normal text on white. #8A8A8A was 3.63:1
+     (fail); #6B6B6B is 5.28:1 (comfortable pass). Used for every secondary
+     text color — labels, section subheads, descriptions, dates, meta. */
+  --g-500: #6B6B6B;
   --g-700: #4A4A4A;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -46,8 +49,15 @@
 .site-root .nav-links a.active { color: var(--g-500); }
 .site-root .nav-cta { display: flex; align-items: center; gap: 18px; }
 .site-root .nav-phone { font-family: var(--serif); font-size: 19px; font-weight: 600; white-space: nowrap; }
-.site-root .hamburger, .bk-root .hamburger { display: none; }
-.mobile-menu { display: none; }
+/* Desktop-only hide rules. Scoped to (min-width: 901px) so the mobile.css
+   @media (max-width: 900px) block wins on mobile without a cascade race.
+   Previously these were unwrapped and appeared later in the built bundle,
+   overriding the mobile display:flex rules and hiding the hamburger. */
+@media (min-width: 901px) {
+  .site-root .hamburger, .bk-root .hamburger { display: none; }
+  .site-root .nav-call-mobile, .bk-root .nav-call-mobile { display: none; }
+  .mobile-menu { display: none; }
+}
 
 /* ── Buttons ── */
 .site-root .btn {
