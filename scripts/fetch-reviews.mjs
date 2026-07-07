@@ -100,6 +100,12 @@ async function fetchAllReviews(accountName, locationName, accessToken) {
   const accId = accountName.replace(/^accounts\//, "");
   const locId = locationName.replace(/^locations\//, "");
   const all = [];
+  // Google returns averageRating (decimal, e.g. 4.9) and totalReviewCount at
+  // the response root — this is the true public rating, not derivable from
+  // individual review stars (which are always integers 1-5). Same on every
+  // page, so capture from page 1 only.
+  let averageRating = null;
+  let totalReviewCount = null;
   let pageToken = "";
   while (true) {
     const url = new URL(`https://mybusiness.googleapis.com/v4/accounts/${accId}/locations/${locId}/reviews`);
@@ -108,11 +114,13 @@ async function fetchAllReviews(accountName, locationName, accessToken) {
     const r = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
     if (!r.ok) throw new Error(`reviews ${r.status}: ${await r.text()}`);
     const data = await r.json();
+    if (averageRating == null && typeof data.averageRating === "number") averageRating = data.averageRating;
+    if (totalReviewCount == null && typeof data.totalReviewCount === "number") totalReviewCount = data.totalReviewCount;
     for (const rv of data.reviews || []) all.push(rv);
     pageToken = data.nextPageToken;
     if (!pageToken) break;
   }
-  return all;
+  return { reviews: all, averageRating, totalReviewCount };
 }
 
 function deriveLabel(title) {
@@ -202,34 +210,35 @@ async function main() {
       continue;
     }
     for (const loc of locations) {
-      let reviews;
+      let result;
       try {
-        reviews = await fetchAllReviews(loc.account, loc.location, accessToken);
+        result = await fetchAllReviews(loc.account, loc.location, accessToken);
       } catch (e) {
         console.warn(`[skip] reviews failed for ${loc.title}: ${e.message}`);
         continue;
       }
+      const { reviews, averageRating, totalReviewCount } = result;
       const label = deriveLabel(loc.title);
-      let placeCount = 0;
-      let placeSum = 0;
       for (const rv of reviews) {
         const norm = normalize(rv, label, loc.mapsUri);
         if (norm.rating < MIN_RATING) continue;
         incoming.push(norm);
-        placeSum += norm.rating;
-        placeCount += 1;
       }
+      // Google's totals include silent star-only ratings that aren't in the
+      // reviews array — trust the response fields, not our filtered subset.
+      const trueCount = totalReviewCount ?? 0;
+      const trueAvg = averageRating != null ? +averageRating.toFixed(2) : 0;
       perPlace.push({
         title: loc.title,
         label,
         accountId: loc.account,
         locationId: loc.location,
-        userRatingCount: placeCount,
-        rating: placeCount > 0 ? +(placeSum / placeCount).toFixed(2) : 0,
+        userRatingCount: trueCount,
+        rating: trueAvg,
       });
-      allRatingsSum += placeSum;
-      allRatingsCount += placeCount;
-      console.log(`  ${loc.title}: ${reviews.length} reviews fetched, ${placeCount} rated (avg ${perPlace.at(-1).rating}★)`);
+      allRatingsSum += trueAvg * trueCount;
+      allRatingsCount += trueCount;
+      console.log(`  ${loc.title}: ${reviews.length} reviews fetched, Google reports ${trueCount} total ratings @ ${trueAvg}★`);
     }
   }
 

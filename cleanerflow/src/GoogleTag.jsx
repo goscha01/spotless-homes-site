@@ -19,9 +19,23 @@ const DELAY_MS = 2500;
 
 let bootstrapped = false;
 
+// Install the gtag/dataLayer stub immediately so events queued via
+// window.gtag(...) before the SDK loads land in dataLayer and are replayed
+// once the real GTM script is fetched. Called eagerly from the effect so
+// mount-time events (landing_view, quote_started) aren't dropped.
+function installStub() {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  if (!window.gtag) {
+    window.gtag = function () { window.dataLayer.push(arguments); };
+  }
+}
+
 function bootstrapGtm() {
   if (bootstrapped) return;
   bootstrapped = true;
+
+  installStub();
 
   if (!document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
     const script = document.createElement("script");
@@ -30,13 +44,9 @@ function bootstrapGtm() {
     document.head.appendChild(script);
   }
 
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { window.dataLayer.push(arguments); }
-  window.gtag = gtag;
-
-  gtag("js", new Date());
-  gtag("config", GTAG_ID, { send_page_view: false });
-  gtag("config", AW_ID);
+  window.gtag("js", new Date());
+  window.gtag("config", GTAG_ID, { send_page_view: false });
+  window.gtag("config", AW_ID);
 }
 
 const GoogleTag = () => {
@@ -44,6 +54,10 @@ const GoogleTag = () => {
     // During prerender (puppeteer), the __PRERENDER__ flag is set — skip GTM
     // injection so the captured static HTML doesn't include analytics scripts.
     if (typeof window !== "undefined" && window.__PRERENDER__) return;
+
+    // Stub goes in eagerly so events fired before defer (mount-time analytics,
+    // e.g. landing_view) queue into dataLayer instead of being dropped.
+    installStub();
 
     let done = false;
     const fire = () => {

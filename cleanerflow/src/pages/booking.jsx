@@ -6,6 +6,14 @@ import MobileMenu from "@/components/MobileMenu";
 import SEO from "@/components/SEO";
 import { ratingLabel, ratingCount } from "@/data/reviews-stats";
 import { getStoredUTMs, summarizeUTMs } from "@/lib/utm";
+import {
+  trackLead,
+  trackBookingCompleted,
+  trackServiceSelected,
+  trackFunnelStep,
+  trackContactStarted,
+  trackQuoteStarted,
+} from "@/lib/track";
 import "./booking-design.css";
 import "../styles/mobile.css";
 
@@ -107,14 +115,30 @@ const hourLabelTo24 = (label) => {
 };
 const slotMinutes = (h, m) => hourLabelTo24(h) * 60 + parseInt(m, 10);
 
-export default function Booking() {
+export default function Booking({ embedded = false, initialService = null, onStepChange = null } = {}) {
   const today = new Date();
   const todayDay   = today.getDate();
   const todayMonth = today.getMonth();
   const todayYear  = today.getFullYear();
   const nowMinutes = today.getHours() * 60 + today.getMinutes();
-  const [step, setStep] = useState(0);
-  const [serviceType, setServiceType] = useState("regular");
+  const hasInitialService = !!initialService && !!SERVICES[initialService];
+  const [step, setStep] = useState(hasInitialService ? 1 : 0);
+  const [serviceType, setServiceType] = useState(hasInitialService ? initialService : "regular");
+
+  // When the wizard is dropped in with a pre-selected service (e.g. /quote?service=deep),
+  // it starts at step 1 rather than the picker — fire the funnel-start events that
+  // would have fired had the user clicked Step0.
+  useEffect(() => {
+    if (hasInitialService) {
+      trackQuoteStarted(embedded ? "quote" : "booking");
+      trackServiceSelected(initialService);
+    }
+    // Note: we intentionally don't call onStepChange(1) here even though the
+    // wizard starts at step 1 — the parent decides when the wizard is
+    // "activated" (e.g. after a user click), separate from the wizard's own
+    // internal step counter.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [beds, setBeds]   = useState(1);
   const [baths, setBaths] = useState(1);
   const [cond, setCond]   = useState(null);
@@ -158,10 +182,17 @@ export default function Booking() {
 
   const goStep = (n) => {
     setStep(n);
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    if (onStepChange) onStepChange(n);
+    // When embedded (e.g. inside /quote), let the parent page handle scroll —
+    // scrolling window to 0 would reveal the hero above the wizard.
+    if (!embedded && typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
   const pickService = (id) => {
     setServiceType(id);
+    trackQuoteStarted(embedded ? "quote" : "booking");
+    trackServiceSelected(id);
     goStep(1);
   };
   const toggleExtra = (id) => {
@@ -251,23 +282,7 @@ export default function Booking() {
     const utms = getStoredUTMs();
     const utmSummary = summarizeUTMs(utms);
 
-    // GA4 lead event with the real total
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "generate_lead", {
-        send_to: "G-6ZB89H49SD",
-        event_category: "Booking",
-        event_label: "Booking Wizard Complete",
-        value: total,
-        currency: "USD",
-        utm_source: utms.utm_source || "",
-        utm_medium: utms.utm_medium || "",
-        utm_campaign: utms.utm_campaign || "",
-        utm_content: utms.utm_content || "",
-        utm_term: utms.utm_term || "",
-        gclid: utms.gclid || "",
-        landing_page: utms.landing_page || "",
-      });
-    }
+    trackLead({ value: total });
 
     const service = SERVICES[serviceType];
     const extrasLabel = extras
@@ -332,6 +347,7 @@ export default function Booking() {
 
     setSubmitting(false);
     setSubmitted(true);
+    trackBookingCompleted({ value: total });
 
     if (!emailOk) {
       setShowFallbackNotice(true);
@@ -365,8 +381,8 @@ export default function Booking() {
   if (submitted) {
     return (
       <div className="bk-root">
-        {BOOKING_SEO}
-        <TopChrome />
+        {!embedded && BOOKING_SEO}
+        {!embedded && <TopChrome />}
         <div className="booking-wrap solo">
           <div className="panel">
             <span className="step-eyebrow">Booking received</span>
@@ -399,8 +415,8 @@ export default function Booking() {
 
   return (
     <div className="bk-root">
-      {BOOKING_SEO}
-      <TopChrome />
+      {!embedded && BOOKING_SEO}
+      {!embedded && <TopChrome />}
 
       {showProgress && (
         <div className="progress">
@@ -427,7 +443,7 @@ export default function Booking() {
               beds={beds} setBeds={setBeds}
               baths={baths} setBaths={setBaths}
               onBack={() => goStep(0)}
-              onNext={() => goStep(2)}
+              onNext={() => { trackFunnelStep("property_size_completed"); goStep(2); }}
             />
           )}
           {step === 2 && (
@@ -439,6 +455,7 @@ export default function Booking() {
               onNext={() => {
                 if (!cond || !pets) { setStep2Error(true); return; }
                 setStep2Error(false);
+                trackFunnelStep("property_condition_completed");
                 goStep(3);
               }}
             />
@@ -447,7 +464,7 @@ export default function Booking() {
             <Step3
               extras={extras} toggleExtra={toggleExtra}
               onBack={() => goStep(2)}
-              onNext={() => goStep(4)}
+              onNext={() => { trackFunnelStep("addons_completed"); goStep(4); }}
             />
           )}
           {step === 4 && (
@@ -457,7 +474,7 @@ export default function Booking() {
               calendarCells={calendarCells}
               pickDate={pickDate}
               onBack={() => goStep(3)}
-              onNext={() => goStep(5)}
+              onNext={() => { trackContactStarted(); goStep(5); }}
             />
           )}
           {step === 5 && (

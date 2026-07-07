@@ -13,7 +13,7 @@
   --g-100: #F4F4F4;
   --g-200: #EAEAEA;
   --g-300: #D6D6D6;
-  --g-500: #6B6B6B; /* keep in sync with site.css; #8A8A8A failed WCAG AA */
+  --g-500: #555555; /* keep in sync with site.css; earlier #8A8A8A / #6B6B6B failed Lighthouse mobile contrast checks */
   --g-700: #4A4A4A;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;

@@ -1,5 +1,13 @@
 const STORAGE_KEY = "sh_attribution";
-const PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid"];
+// All params captured on landing so they can be attached to lead emails and
+// downstream tracking events. Marketing extensions (coupon/promo/ref) go here
+// so lead notifications include the promotion the visitor arrived with.
+const PARAMS = [
+  "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
+  "gclid",
+  "city", "service",
+  "coupon", "promo", "ref",
+];
 
 export function captureUTMs() {
   if (typeof window === "undefined") return;
@@ -15,7 +23,8 @@ export function captureUTMs() {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
       ...found,
       landing_page: url.pathname,
-      landing_at: new Date().toISOString(),
+      entry_path:   url.pathname + url.search,
+      landing_at:   new Date().toISOString(),
     }));
   } catch (e) { /* private mode / quota — silently skip */ }
 }
@@ -29,15 +38,21 @@ export function getStoredUTMs() {
 }
 
 export function summarizeUTMs(u) {
-  if (!u || !u.utm_source) return "";
+  if (!u) return "";
   const parts = [
-    `Source: ${u.utm_source}`,
-    u.utm_medium && `Medium: ${u.utm_medium}`,
+    u.utm_source   && `Source: ${u.utm_source}`,
+    u.utm_medium   && `Medium: ${u.utm_medium}`,
     u.utm_campaign && `Campaign: ${u.utm_campaign}`,
-    u.utm_content && `Content: ${u.utm_content}`,
-    u.utm_term && `Term: ${u.utm_term}`,
-    u.gclid && `gclid: ${u.gclid}`,
+    u.utm_content  && `Content: ${u.utm_content}`,
+    u.utm_term     && `Term: ${u.utm_term}`,
+    u.gclid        && `gclid: ${u.gclid}`,
+    u.city         && `City: ${u.city}`,
+    u.service      && `Service: ${u.service}`,
+    u.coupon       && `Coupon: ${u.coupon}`,
+    u.promo        && `Promo: ${u.promo}`,
+    u.ref          && `Ref: ${u.ref}`,
     u.landing_page && `Landing: ${u.landing_page}`,
+    u.entry_path   && u.entry_path !== u.landing_page && `Entry: ${u.entry_path}`,
   ].filter(Boolean);
   return parts.join(" · ");
 }
