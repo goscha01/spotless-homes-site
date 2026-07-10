@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 74,
-    "averageRating": 4.85,
-    "lastUpdated": "2026-07-09T13:51:24.714Z",
+    "totalRatingCount": 49,
+    "averageRating": 4.92,
+    "lastUpdated": "2026-07-10T13:14:29.591Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -11,14 +11,6 @@
         "locationId": "locations/2141374650782668963",
         "userRatingCount": 37,
         "rating": 4.9
-      },
-      {
-        "title": "Spotless Homes",
-        "label": null,
-        "accountId": "accounts/102749612830764580960",
-        "locationId": "locations/11117050976889618461",
-        "userRatingCount": 25,
-        "rating": 4.7
       },
       {
         "title": "Spotless Homes Jacksonville",
