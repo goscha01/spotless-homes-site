@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 49,
-    "averageRating": 4.92,
-    "lastUpdated": "2026-07-10T13:14:29.591Z",
+    "totalRatingCount": 75,
+    "averageRating": 4.85,
+    "lastUpdated": "2026-07-11T11:55:44.715Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -13,16 +13,36 @@
         "rating": 4.9
       },
       {
+        "title": "Spotless Homes",
+        "label": null,
+        "accountId": "accounts/102749612830764580960",
+        "locationId": "locations/11117050976889618461",
+        "userRatingCount": 25,
+        "rating": 4.7
+      },
+      {
         "title": "Spotless Homes Jacksonville",
         "label": "Jacksonville",
         "accountId": "accounts/103234163269032571833",
         "locationId": "locations/18380617265025283816",
-        "userRatingCount": 12,
+        "userRatingCount": 13,
         "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqndmTQggZaA09VolSSDRvVizXXxNoQoqjuMo1h-izL3ZLQgmyRhZZjaT2W51PJebbGihoNQcw",
+      "manual": false,
+      "rating": 5,
+      "author": "Kim Stiles",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocJy6F5D8ihCHrCY6cQ_c4jdPr_xXtMtULiCqI8VAGvxatForA=s120-c-rp-mo-br100",
+      "publishTime": "2026-07-10T17:35:05.797434Z",
+      "relativeTime": "Jul 2026",
+      "text": "Alina always does an excellent job! They are flexible with the rates & very reliable",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/109194636448236279020/locations/2141374650782668963/reviews/AbFvOqmOc9bHNsUBCioLIhLBt_7juws3R8n6Hp_yfwo1LIPZwMEXjDfocunOYMx4qQu75ja8dLFG",
       "manual": false,
