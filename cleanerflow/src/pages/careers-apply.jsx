@@ -157,6 +157,17 @@ ${reason}`;
           candidateEmail: email,
           candidatePhone: phone,
           source: "spotless-site",
+          completed: true,
+          formData: {
+            "Address": address,
+            "English level": english,
+            "Hours per week": hours,
+            "Current occupation": occupation,
+            "Cleaning experience": experience,
+            "Own vacuum & supplies": supplies,
+            "Heard about job via": source,
+            "Why looking for a job": reason,
+          },
         }),
       }).catch((err) => console.warn("hiringflow mirror failed:", err));
       setSubmitted(true);
