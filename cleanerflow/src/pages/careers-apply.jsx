@@ -116,6 +116,7 @@ ${reason}`;
       serviceType: "Employment Application",
       streetAddress: address || "(applicant)",
       message,
+      to_email: ADMIN_EMAIL,
       admin_email: ADMIN_EMAIL,
       subject: `New job application — ${name}`,
     };
@@ -131,7 +132,7 @@ ${reason}`;
       await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, payload, USER_ID);
       if (ADMIN_CC) {
         try {
-          await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...payload, admin_email: ADMIN_CC }, USER_ID);
+          await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...payload, to_email: ADMIN_CC, admin_email: ADMIN_CC }, USER_ID);
         } catch (_) { /* CC is best-effort */ }
       }
       // Fire-and-forget mirror to HireFunnel ATS so the application also appears on the hiring pipeline.
