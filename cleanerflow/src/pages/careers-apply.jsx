@@ -19,6 +19,9 @@ const ADMIN_TEMPLATE_ID  = import.meta.env.VITE_CAREERS_TEMPLATE_ID || import.me
 const ADMIN_EMAIL        = import.meta.env.VITE_ADMIN_EMAIL || "info@spotless.homes";
 const ADMIN_CC           = import.meta.env.VITE_ADMIN_CC;
 
+const HIRINGFLOW_SLUG = 'RvM3ERjKWr';
+const HIRINGFLOW_ENDPOINT = 'https://www.hirefunnel.app/api/public/sessions';
+
 const ENGLISH_OPTS    = ["Beginner", "Enough for communication", "Fluent", "Native"];
 const HOURS_OPTS      = ["10–20", "20–30", "30–40", "40+"];
 const EXPERIENCE_OPTS = ["None", "Some", "Professional"];
@@ -131,6 +134,18 @@ ${reason}`;
           await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...payload, admin_email: ADMIN_CC }, USER_ID);
         } catch (_) { /* CC is best-effort */ }
       }
+      // Fire-and-forget mirror to HireFunnel ATS so the application also appears on the hiring pipeline.
+      fetch(HIRINGFLOW_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          flowSlug: HIRINGFLOW_SLUG,
+          candidateName: name,
+          candidateEmail: email,
+          candidatePhone: phone,
+          source: "spotless-site",
+        }),
+      }).catch((err) => console.warn("hiringflow mirror failed:", err));
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
