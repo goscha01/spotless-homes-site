@@ -94,16 +94,13 @@ ${reason}`;
     setSubmitting(true);
 
     const message = buildMessage();
-    const payload = {
-      // Standard EmailJS fields most templates use
+    // Same template renders both the admin notification and the applicant
+    // confirmation via {{#is_admin}} / {{#is_customer}} conditionals so the
+    // free-tier 2-template cap covers both audiences with one template.
+    const applicantData = {
       name,
-      from_name: name,
-      user_name: name,
       email,
-      user_email: email,
-      reply_to: email,
       phone,
-      // Application-specific fields (available to a dedicated careers template)
       address,
       english_level: english,
       hours_per_week: hours,
@@ -112,28 +109,43 @@ ${reason}`;
       has_supplies: supplies,
       heard_from: source,
       reason,
-      // Fallback fields so the existing booking template still renders something useful
-      serviceType: "Employment Application",
-      streetAddress: address || "(applicant)",
       message,
+    };
+    const adminPayload = {
+      ...applicantData,
       to_email: ADMIN_EMAIL,
-      admin_email: ADMIN_EMAIL,
-      subject: `New job application — ${name}`,
+      reply_to: email,
+      email_subject: `New job application — ${name}`,
+      is_admin: "1",
+      is_customer: "",
+    };
+    const applicantPayload = {
+      ...applicantData,
+      to_email: email,
+      reply_to: ADMIN_EMAIL,
+      email_subject: `We received your application, ${name} — Spotless Homes`,
+      is_admin: "",
+      is_customer: "1",
     };
 
     if (!SERVICE_ID || !USER_ID || !ADMIN_TEMPLATE_ID) {
-      console.warn("emailjs env vars not set — application data:", payload);
+      console.warn("emailjs env vars not set — application data:", adminPayload);
       setSendError(<>Email is not configured. Please call <a href="tel:+18139212100">813-921-2100</a> to apply.</>);
       setSubmitting(false);
       return;
     }
 
     try {
-      await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, payload, USER_ID);
+      await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, adminPayload, USER_ID);
       if (ADMIN_CC) {
         try {
-          await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...payload, to_email: ADMIN_CC, admin_email: ADMIN_CC }, USER_ID);
+          await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...adminPayload, to_email: ADMIN_CC }, USER_ID);
         } catch (_) { /* CC is best-effort */ }
+      }
+      if (email) {
+        try {
+          await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, applicantPayload, USER_ID);
+        } catch (_) { /* applicant confirmation is best-effort */ }
       }
       // Fire-and-forget mirror to HireFunnel ATS so the application also appears on the hiring pipeline.
       fetch(HIRINGFLOW_ENDPOINT, {
