@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 75,
+    "totalRatingCount": 76,
     "averageRating": 4.85,
-    "lastUpdated": "2026-07-23T12:25:37.970Z",
+    "lastUpdated": "2026-07-24T12:22:15.507Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -25,12 +25,24 @@
         "label": "Jacksonville",
         "accountId": "accounts/103234163269032571833",
         "locationId": "locations/18380617265025283816",
-        "userRatingCount": 13,
+        "userRatingCount": 14,
         "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqnup7yrU2YqCQbD64pg9kaENyB84xl1S6kqyRn2fIL2IgjxnfyhzvFvdBq5lZQejD2taLJ-JA",
+      "manual": false,
+      "rating": 5,
+      "author": "Robert Cherrington",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocLbXSZDraZhDpWwLFEVTVp-Sd-rqgfLUelVAEgLpcEDjaKmmA=s120-c-rp-mo-br100",
+      "publishTime": "2026-07-23T18:56:38.778107Z",
+      "relativeTime": "Jul 2026",
+      "text": "Spotless Homes has serviced by home for almost a year. I can't say enough great things about Spotless Homes in Jacksonville! From start to finish, the experience was exceptional, but the real standout was Alina Harbuz. Her attention to detail is simply incredible, and the level of care and diligence she puts into her work is unlike anything I've experienced with a cleaning service.\n\nAlina doesn't just clean—she truly cares about delivering perfection. She noticed and cleaned areas that most people would completely overlook, and every room looked and felt immaculate when she was finished. It's obvious that she takes tremendous pride in her work, and it absolutely shows in the results.\n\nIf you're looking for a cleaning service that goes above and beyond, I highly recommend Spotless Homes. And if you have the opportunity to have Alina Harbuz clean your home, don't hesitate—you'll be amazed by her professionalism, work ethic, and commitment to excellence. Five stars all the way! Highly recommend.",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqndmTQggZaA09VolSSDRvVizXXxNoQoqjuMo1h-izL3ZLQgmyRhZZjaT2W51PJebbGihoNQcw",
       "manual": false,
