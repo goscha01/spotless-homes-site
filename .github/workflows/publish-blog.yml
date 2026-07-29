@@ -1,0 +1,68 @@
+name: Publish blog post
+
+# Two triggers:
+#   1. repository_dispatch — post-to backend POSTs to GitHub after uploading a
+#      new article to S3, which fires this workflow. Payload includes the
+#      article slug so we can log which article we're deploying.
+#   2. workflow_dispatch — manual "Run workflow" button in the Actions UI,
+#      useful for redeploying without publishing anything new (e.g. after
+#      hand-editing an .md file in the S3 bucket).
+on:
+  repository_dispatch:
+    types: [publish-blog]
+  workflow_dispatch:
+
+concurrency:
+  # If multiple articles publish back-to-back, coalesce — only the final one
+  # needs to actually deploy. Avoids two builds racing on `dist/`.
+  group: publish-blog
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cleanerflow
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      # Overrides for scripts/sync-posts.mjs if we ever want to redirect to
+      # a different bucket (e.g. staging). Defaults match Spotless prod.
+      POST_TO_BLOG_BUCKET: post-to-blog-spotless-homes
+      POST_TO_BLOG_REGION: us-east-2
+
+    steps:
+      - name: Log dispatch context
+        run: |
+          echo "Trigger: ${{ github.event_name }}"
+          echo "Article slug: ${{ github.event.client_payload.slug || 'n/a (manual dispatch)' }}"
+
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: cleanerflow/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # `prebuild` runs sync-posts.mjs which pulls latest .md files from S3
+      # into src/data/blog-posts/ so Vite's build sees them. Then `build`
+      # produces dist/.
+      - name: Build site
+        run: npm run build
+
+      # Existing deploy.sh: sync dist/ to www.spotless.homes bucket +
+      # invalidate CloudFront. Runs from the cleanerflow/ dir.
+      - name: Deploy
+        run: bash scripts/deploy.sh
+
+      - name: Done
+        run: echo "Deployed. Article should be live within CloudFront invalidation window (~30s)."
