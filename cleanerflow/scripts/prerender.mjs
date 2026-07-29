@@ -122,7 +122,14 @@ const server = await startServer(DIST, PORT);
 const actualPort = server.address().port;
 BASE = `http://localhost:${actualPort}`;
 console.log(`  static server bound on :${actualPort}`);
-const browser = await puppeteer.launch({ headless: "new" });
+// --no-sandbox required on GitHub Actions runners (Ubuntu 23.10+ disables
+// unprivileged user namespaces via AppArmor, which Chromium's sandbox
+// depends on). Safe here because the browser only ever loads localhost URLs
+// we control during a build — no attacker-controlled content.
+const browser = await puppeteer.launch({
+  headless: "new",
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
+});
 
 // Critical-CSS inliner. For each prerendered HTML we extract the rules that
 // actually match the page and inline them in <head>, then rewrite the full
