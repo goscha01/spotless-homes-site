@@ -22,10 +22,17 @@ import { dirname, join } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUCKET = process.env.POST_TO_BLOG_BUCKET || 'post-to-blog-spotless-homes';
 const REGION = process.env.POST_TO_BLOG_REGION || 'us-east-2';
-const PREFIX = process.env.POST_TO_BLOG_PREFIX || 'posts/';
-const LOCAL = join(__dirname, '..', 'src', 'data', 'blog-posts');
+const POSTS_PREFIX = process.env.POST_TO_BLOG_PREFIX || 'posts/';
+// Hero images published from post-to land under this prefix. Sync into
+// public/ so Vite bundles them into dist/ and serves them from the site
+// root at /assets/blog/… — matches how Spotless's existing hero images
+// (committed in git) are referenced.
+const ASSETS_PREFIX = 'assets/';
+const LOCAL_POSTS = join(__dirname, '..', 'src', 'data', 'blog-posts');
+const LOCAL_ASSETS = join(__dirname, '..', 'public', 'assets');
 
-if (!existsSync(LOCAL)) mkdirSync(LOCAL, { recursive: true });
+if (!existsSync(LOCAL_POSTS)) mkdirSync(LOCAL_POSTS, { recursive: true });
+if (!existsSync(LOCAL_ASSETS)) mkdirSync(LOCAL_ASSETS, { recursive: true });
 
 // Skip in CI environments that explicitly opt out (useful for PR builds that
 // shouldn't pull latest content mid-review).
@@ -34,21 +41,30 @@ if (process.env.SKIP_POST_SYNC === '1') {
   process.exit(0);
 }
 
-const src = `s3://${BUCKET}/${PREFIX}`;
-console.log(`sync-posts: aws s3 sync ${src} → ${LOCAL} (region=${REGION})`);
-
-try {
-  // --exclude 'trigger.txt' because our publisher writes a trigger file for
-  // build-event pipelines; it doesn't belong in the site's post source.
-  // --size-only would miss identical-length edits — leave default (mtime+size)
-  execSync(
-    `aws s3 sync "${src}" "${LOCAL}" --region "${REGION}" --exclude "trigger.txt" --no-progress`,
-    { stdio: 'inherit' }
-  );
-  console.log('sync-posts: done');
-} catch (err) {
-  // Don't fail the whole build if S3 is unreachable — the git-tracked
-  // markdown files are still there. Log and continue.
-  console.warn('sync-posts: aws s3 sync failed — continuing with local posts only');
-  console.warn(err.message);
+function syncPrefix(prefix, localDir, extraArgs = '') {
+  const src = `s3://${BUCKET}/${prefix}`;
+  console.log(`sync-posts: aws s3 sync ${src} → ${localDir} (region=${REGION})`);
+  try {
+    execSync(
+      `aws s3 sync "${src}" "${localDir}" --region "${REGION}" ${extraArgs} --no-progress`,
+      { stdio: 'inherit' }
+    );
+  } catch (err) {
+    // Don't fail the whole build if S3 is unreachable — the git-tracked
+    // files are still there. Log and continue.
+    console.warn(`sync-posts: ${prefix} sync failed — continuing with local files only`);
+    console.warn(err.message);
+  }
 }
+
+// Posts: markdown files. --exclude trigger.txt because our publisher writes
+// a build-trigger sentinel that doesn't belong in the site's post source.
+syncPrefix(POSTS_PREFIX, LOCAL_POSTS, '--exclude "trigger.txt"');
+
+// Assets: hero images (assets/blog/*) uploaded from post-to. Synced into
+// public/ so Vite copies them into dist/ and they end up served from the
+// site root (e.g. /assets/blog/<slug>-hero.jpg — same shape as Spotless's
+// existing hero images committed in git).
+syncPrefix(ASSETS_PREFIX, LOCAL_ASSETS);
+
+console.log('sync-posts: done');
