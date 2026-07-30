@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 76,
+    "totalRatingCount": 77,
     "averageRating": 4.85,
-    "lastUpdated": "2026-07-29T13:02:28.025Z",
+    "lastUpdated": "2026-07-30T12:47:32.763Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -25,12 +25,24 @@
         "label": "Jacksonville",
         "accountId": "accounts/103234163269032571833",
         "locationId": "locations/18380617265025283816",
-        "userRatingCount": 14,
+        "userRatingCount": 15,
         "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqlUZY6LhVblFeK9F7R1PBPJzGQlXm0Me1PkJeuF3XChciIUcK1HbfeeNRCGAYoAJsu8W0b4Qw",
+      "manual": false,
+      "rating": 5,
+      "author": "Ebony Davis",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjV4HyOZJjrDzmoacl9mtcxTb24Bjcn55H3iBkq0F8Iz6qGH2QU2UQ=s120-c-rp-mo-ba12-br100",
+      "publishTime": "2026-07-29T15:15:48.379724Z",
+      "relativeTime": "Jul 2026",
+      "text": "Tatiana and Alina are the absolute best housekeepers! They've been cleaning our home for over a year now and I wouldn't trade them for all the tea in China! The customer service is great and they make it so easy to accommodate our pets, guests, kids, schedules. They adapt on the fly and are just great all the way around. I highly recommend!",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqnup7yrU2YqCQbD64pg9kaENyB84xl1S6kqyRn2fIL2IgjxnfyhzvFvdBq5lZQejD2taLJ-JA",
       "manual": false,
