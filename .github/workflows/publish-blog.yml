@@ -71,14 +71,7 @@ jobs:
           VITE_CAREERS_TEMPLATE_ID: ${{ secrets.VITE_CAREERS_TEMPLATE_ID }}
           VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
           VITE_ADMIN_CC: ${{ secrets.VITE_ADMIN_CC }}
-        run: |
-          echo "DEBUG VITE_SERVICE_ID len=${#VITE_SERVICE_ID}"
-          echo "DEBUG VITE_USER_ID len=${#VITE_USER_ID}"
-          echo "DEBUG VITE_ADMIN_TEMPLATE_ID len=${#VITE_ADMIN_TEMPLATE_ID}"
-          echo "DEBUG VITE_CAREERS_TEMPLATE_ID len=${#VITE_CAREERS_TEMPLATE_ID}"
-          echo "DEBUG VITE_ADMIN_EMAIL len=${#VITE_ADMIN_EMAIL}"
-          echo "DEBUG VITE_ADMIN_CC len=${#VITE_ADMIN_CC}"
-          npm run build
+        run: npm run build
 
       # Existing deploy.sh: sync dist/ to www.spotless.homes bucket +
       # invalidate CloudFront. Runs from the cleanerflow/ dir.
