@@ -1,28 +1,35 @@
 // src/GoogleTag.jsx
 //
-// Google Tag Manager loads ~300 KB of JavaScript that Lighthouse blames for
-// ~200 ms of forced reflows and blocks LCP on mobile. Delay injection until:
-//   (a) the browser reports the page has finished the initial load, AND
-//   (b) an extra 2.5 s has passed so paint/LCP can settle, OR
-//   (c) the user shows intent (first pointer/scroll/keyboard event).
+// Loads GA4 + Google Ads via gtag.js IMMEDIATELY on mount, so short/
+// no-interaction ad-landing sessions still transmit their page_view and
+// Google Ads config beacons. Prior to 2026-07-09 this was gated behind a
+// 2.5s + first-interaction defer — that undercounted CPC sessions because
+// the gtag stub buffered events into dataLayer that were never drained
+// when gtag.js itself never loaded (bouncer left before the timer fired
+// or before any interaction event). The measured symptom was Google Ads
+// reporting ~380 clicks while GA4 saw only ~19 CPC sessions.
 //
-// End result: the first paint + LCP happen without GTM in the mix; analytics
-// still capture the session because GTM initialises well before any real
-// interaction (booking, phone-call, etc.). requestIdleCallback used where
-// available so we never fight for the main thread with user interactions.
+// GTM (~200 KB heavier container) IS still deferred behind the same
+// 2.5s / interaction gate — it's not on the critical path for Ads/GA4
+// attribution and its cost still hurts LCP.
+//
+// GTM co-existence: if VITE_GTM_ID is set, we load GTM AND configure GA4
+// + Google Ads directly via gtag.js. That means if a GA4 tag also fires
+// from within GTM, GA4 will double-count. To keep the direct config
+// authoritative: DO NOT configure a GA4 config tag inside GTM. Use GTM
+// only for tags that aren't already wired here (Meta Pixel, CallRail,
+// LinkedIn Insight, etc.).
 
 import { useEffect } from "react";
 
 const GTAG_ID = "G-6ZB89H49SD";
 const AW_ID   = "AW-17067419398";
-const DELAY_MS = 2500;
+const GTM_ID  = import.meta.env.VITE_GTM_ID || "";
+const GTM_DELAY_MS = 2500;
 
-let bootstrapped = false;
+let gtagBootstrapped = false;
+let gtmBootstrapped = false;
 
-// Install the gtag/dataLayer stub immediately so events queued via
-// window.gtag(...) before the SDK loads land in dataLayer and are replayed
-// once the real GTM script is fetched. Called eagerly from the effect so
-// mount-time events (landing_view, quote_started) aren't dropped.
 function installStub() {
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer || [];
@@ -31,9 +38,9 @@ function installStub() {
   }
 }
 
-function bootstrapGtm() {
-  if (bootstrapped) return;
-  bootstrapped = true;
+function bootstrapGtag() {
+  if (gtagBootstrapped) return;
+  gtagBootstrapped = true;
 
   installStub();
 
@@ -45,20 +52,49 @@ function bootstrapGtm() {
   }
 
   window.gtag("js", new Date());
+  // send_page_view:false on BOTH configs because GAListener owns pageview
+  // firing on route change (see App.jsx) and broadcasts to all destinations.
+  // Without send_page_view:false on the Ads config, the Ads pixel would fire
+  // its own auto-page-view AT config time plus the relayed page_view from
+  // GAListener — 2× Page Views + 2× Remarketing hits per landing (confirmed
+  // 2026-07-10 via Tag Assistant). Don't flip either or you'll double-count.
   window.gtag("config", GTAG_ID, { send_page_view: false });
-  window.gtag("config", AW_ID);
+  window.gtag("config", AW_ID,   { send_page_view: false });
+}
+
+function bootstrapGtm() {
+  if (gtmBootstrapped) return;
+  if (!GTM_ID) return;
+  gtmBootstrapped = true;
+
+  installStub();
+
+  if (document.querySelector(`script[src*="googletagmanager.com/gtm.js"]`)) return;
+  // Push the container-open marker like the standard GTM snippet — some
+  // triggers depend on `gtm.start` being present in dataLayer.
+  window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  document.head.appendChild(s);
 }
 
 const GoogleTag = () => {
   useEffect(() => {
-    // During prerender (puppeteer), the __PRERENDER__ flag is set — skip GTM
+    // During prerender (puppeteer), the __PRERENDER__ flag is set — skip
     // injection so the captured static HTML doesn't include analytics scripts.
     if (typeof window !== "undefined" && window.__PRERENDER__) return;
 
-    // Stub goes in eagerly so events fired before defer (mount-time analytics,
-    // e.g. landing_view) queue into dataLayer instead of being dropped.
-    installStub();
+    // Load gtag.js immediately. Short/no-interaction landings must still
+    // transmit their page_view + Ads config beacon.
+    bootstrapGtag();
 
+    // No GTM container configured — nothing left to defer.
+    if (!GTM_ID) return;
+
+    // GTM stays deferred until first interaction or 2.5 s, whichever comes
+    // first. It's not on the Ads/GA4 attribution path, and its cost still
+    // pressures LCP on mobile.
     let done = false;
     const fire = () => {
       if (done) return;
@@ -74,7 +110,7 @@ const GoogleTag = () => {
     const events = ["pointerdown", "scroll", "keydown", "touchstart"];
     events.forEach((e) => window.addEventListener(e, fire, { once: true, passive: true }));
 
-    const timer = window.setTimeout(fire, DELAY_MS);
+    const timer = window.setTimeout(fire, GTM_DELAY_MS);
 
     function cleanup() {
       events.forEach((e) => window.removeEventListener(e, fire));

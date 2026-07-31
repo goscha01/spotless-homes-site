@@ -20,7 +20,7 @@ import LocationPage from "@/pages/location";
 import GoogleTag from "./GoogleTag";
 import ChatGPTPixel from "./ChatGPTPixel";
 import { captureUTMs } from "@/lib/utm";
-import { trackCallClick, trackGetQuoteClick } from "@/lib/track";
+import { trackPhoneClick, trackEmailClick, trackSMSClick, trackGetQuoteClick } from "@/lib/track";
 
 function GAListener() {
   const { pathname, search } = useLocation();
@@ -43,15 +43,15 @@ function ClickTracker() {
       const a = e.target.closest && e.target.closest("a[href]");
       if (!a) return;
       const href = a.getAttribute("href") || "";
-      if (href.startsWith("tel:")) {
-        trackCallClick(window.location.pathname);
-        return;
-      }
+      const location = window.location.pathname;
+      if (href.startsWith("tel:"))    { trackPhoneClick(location); return; }
+      if (href.startsWith("mailto:")) { trackEmailClick(location); return; }
+      if (href.startsWith("sms:"))    { trackSMSClick(location);   return; }
       // Get-a-Quote CTAs route to /booking. Skip the click when the user is
       // already on the booking page — that's not a fresh quote-start intent.
       if ((href === "/booking" || href.startsWith("/booking?") || href.startsWith("/booking#")) &&
-          window.location.pathname !== "/booking") {
-        trackGetQuoteClick(window.location.pathname);
+          location !== "/booking") {
+        trackGetQuoteClick(location);
       }
     };
     document.addEventListener("click", onClick, { capture: true });

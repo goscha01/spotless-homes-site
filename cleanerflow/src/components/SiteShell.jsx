@@ -49,7 +49,7 @@ export function SiteFooter() {
         <div className="foot-grid">
           <div>
             <Link className="logo" style={{ color: "var(--w)" }} to="/">SPOTLESS<span className="dot"></span>HOMES</Link>
-            <p className="brand-copy">Florida's trusted local house cleaning — family-run since 2018.</p>
+            <p className="brand-copy">Family-run since 2018.</p>
             <p className="brand-copy" style={{ marginTop: 6 }}><a href="tel:+18139212100">813-921-2100</a> · <a href="mailto:info@spotless.homes">info@spotless.homes</a></p>
           </div>
           <div>

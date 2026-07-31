@@ -5,14 +5,18 @@ import { extras as EXTRAS_DATA, conditions as COND_DATA, pets as PET_DATA } from
 import MobileMenu from "@/components/MobileMenu";
 import SEO from "@/components/SEO";
 import { ratingLabel, ratingCount } from "@/data/reviews-stats";
-import { getStoredUTMs, summarizeUTMs } from "@/lib/utm";
+import { getStoredUTMs, summarizeUTMs, getAttributionForForm } from "@/lib/utm";
 import {
   trackLead,
   trackBookingCompleted,
+  trackBookingStarted,
+  trackEstimateCompleted,
   trackServiceSelected,
   trackFunnelStep,
   trackContactStarted,
   trackQuoteStarted,
+  trackAdsConversion,
+  getGaIds,
 } from "@/lib/track";
 import "./booking-design.css";
 import "../styles/mobile.css";
@@ -100,9 +104,24 @@ function ordinal(d) {
 const SERVICE_ID         = import.meta.env.VITE_SERVICE_ID;
 const USER_ID            = import.meta.env.VITE_USER_ID;
 const ADMIN_TEMPLATE_ID  = import.meta.env.VITE_ADMIN_TEMPLATE_ID;
-const USER_TEMPLATE_ID   = import.meta.env.VITE_USER_TEMPLATE_ID;
 const ADMIN_EMAIL        = import.meta.env.VITE_ADMIN_EMAIL;
 const ADMIN_CC           = import.meta.env.VITE_ADMIN_CC;
+
+// Dispatcher is staffed 9AM–6PM Florida time (America/New_York, handles both EST/EDT).
+// Bookings outside this window get a "we'll call you tomorrow morning" message
+// instead of the default "within 1 business hour."
+function isAfterHoursFlorida(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hour: "numeric",
+    hour12: false,
+    weekday: "short",
+  }).formatToParts(now);
+  const hour = parseInt(parts.find((p) => p.type === "hour").value, 10);
+  const weekday = parts.find((p) => p.type === "weekday").value;
+  const isWeekend = weekday === "Sat" || weekday === "Sun";
+  return isWeekend || hour < 9 || hour >= 18;
+}
 
 const SPEC_HOURS = ["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM"];
 const SPEC_MINS  = ["00","15","30","45"];
@@ -281,8 +300,27 @@ export default function Booking({ embedded = false, initialService = null, onSte
 
     const utms = getStoredUTMs();
     const utmSummary = summarizeUTMs(utms);
+    // Flat, always-defined shape for the EmailJS payload. Includes every
+    // ad-platform identifier + landing_page + referrer + device — even the
+    // ones EmailJS doesn't currently render (fbclid, msclkid, gbraid,
+    // wbraid). Adding a template line for any of these later requires no
+    // code change.
+    const attribution = getAttributionForForm();
 
+    // Fires the moment the user clicks submit. Distinct from generate_lead
+    // (fired below inside trackLead only after we know we have a shape) —
+    // separating "submit intent" from "submit succeeded" so we can see
+    // fill-vs-fail funnels in GA4.
+    trackBookingStarted({ value: total });
     trackLead({ value: total });
+
+    // GA4 client_id + session_id are captured at submit-time so the lead
+    // email carries the identifiers needed to join back to a GA4 session
+    // row later (BigQuery export or Reports API). getGaIds has its own
+    // 1.5 s timeout and returns empty strings if gtag never loaded —
+    // ad-blockers etc. must not block submission.
+    const gaIds = await getGaIds();
+    const conversion_timestamp = new Date().toISOString();
 
     const service = SERVICES[serviceType];
     const extrasLabel = extras
@@ -304,38 +342,49 @@ export default function Booking({ embedded = false, initialService = null, onSte
       totalPrice: total,
       date: selectedDate ? selectedDate.label : "Customer to confirm",
       time: time || "Customer to confirm",
-      utm_source: utms.utm_source || "",
-      utm_medium: utms.utm_medium || "",
-      utm_campaign: utms.utm_campaign || "",
-      utm_content: utms.utm_content || "",
-      utm_term: utms.utm_term || "",
-      gclid: utms.gclid || "",
+      // Full attribution payload — every field is always present (empty
+      // string when unknown) so the EmailJS template can reference any of
+      // them without guard logic.
+      ...attribution,
+      ...gaIds,
+      conversion_timestamp,
       utm_summary: utmSummary || "(direct / unknown)",
+    };
+
+    // One EmailJS template renders both the admin notification and the
+    // customer confirmation via `{{#is_admin}}` / `{{#is_customer}}`
+    // conditionals — EmailJS free tier caps at 2 templates, so we can't
+    // afford a separate customer template.
+    const adminPayload = {
+      ...emailData,
+      to_email: ADMIN_EMAIL || "info@spotless.homes",
+      reply_to: email,
+      email_subject: `New booking · ${service.name} · ${fullName} · $${total}`,
+      is_admin: "1",
+      is_customer: "",
+    };
+    const customerPayload = {
+      ...emailData,
+      to_email: email,
+      reply_to: ADMIN_EMAIL || "info@spotless.homes",
+      email_subject: `We got your booking request, ${fullName} — Spotless Homes`,
+      is_admin: "",
+      is_customer: "1",
     };
 
     let emailOk = false;
     if (SERVICE_ID && USER_ID && ADMIN_TEMPLATE_ID) {
       try {
-        await emailjs.send(
-          SERVICE_ID,
-          ADMIN_TEMPLATE_ID,
-          { ...emailData, admin_email: ADMIN_EMAIL || "info@spotless.homes" },
-          USER_ID,
-        );
+        await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, adminPayload, USER_ID);
         if (ADMIN_CC) {
           try {
-            await emailjs.send(
-              SERVICE_ID,
-              ADMIN_TEMPLATE_ID,
-              { ...emailData, admin_email: ADMIN_CC },
-              USER_ID,
-            );
+            await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...adminPayload, to_email: ADMIN_CC }, USER_ID);
           } catch (e) { /* CC is best-effort, primary already sent */ }
         }
-        if (USER_TEMPLATE_ID && email) {
+        if (email) {
           try {
-            await emailjs.send(SERVICE_ID, USER_TEMPLATE_ID, { ...emailData, user_email: email }, USER_ID);
-          } catch (e) { /* user-confirmation email is best-effort */ }
+            await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, customerPayload, USER_ID);
+          } catch (e) { /* customer confirmation is best-effort */ }
         }
         emailOk = true;
       } catch (e) {
@@ -349,7 +398,18 @@ export default function Booking({ embedded = false, initialService = null, onSte
     setSubmitted(true);
     trackBookingCompleted({ value: total });
 
-    if (!emailOk) {
+    if (emailOk) {
+      // Google Ads conversion + Enhanced Conversions — only after we're
+      // confident the lead was delivered. Fire-and-forget: the promise
+      // resolves after SubtleCrypto hashes email/phone, but the "thank you"
+      // screen isn't navigating so we don't need to await.
+      trackAdsConversion({
+        value: total,
+        transactionId: `sh-${Date.now()}`,
+        email,
+        phone,
+      });
+    } else {
       setShowFallbackNotice(true);
     }
   };
@@ -379,6 +439,7 @@ export default function Booking({ embedded = false, initialService = null, onSte
   const showProgress = step > 0;
 
   if (submitted) {
+    const afterHours = isAfterHoursFlorida();
     return (
       <div className="bk-root">
         {!embedded && BOOKING_SEO}
@@ -386,10 +447,21 @@ export default function Booking({ embedded = false, initialService = null, onSte
         <div className="booking-wrap solo">
           <div className="panel">
             <span className="step-eyebrow">Booking received</span>
-            <h1>Thanks — we'll be<br/>in touch <em>shortly</em>.</h1>
-            <p className="help">
-              We'll call you within 1 business hour to confirm. If you don't hear from us, call <a href="tel:+18139212100">813-921-2100</a>.
-            </p>
+            {afterHours ? (
+              <>
+                <h1>Thanks — we'll call you<br/><em>tomorrow morning</em>.</h1>
+                <p className="help">
+                  Our dispatcher is off for the day. A team member will reach out starting at <strong>9 AM</strong> to confirm your booking. If it's urgent, call <a href="tel:+18139212100">813-921-2100</a> and leave a voicemail.
+                </p>
+              </>
+            ) : (
+              <>
+                <h1>Thanks — we'll be<br/>in touch <em>shortly</em>.</h1>
+                <p className="help">
+                  We'll call you within 1 business hour to confirm. If you don't hear from us, call <a href="tel:+18139212100">813-921-2100</a>.
+                </p>
+              </>
+            )}
             <div className="actions">
               <a className="btn-yellow" href="/">← Back to home</a>
             </div>
@@ -400,10 +472,21 @@ export default function Booking({ embedded = false, initialService = null, onSte
           <div className="dialog">
             <span className="x" onClick={() => setShowFallbackNotice(false)}>×</span>
             <span className="step-eyebrow">Request received</span>
-            <h4>We'll call you within <em>1 business hour</em>.</h4>
-            <p className="help" style={{ marginTop: 8 }}>
-              If you don't hear back, call <strong><a href="tel:+18139212100">813-921-2100</a></strong>.
-            </p>
+            {afterHours ? (
+              <>
+                <h4>We'll call you <em>tomorrow morning</em> starting at 9 AM.</h4>
+                <p className="help" style={{ marginTop: 8 }}>
+                  Dispatcher is unavailable right now. If it's urgent, call <strong><a href="tel:+18139212100">813-921-2100</a></strong> and leave a voicemail.
+                </p>
+              </>
+            ) : (
+              <>
+                <h4>We'll call you within <em>1 business hour</em>.</h4>
+                <p className="help" style={{ marginTop: 8 }}>
+                  If you don't hear back, call <strong><a href="tel:+18139212100">813-921-2100</a></strong>.
+                </p>
+              </>
+            )}
             <div className="actions" style={{ marginTop: 24, justifyContent: "flex-end" }}>
               <button className="btn-yellow" onClick={() => setShowFallbackNotice(false)}>Got it</button>
             </div>
@@ -474,7 +557,13 @@ export default function Booking({ embedded = false, initialService = null, onSte
               calendarCells={calendarCells}
               pickDate={pickDate}
               onBack={() => goStep(3)}
-              onNext={() => { trackContactStarted(); goStep(5); }}
+              onNext={() => {
+                // Reaching the contact step means the user has seen their
+                // exact price — this is our "estimate delivered" signal.
+                trackEstimateCompleted({ value: total });
+                trackContactStarted();
+                goStep(5);
+              }}
             />
           )}
           {step === 5 && (

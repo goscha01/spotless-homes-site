@@ -10,6 +10,12 @@
     <meta name="theme-color" content="#F2C31B" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="fb:app_id" content="1091928506238558" />
+    <!-- Warm the TLS + DNS handshakes to Google's analytics endpoints so the
+         async gtag.js fetch (loaded eagerly from GoogleTag.jsx) doesn't pay
+         them on first byte. Not marked data-default — these should survive
+         the prerender pass and appear on every page. -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
     <!-- Search-engine site verification. NO data-default — these are static across all pages
          and would otherwise be stripped by the prerender pass. -->
     <meta name="google-site-verification" content="VIbW5QRsZU2E37vgtlmGCfJzFIaw4iemJ5xojbyt89Q" />
