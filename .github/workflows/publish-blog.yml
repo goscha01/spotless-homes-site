@@ -57,8 +57,20 @@ jobs:
       # `prebuild` runs sync-posts.mjs which pulls latest .md files from S3
       # into src/data/blog-posts/ so Vite's build sees them. Then `build`
       # produces dist/.
+      #
+      # VITE_* env must be injected here — Vite substitutes import.meta.env.*
+      # at build time. Without them, forms show "Email is not configured" and
+      # every blog publish silently reships a broken bundle. Values are stored
+      # as GitHub secrets on this repo (set 2026-07-31 after that regression).
       - name: Build site
         working-directory: cleanerflow
+        env:
+          VITE_SERVICE_ID: ${{ secrets.VITE_SERVICE_ID }}
+          VITE_USER_ID: ${{ secrets.VITE_USER_ID }}
+          VITE_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_ADMIN_TEMPLATE_ID }}
+          VITE_CAREERS_TEMPLATE_ID: ${{ secrets.VITE_CAREERS_TEMPLATE_ID }}
+          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
+          VITE_ADMIN_CC: ${{ secrets.VITE_ADMIN_CC }}
         run: npm run build
 
       # Existing deploy.sh: sync dist/ to www.spotless.homes bucket +
