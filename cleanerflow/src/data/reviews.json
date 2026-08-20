@@ -1,15 +1,15 @@
 {
   "aggregate": {
-    "totalRatingCount": 78,
+    "totalRatingCount": 79,
     "averageRating": 4.86,
-    "lastUpdated": "2026-08-19T11:28:10.470Z",
+    "lastUpdated": "2026-08-20T11:29:52.095Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
         "label": "Tampa",
         "accountId": "accounts/109194636448236279020",
         "locationId": "locations/2141374650782668963",
-        "userRatingCount": 38,
+        "userRatingCount": 39,
         "rating": 4.9
       },
       {
@@ -31,6 +31,18 @@
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/109194636448236279020/locations/2141374650782668963/reviews/AbFvOqmTgQyavUjc36Ny83QZ7-47Dbpg_sfSXL5z5HX4Cai5R-yY-67iVFxDTX2xo3WrU6ltMJzWPw",
+      "manual": false,
+      "rating": 5,
+      "author": "Alexandria LoPrinzi",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVU7PPB0lxHGg7giH0lpY5iBLLOWe_kQfIdOESkoFJbd06XZkVnQA=s120-c-rp-mo-br100",
+      "publishTime": "2026-08-19T18:31:36.355119Z",
+      "relativeTime": "Aug 2026",
+      "text": "",
+      "place": "Tampa",
+      "sourceUrl": "https://maps.google.com/maps?cid=8364507616850898978"
+    },
     {
       "id": "gmb:accounts/109194636448236279020/locations/2141374650782668963/reviews/AbFvOqmX-P9bXpoNLYc1ignrPS4o-iwCpxSjeT2b2SyKEep6hJDTCQjneb4Fn6f-PKic-8Dr8kFNsw",
       "manual": false,
