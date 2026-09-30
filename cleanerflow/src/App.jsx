@@ -14,6 +14,7 @@ import TermsAndConditions from "@/pages/terms-and-conditions";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Careers from "@/pages/careers";
 import CareersApply from "@/pages/careers-apply";
+import CareersThankYou from "@/pages/careers-thank-you";
 import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
 import LocationPage from "@/pages/location";
@@ -93,6 +94,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/careers/apply" element={<CareersApply />} />
+        <Route path="/careers/apply/thank-you" element={<CareersThankYou />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/post/:slug" element={<BlogPost />} />

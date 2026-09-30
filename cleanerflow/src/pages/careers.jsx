@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import SiteShell from "@/components/SiteShell";
 import SEO from "@/components/SEO";
+import NextdoorPixel from "@/NextdoorPixel";
 import "./careers.css";
 
 export default function Careers() {
   return (
     <SiteShell>
+      <NextdoorPixel />
       <SEO
         title="Careers | Apply to Join Spotless Homes Cleaning Team"
         description="Apply to join Spotless Homes as a house cleaner or maid in Florida. Flexible part-time hours, training, and supportive growth — independent contractor (1099)."

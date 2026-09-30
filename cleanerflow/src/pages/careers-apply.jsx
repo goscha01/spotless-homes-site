@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import emailjs from "emailjs-com";
 import SiteShell from "@/components/SiteShell";
 import SEO from "@/components/SEO";
+import NextdoorPixel from "@/NextdoorPixel";
+import { LOCATIONS } from "@/data/locations";
 import "./careers-apply.css";
 
 const APPLY_SEO = (
@@ -26,9 +28,20 @@ const ENGLISH_OPTS    = ["Beginner", "Enough for communication", "Fluent", "Nati
 const HOURS_OPTS      = ["10–20", "20–30", "30–40", "40+"];
 const EXPERIENCE_OPTS = ["None", "Some", "Professional"];
 const SUPPLIES_OPTS   = ["Yes", "No", "Can get"];
-const SOURCE_OPTS     = ["Indeed", "Facebook", "Telegram", "Craigslist", "Instagram", "Referral"];
+const SOURCE_OPTS     = ["Indeed", "Facebook", "Nextdoor", "Telegram", "Craigslist", "Instagram", "Referral"];
+
+// Areas where Spotless Homes hires — pulled from the site's service-area
+// catalog (data/locations.js) so this list stays in sync with /locations/*.
+// Miami is appended because we're launching hiring there before the
+// customer-facing /locations/miami page exists.
+const AREAS_OPTS = [
+  ...Object.values(LOCATIONS).map((l) => l.name),
+  "Miami",
+  "Other / Not in this list",
+];
 
 export default function CareersApply() {
+  const navigate = useNavigate();
   const [name, setName]             = useState("");
   const [email, setEmail]           = useState("");
   const [phone, setPhone]           = useState("");
@@ -40,10 +53,10 @@ export default function CareersApply() {
   const [reason, setReason]         = useState("");
   const [supplies, setSupplies]     = useState("");
   const [source, setSource]         = useState("");
+  const [area, setArea]             = useState("");
 
   const [errors, setErrors]       = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted]   = useState(false);
   const [sendError, setSendError]   = useState(null);
 
   const validate = () => {
@@ -52,6 +65,7 @@ export default function CareersApply() {
     if (!email.trim())      e.email = "Please enter your email.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Please enter a valid email address.";
     if (!phone.trim())      e.phone = "Please enter your phone number.";
+    if (!area)              e.area = "Please choose the area you're applying for.";
     if (!english)           e.english = "Please choose an option.";
     if (!hours)             e.hours = "Please choose an option.";
     if (!occupation.trim()) e.occupation = "Please enter your current occupation.";
@@ -67,6 +81,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
 Address: ${address || "(not provided)"}
+Area applying for: ${area}
 
 English level: ${english}
 Desired hours per week: ${hours}
@@ -102,6 +117,7 @@ ${reason}`;
       email,
       phone,
       address,
+      area,
       english_level: english,
       hours_per_week: hours,
       occupation,
@@ -160,6 +176,7 @@ ${reason}`;
           completed: true,
           formData: {
             "Address": address,
+            "Area applying for": area,
             "English level": english,
             "Hours per week": hours,
             "Current occupation": occupation,
@@ -170,8 +187,7 @@ ${reason}`;
           },
         }),
       }).catch((err) => console.warn("hiringflow mirror failed:", err));
-      setSubmitted(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigate("/careers/apply/thank-you", { state: { name } });
     } catch (err) {
       console.error("emailjs send failed:", err);
       setSendError(<>Sorry — something went wrong sending your application. Please try again, or call <a href="tel:+18139212100">813-921-2100</a>.</>);
@@ -180,37 +196,9 @@ ${reason}`;
     }
   };
 
-  if (submitted) {
-    return (
-      <SiteShell>
-        {APPLY_SEO}
-        <section className="apply-page">
-          <div className="container">
-            <div className="apply-success">
-              <div className="check">✓</div>
-              <h2>Thanks, {name.split(" ")[0]} — <em>application received</em>.</h2>
-              <p>We review every application personally. Expect a call or email from our team within 1–2 business days.</p>
-              <div className="orientation">
-                <div className="lbl">Watch · short orientation</div>
-                <div className="video-frame">
-                  <iframe
-                    src="https://www.youtube.com/embed/q-_euSu6NTY?autoplay=1"
-                    title="Spotless Homes orientation"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </SiteShell>
-    );
-  }
-
   return (
     <SiteShell>
+      <NextdoorPixel />
       {APPLY_SEO}
       <section className="apply-page">
         <div className="container">
@@ -254,6 +242,11 @@ ${reason}`;
                 <input type="text" autoComplete="street-address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="City, ZIP" />
               </div>
             </div>
+
+            <OptionGroup
+              field="area" label="Which area are you applying for?" required
+              options={AREAS_OPTS} value={area} onChange={setArea} error={errors.area}
+            />
 
             <OptionGroup
               field="english" label="Do you speak English?" required
