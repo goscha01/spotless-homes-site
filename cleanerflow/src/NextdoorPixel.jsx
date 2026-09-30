@@ -41,7 +41,9 @@ function bootstrapPixel() {
   first.parentNode.insertBefore(s, first);
 
   window.ndp("init", PIXEL_ID, {});
-  window.ndp("track", "PAGE_VIEW");
+  // NOTE: PAGE_VIEW is fired from the component effect (per-mount), not
+  // here, so SPA route changes (/careers → /careers/apply/thank-you) each
+  // emit their own beacon and URL-mapped conversions (Lead) can match.
 }
 
 const NextdoorPixel = () => {
@@ -49,6 +51,12 @@ const NextdoorPixel = () => {
     if (typeof window !== "undefined" && window.__PRERENDER__) return;
 
     installStub();
+
+    // Fire PAGE_VIEW on every mount — the stub queues it if the SDK hasn't
+    // loaded yet, then the queue drains once bootstrapPixel completes. This
+    // makes each SPA route change emit its own beacon so Nextdoor's URL
+    // mapping (equals /careers/apply/thank-you → Lead) actually matches.
+    window.ndp("track", "PAGE_VIEW");
 
     let done = false;
     const fire = () => {
