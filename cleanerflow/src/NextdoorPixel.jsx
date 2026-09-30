@@ -12,6 +12,7 @@ const PIXEL_ID = "e74c1edb-e5f3-4bd6-acb0-81548ad0e5f7";
 const DELAY_MS = 2500;
 
 let bootstrapped = false;
+let initFired = false;
 
 // Install the ndp queue stub immediately so events fired before the SDK
 // loads are buffered and drained once the real script arrives.
@@ -24,6 +25,18 @@ function installStub() {
   t.queue = [];
   t.v = 1;
   window.ndp = t;
+}
+
+// Call init exactly once. Idempotent across mounts. MUST run before the
+// first `track` call so the SDK's queue drains in the right order
+// (init → track); otherwise track fires against an uninitialized SDK and
+// gets dropped.
+function ensureInit() {
+  if (typeof window === "undefined") return;
+  installStub();
+  if (initFired) return;
+  initFired = true;
+  window.ndp("init", PIXEL_ID, {});
 }
 
 function bootstrapPixel() {
@@ -39,23 +52,18 @@ function bootstrapPixel() {
   s.src = `https://ads.nextdoor.com/public/pixel/ndp.js?id=${PIXEL_ID}`;
   const first = document.getElementsByTagName("script")[0];
   first.parentNode.insertBefore(s, first);
-
-  window.ndp("init", PIXEL_ID, {});
-  // NOTE: PAGE_VIEW is fired from the component effect (per-mount), not
-  // here, so SPA route changes (/careers → /careers/apply/thank-you) each
-  // emit their own beacon and URL-mapped conversions (Lead) can match.
 }
 
 const NextdoorPixel = () => {
   useEffect(() => {
     if (typeof window !== "undefined" && window.__PRERENDER__) return;
 
-    installStub();
-
-    // Fire PAGE_VIEW on every mount — the stub queues it if the SDK hasn't
-    // loaded yet, then the queue drains once bootstrapPixel completes. This
-    // makes each SPA route change emit its own beacon so Nextdoor's URL
-    // mapping (equals /careers/apply/thank-you → Lead) actually matches.
+    // Order matters: init MUST enter the queue before track so the SDK
+    // drains them init-first. installStub is called inside ensureInit.
+    ensureInit();
+    // Fire PAGE_VIEW on every mount — SPA route changes each queue their
+    // own beacon so Nextdoor's URL mapping (equals /careers/apply/thank-you
+    // → Lead) matches on navigation, not only on first pixel load.
     window.ndp("track", "PAGE_VIEW");
 
     let done = false;
