@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 80,
+    "totalRatingCount": 81,
     "averageRating": 4.86,
-    "lastUpdated": "2026-10-07T17:42:24.455Z",
+    "lastUpdated": "2026-10-08T17:46:45.804Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -25,12 +25,24 @@
         "label": "Jacksonville",
         "accountId": "accounts/103234163269032571833",
         "locationId": "locations/18380617265025283816",
-        "userRatingCount": 16,
+        "userRatingCount": 17,
         "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqlI_Dob_82mzToG9bfsC7_S8UQn1ew4_8s0vWKlMMof7ALJNZGRNRToeXu-iHG2ves6oBm_0A",
+      "manual": false,
+      "rating": 5,
+      "author": "Richard Hedgepeth",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocJ3Ow8ZHyTt8RTVguGX8wDgS5SLKE4BR81nYBextGrVB6KsWg=s120-c-rp-mo-br100",
+      "publishTime": "2026-10-08T16:52:54.744909Z",
+      "relativeTime": "Oct 2026",
+      "text": "Very good job on time polite did a outstanding job the cleaning is exceptional will be using again",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqlJSRU05ua2xyZnrLJYNpXQX1bT6f_hqzMeVgRUvOsXI1iinvEF6XVEwzoPtK85XavBdQ3BPw",
       "manual": false,
