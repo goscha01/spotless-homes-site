@@ -168,7 +168,7 @@ export default function CleaningChecklist() {
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-dark btn-lg">Book online →</Link>
               <a className="phone" href="tel:+18139212100">813-921-2100</a>
-              <div className="small">Mon–Sat · 7am–7pm EST</div>
+              <div className="small">Daily 9 AM–6 PM · Phone & chat 24/7</div>
             </div>
           </div>
         </div>

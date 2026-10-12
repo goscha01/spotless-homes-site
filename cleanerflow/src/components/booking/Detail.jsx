@@ -31,7 +31,7 @@ const Detail = () => {
     {
       title: "Instant online booking",
       description:
-        "Book online instantly, and schedule your first cleaning for as early as tomorrow. Get your home cleaned anytime from 9am to 6pm, 6 days a week.",
+        "Book online instantly, and schedule your first cleaning for as early as tomorrow. Get your home cleaned anytime from 9 AM to 6 PM, 7 days a week.",
     },
     {
       title: "Customer Service First, vetted professionals",
@@ -78,7 +78,7 @@ const Detail = () => {
     {
       question: "I need more help",
       answer:
-        "Prefer to talk to someone? Give us a call at 813-000-0000 M-F 9 AM - 6pm EST",
+        "Prefer to talk to someone? Give us a call at 813-921-2100 daily 9 AM–6 PM EST. Our AI assistant is also available 24/7 via phone and chat.",
     },
   ];
   const reviews = [

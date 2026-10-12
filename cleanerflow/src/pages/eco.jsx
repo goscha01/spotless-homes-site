@@ -138,7 +138,7 @@ export default function Eco() {
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-dark btn-lg">Book Eco Clean →</Link>
               <a className="phone" href="tel:+18139212100">813-921-2100</a>
-              <div className="small">+20% over standard · Mon–Sat · 7am–7pm EST</div>
+              <div className="small">+20% over standard · Daily 9 AM–6 PM · Phone & chat 24/7</div>
             </div>
           </div>
         </div>

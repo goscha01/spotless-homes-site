@@ -106,7 +106,7 @@ export default function About() {
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-primary btn-lg">Book online →</Link>
               <a className="phone" href="tel:+18139212100" style={{ color: "var(--y)" }}>813-921-2100</a>
-              <div className="small" style={{ color: "rgba(255,255,255,.6)" }}>Mon–Sat · 7am–7pm EST</div>
+              <div className="small" style={{ color: "rgba(255,255,255,.6)" }}>Daily 9 AM–6 PM · Phone & chat 24/7</div>
             </div>
           </div>
         </div>

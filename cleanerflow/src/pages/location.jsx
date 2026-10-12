@@ -315,7 +315,8 @@ export default function LocationPage() {
               <div className="div"></div>
               <div className="row"><span className="lbl">Phone</span>{city.phone}</div>
               <div className="row"><span className="lbl">Email</span>info@spotless.homes</div>
-              <div className="row"><span className="lbl">Hours</span>Mon–Sat · 7am–7pm EST</div>
+              <div className="row"><span className="lbl">Hours</span>Daily 9 AM–6 PM</div>
+              <div className="row"><span className="lbl">Chat</span>24/7 AI assistance</div>
               <div className="socials">
                 {["in","f","Y","G+","IG"].map((s) => <div key={s} className="soc">{s}</div>)}
               </div>
@@ -348,7 +349,7 @@ export default function LocationPage() {
             <div className="ctaband-actions">
               <Link to="/booking" className="btn btn-dark btn-lg">Book online →</Link>
               <div className="phone">{city.phone}</div>
-              <div className="small">Mon–Sat · 7am–7pm EST</div>
+              <div className="small">Daily 9 AM–6 PM · Phone & chat 24/7</div>
             </div>
           </div>
         </div>

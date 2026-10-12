@@ -107,20 +107,18 @@ const ADMIN_TEMPLATE_ID  = import.meta.env.VITE_ADMIN_TEMPLATE_ID;
 const ADMIN_EMAIL        = import.meta.env.VITE_ADMIN_EMAIL;
 const ADMIN_CC           = import.meta.env.VITE_ADMIN_CC;
 
-// Dispatcher is staffed 9AM–6PM Florida time (America/New_York, handles both EST/EDT).
-// Bookings outside this window get a "we'll call you tomorrow morning" message
-// instead of the default "within 1 business hour."
+// Dispatcher is staffed 9AM–6PM Florida time (America/New_York, handles both EST/EDT),
+// 7 days a week. Bookings outside this window get a "we'll call you tomorrow morning"
+// message instead of the default "within 1 business hour." AI assistant still covers
+// phone and chat 24/7.
 function isAfterHoursFlorida(now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
     hour: "numeric",
     hour12: false,
-    weekday: "short",
   }).formatToParts(now);
   const hour = parseInt(parts.find((p) => p.type === "hour").value, 10);
-  const weekday = parts.find((p) => p.type === "weekday").value;
-  const isWeekend = weekday === "Sat" || weekday === "Sun";
-  return isWeekend || hour < 9 || hour >= 18;
+  return hour < 9 || hour >= 18;
 }
 
 const SPEC_HOURS = ["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM"];
