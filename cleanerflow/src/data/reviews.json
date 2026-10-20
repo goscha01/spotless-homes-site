@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 81,
+    "totalRatingCount": 82,
     "averageRating": 4.86,
-    "lastUpdated": "2026-10-19T17:22:17.845Z",
+    "lastUpdated": "2026-10-20T15:35:02.653Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -25,12 +25,24 @@
         "label": "Jacksonville",
         "accountId": "accounts/103234163269032571833",
         "locationId": "locations/18380617265025283816",
-        "userRatingCount": 17,
+        "userRatingCount": 18,
         "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqkNn93_6glt28r_tVBQJveRNFo1Myp4t-F67_ICoQTVwXt5Kp59aZnJ2FCZeKrEkrucnBrp",
+      "manual": false,
+      "rating": 5,
+      "author": "antonya cooper",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocJKFHcrc3GF-OFnJyTPXz1Z6OTaRNONXU9i_zInOeEn8QLKTQ=s120-c-rp-mo-br100",
+      "publishTime": "2026-10-19T19:57:18.195067Z",
+      "relativeTime": "Oct 2026",
+      "text": "",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqlI_Dob_82mzToG9bfsC7_S8UQn1ew4_8s0vWKlMMof7ALJNZGRNRToeXu-iHG2ves6oBm_0A",
       "manual": false,
