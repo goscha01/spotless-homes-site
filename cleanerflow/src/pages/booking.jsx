@@ -55,12 +55,17 @@ const BED_OPTIONS = [
 ];
 
 const BATH_OPTIONS = [
-  { val: 1, label: "1 Bathroom" },
-  { val: 2, label: "2 Bathrooms" },
-  { val: 3, label: "3 Bathrooms" },
-  { val: 4, label: "4 Bathrooms" },
-  { val: 5, label: "5 Bathrooms" },
-  { val: 6, label: "6 Bathrooms" },
+  { val: 1,   label: "1 Bathroom" },
+  { val: 1.5, label: "1.5 Bathrooms" },
+  { val: 2,   label: "2 Bathrooms" },
+  { val: 2.5, label: "2.5 Bathrooms" },
+  { val: 3,   label: "3 Bathrooms" },
+  { val: 3.5, label: "3.5 Bathrooms" },
+  { val: 4,   label: "4 Bathrooms" },
+  { val: 4.5, label: "4.5 Bathrooms" },
+  { val: 5,   label: "5 Bathrooms" },
+  { val: 5.5, label: "5.5 Bathrooms" },
+  { val: 6,   label: "6 Bathrooms" },
 ];
 
 // Add-on price labels — kept in sync with calculatePrice.js
@@ -69,7 +74,7 @@ const EXTRA_PRICE = {
   fridge:      40,
   oven:        40,
   laundry:     20,
-  window:      20,
+  window:      10,
   dish:        20,
   "glass-door": 20,
   door:        50,
@@ -87,6 +92,11 @@ const EXTRA_DISPLAY = [
   { id: "door",       name: "Patio Door" },
   { id: "garage",     name: "Garage" },
 ];
+
+// Items where the user chooses a quantity (# of windows / doors). All others
+// are simple on/off. Keep in sync with countable: true in constants/price.js.
+const EXTRA_COUNTABLE = new Set(["window", "glass-door", "door"]);
+const EXTRA_QTY_MAX = 50;
 
 const MONTHS = [
   "January","February","March","April","May","June",
@@ -160,7 +170,9 @@ export default function Booking({ embedded = false, initialService = null, onSte
   const [baths, setBaths] = useState(1);
   const [cond, setCond]   = useState(null);
   const [pets, setPets]   = useState(null);
-  const [extras, setExtras] = useState([]);
+  // extras: { [id]: quantity }. Non-countable items are always qty 1 when
+  // selected; countable items (window / glass-door / door) carry user-set qty.
+  const [extras, setExtras] = useState({});
   const [step2Error, setStep2Error] = useState(false);
 
   const [viewMonth, setViewMonth] = useState(today.getMonth());
@@ -213,7 +225,20 @@ export default function Booking({ embedded = false, initialService = null, onSte
     goStep(1);
   };
   const toggleExtra = (id) => {
-    setExtras((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setExtras((prev) => {
+      const next = { ...prev };
+      if (id in next) delete next[id];
+      else next[id] = 1;
+      return next;
+    });
+  };
+  const setExtraQty = (id, qty) => {
+    setExtras((prev) => {
+      const next = { ...prev };
+      if (qty < 1) delete next[id];
+      else next[id] = Math.min(qty, EXTRA_QTY_MAX);
+      return next;
+    });
   };
 
   const isPastDay = (day, month, year) =>
@@ -310,7 +335,9 @@ export default function Booking({ embedded = false, initialService = null, onSte
     // separating "submit intent" from "submit succeeded" so we can see
     // fill-vs-fail funnels in GA4.
     trackBookingStarted({ value: total });
-    trackLead({ value: total });
+    // email/phone feed Meta Advanced Matching (hashed locally in trackLead
+    // so plaintext PII never leaves the browser).
+    trackLead({ value: total, email, phone });
 
     // GA4 client_id + session_id are captured at submit-time so the lead
     // email carries the identifiers needed to join back to a GA4 session
@@ -321,8 +348,11 @@ export default function Booking({ embedded = false, initialService = null, onSte
     const conversion_timestamp = new Date().toISOString();
 
     const service = SERVICES[serviceType];
-    const extrasLabel = extras
-      .map((id) => EXTRA_DISPLAY.find((e) => e.id === id)?.name || id)
+    const extrasLabel = Object.entries(extras)
+      .map(([id, qty]) => {
+        const name = EXTRA_DISPLAY.find((e) => e.id === id)?.name || id;
+        return qty > 1 ? `${name} ×${qty}` : name;
+      })
       .join(", ");
 
     const emailData = {
@@ -543,7 +573,7 @@ export default function Booking({ embedded = false, initialService = null, onSte
           )}
           {step === 3 && (
             <Step3
-              extras={extras} toggleExtra={toggleExtra}
+              extras={extras} toggleExtra={toggleExtra} setExtraQty={setExtraQty}
               onBack={() => goStep(2)}
               onNext={() => { trackFunnelStep("addons_completed"); goStep(4); }}
             />
@@ -806,7 +836,7 @@ function Step2({ cond, setCond, pets, setPets, error, onBack, onNext }) {
   );
 }
 
-function Step3({ extras, toggleExtra, onBack, onNext }) {
+function Step3({ extras, toggleExtra, setExtraQty, onBack, onNext }) {
   return (
     <>
       <span className="step-eyebrow">Step 3 · Add-ons</span>
@@ -814,16 +844,38 @@ function Step3({ extras, toggleExtra, onBack, onNext }) {
       <p className="help">Optional. Each add-on is priced per item and will appear in your total live.</p>
 
       <div className="extras-grid">
-        {EXTRA_DISPLAY.map((e) => (
-          <div
-            key={e.id}
-            className={`extra${extras.includes(e.id) ? " selected" : ""}`}
-            onClick={() => toggleExtra(e.id)}
-          >
-            <span className="check"></span>
-            <span className="name">{e.name}</span>
-          </div>
-        ))}
+        {EXTRA_DISPLAY.map((e) => {
+          const qty = extras[e.id] || 0;
+          const selected = qty > 0;
+          const countable = EXTRA_COUNTABLE.has(e.id);
+          return (
+            <div
+              key={e.id}
+              className={`extra${selected ? " selected" : ""}`}
+              onClick={() => toggleExtra(e.id)}
+            >
+              <span className="check"></span>
+              <span className="name">{e.name}</span>
+              {countable && selected && (
+                <div className="extra-qty" onClick={(ev) => ev.stopPropagation()}>
+                  <button
+                    type="button"
+                    className="qbtn"
+                    aria-label={`Decrease ${e.name}`}
+                    onClick={() => setExtraQty(e.id, qty - 1)}
+                  >−</button>
+                  <span className="qnum">{qty}</span>
+                  <button
+                    type="button"
+                    className="qbtn"
+                    aria-label={`Increase ${e.name}`}
+                    onClick={() => setExtraQty(e.id, qty + 1)}
+                  >+</button>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="actions">
@@ -936,16 +988,18 @@ function Summary({ serviceType, beds, baths, sqft, extras, selectedDate, time, t
         {sqft && <li>{sqft} sq. ft</li>}
       </ul>
 
-      {extras.length > 0 && (
+      {Object.keys(extras).length > 0 && (
         <div className="extras-wrap">
           <span className="head">Add-ons</span>
           <ul className="extra-list">
-            {extras.map((id) => {
+            {Object.entries(extras).map(([id, qty]) => {
               const meta = EXTRA_DISPLAY.find((e) => e.id === id);
+              const unit = EXTRA_PRICE[id] || 0;
+              const name = meta?.name || id;
               return (
                 <li key={id}>
-                  {meta?.name || id}
-                  <span className="price">+${EXTRA_PRICE[id] || 0}</span>
+                  {qty > 1 ? `${name} ×${qty}` : name}
+                  <span className="price">+${unit * qty}</span>
                 </li>
               );
             })}

@@ -110,6 +110,20 @@
 .bk-root .extra.selected .check { background: var(--y); border-color: var(--y); color: var(--k); }
 .bk-root .extra.selected .check::after { content: "✓"; font-size: 13px; font-weight: 700; }
 .bk-root .extra .name { font-family: var(--serif); font-size: 17px; font-weight: 500; }
+.bk-root .extra .extra-qty {
+  margin-left: auto; display: flex; align-items: center; gap: 8px;
+}
+.bk-root .extra .qbtn {
+  width: 28px; height: 28px; border: 1px solid var(--k); background: var(--w);
+  font-family: var(--sans); font-size: 18px; font-weight: 600; line-height: 1;
+  color: var(--k); cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.bk-root .extra .qbtn:hover { background: var(--y); }
+.bk-root .extra .qnum {
+  font-family: var(--sans); font-size: 15px; font-weight: 600;
+  min-width: 18px; text-align: center; color: var(--k);
+}
 
 /* service picker (entry) */
 .bk-root .services-pick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }

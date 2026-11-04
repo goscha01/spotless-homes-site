@@ -357,9 +357,10 @@ export const extras = [
   {
     id: "window",
     label: "Windows",
-    price: 20,
+    price: 10,
+    countable: true,
     image: "/extras/windows.png",
-    description: "4 windows included, Price for every additional",
+    description: "$10 per window (inside + outside)",
   },
   {
     id: "dish",
@@ -370,11 +371,13 @@ export const extras = [
     id: "glass-door",
     label: "Glass Door",
     price: 20,
+    countable: true,
   },
   {
     id: "door",
     label: "Patio Door",
     price: 50,
+    countable: true,
     description: "inside and outside",
   },
   {

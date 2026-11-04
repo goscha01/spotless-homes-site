@@ -4,8 +4,12 @@ export const  calculatePrice = (formData) => {
   let basePrice = 0;
 
   function getBasePrice(serviceType, bedrooms, bathrooms) {
+    // Half-baths (1.5, 2.5, …) count as a full bathroom for pricing — matches
+    // the "A half-bathroom counts as a full bathroom" copy in the UI and
+    // keeps the pricingData table integer-only.
+    const bathLookup = Math.ceil(Number(bathrooms));
     const foundPrice = pricingData.find(
-      (item) => item.bedrooms == bedrooms && item.bathrooms == bathrooms
+      (item) => item.bedrooms == bedrooms && item.bathrooms == bathLookup
     );
     if (foundPrice) {
       formData.square_feet = foundPrice.square_feet;
@@ -51,15 +55,20 @@ export const  calculatePrice = (formData) => {
   }
 
   if (formData.extras) {
-    if (formData.extras.includes("cabinet")) basePrice += 30;
-    if (formData.extras.includes("fridge")) basePrice += 40;
-    if (formData.extras.includes("oven")) basePrice += 40;
-    if (formData.extras.includes("laundry")) basePrice += 20;
-    if (formData.extras.includes("window")) basePrice += 20;
-    if (formData.extras.includes("dish")) basePrice += 20;
-    if (formData.extras.includes("glass-door")) basePrice += 20;
-    if (formData.extras.includes("door")) basePrice += 50;
-    if (formData.extras.includes("garage")) basePrice += 50;
+    // extras may arrive as an array of selected ids (legacy shape) or as a
+    // { [id]: quantity } map (new shape, used by the main booking wizard so
+    // user can specify # of windows / doors). Normalize via qtyOf.
+    const isArray = Array.isArray(formData.extras);
+    const qtyOf = (id) => {
+      if (isArray) return formData.extras.includes(id) ? 1 : 0;
+      const v = formData.extras[id];
+      return typeof v === "number" ? v : v ? 1 : 0;
+    };
+    const unit = {
+      cabinet: 30, fridge: 40, oven: 40, laundry: 20,
+      window: 10, dish: 20, "glass-door": 20, door: 50, garage: 50,
+    };
+    for (const id in unit) basePrice += unit[id] * qtyOf(id);
   }
 
   if (formData.hasPets == "Yes") basePrice += 20;
