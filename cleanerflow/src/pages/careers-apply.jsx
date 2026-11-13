@@ -114,26 +114,31 @@ export default function CareersApply() {
     setEmail(v);
     if (errors.email) validateField("email", v);
   };
-  const handlePhoneChange = (ev) => {
-    const v = ev.target.value;
-    setPhone(v);
-    if (errors.phone) validateField("phone", v);
+  // Normalize-and-strip logic shared between onChange (handles Chrome
+  // autofill + paste, which fire change but not necessarily blur) and
+  // onBlur (handles the tab-out case + any state left over if autofill
+  // was partial). If the value fully normalizes to a +1 NANP number,
+  // we keep only the 10 subscriber digits in state so the visual +1
+  // prefix doesn't duplicate. Partial / invalid values are left as-is
+  // so mid-typing doesn't mangle input.
+  const stripPlusOneIfValid = (value) => {
+    const e164 = normalizeToE164(value);
+    if (e164 && e164.startsWith("+1") && e164.length === 12) {
+      return e164.slice(2);
+    }
+    return value;
   };
-  // On blur: if the input normalizes to a +1 NANP number, strip the +1
-  // from the displayed value so the UI doesn't read as `+1 12483462681`
-  // (country code duplicated). The +1 lives in the visual prefix; the
-  // state should only carry the 10 subscriber digits once parsed.
-  // Invalid input is left untouched so validateField can flag it.
+  const handlePhoneChange = (ev) => {
+    const raw = ev.target.value;
+    const stripped = stripPlusOneIfValid(raw);
+    setPhone(stripped);
+    if (errors.phone) validateField("phone", stripped);
+  };
   const handlePhoneBlur = (ev) => {
     const raw = ev.target.value;
-    const e164 = normalizeToE164(raw);
-    if (e164 && e164.startsWith("+1") && e164.length === 12) {
-      const subscriber = e164.slice(2); // drop "+1"
-      if (subscriber !== raw) setPhone(subscriber);
-      validateField("phone", subscriber);
-    } else {
-      validateField("phone", raw);
-    }
+    const stripped = stripPlusOneIfValid(raw);
+    if (stripped !== raw) setPhone(stripped);
+    validateField("phone", stripped);
   };
 
   const buildMessage = () => `EMPLOYMENT APPLICATION
