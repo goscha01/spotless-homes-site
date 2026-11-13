@@ -291,7 +291,10 @@ ${reason}`;
             <div className="field-row">
               <div className="field" data-field="phone">
                 <label className="lbl">Phone number <span className="req">*</span></label>
-                <input type="tel" autoComplete="tel" value={phone} onChange={handlePhoneChange} onBlur={(e) => validateField("phone", e.target.value)} placeholder="(555) 555-5555" />
+                <div className="phone-group">
+                  <span className="phone-prefix" aria-hidden="true">+1</span>
+                  <input type="tel" autoComplete="tel" value={phone} onChange={handlePhoneChange} onBlur={(e) => validateField("phone", e.target.value)} placeholder="(555) 555-5555" />
+                </div>
                 {errors.phone && <div className="err">{errors.phone}</div>}
               </div>
               <div className="field">

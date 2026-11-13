@@ -23,6 +23,30 @@
 .site-root .apply-form textarea:focus { outline: none; border-color: var(--k); }
 .site-root .apply-form textarea { min-height: 110px; resize: vertical; font-family: var(--serif); font-size: 16px; line-height: 1.5; }
 
+/* Phone input with sticky +1 prefix. Visual-only — the input value in state
+   still carries whatever the user typed; normalizeToE164 (contact-validation.js)
+   handles the canonicalization at validate/submit time. This hints at the
+   expected format so candidates don't skip the country code and don't paste
+   partial numbers. */
+.site-root .apply-form .phone-group {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--g-200); background: var(--w);
+  transition: border-color .15s;
+}
+.site-root .apply-form .phone-group:focus-within { border-color: var(--k); }
+.site-root .apply-form .phone-group .phone-prefix {
+  display: flex; align-items: center;
+  padding: 0 14px;
+  font-family: var(--sans); font-size: 15px; color: var(--g-500);
+  background: var(--g-50);
+  border-right: 1px solid var(--g-200);
+  user-select: none;
+}
+.site-root .apply-form .phone-group input[type="tel"] {
+  flex: 1; border: none;
+}
+.site-root .apply-form .phone-group input[type="tel"]:focus { outline: none; }
+
 .site-root .apply-form .options { display: flex; flex-wrap: wrap; gap: 10px; }
 .site-root .apply-form .opt {
   display: inline-flex; align-items: center; gap: 8px;

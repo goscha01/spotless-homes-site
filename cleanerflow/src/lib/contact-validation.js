@@ -30,6 +30,18 @@ const TLD_TYPOS = {
 
 const E164 = /^\+[1-9]\d{6,14}$/
 
+// NANP (North American Numbering Plan — US/Canada +1): the 10 subscriber
+// digits must follow NPA + NXX + xxxx where NPA and NXX each start with
+// [2-9]. Catches typos like "1248252629" (area code 124, which doesn't
+// exist) that the generic E.164 regex above would otherwise accept as
+// `+11248252629`.
+function isValidNanp10(digits) {
+  if (!/^\d{10}$/.test(digits)) return false
+  if (!/^[2-9]/.test(digits)) return false
+  if (!/^.{3}[2-9]/.test(digits)) return false
+  return true
+}
+
 export function normalizeEmail(input) {
   return (input ?? '').trim().toLowerCase()
 }
@@ -50,15 +62,22 @@ export function validateEmail(input) {
 export function normalizeToE164(input) {
   if (!input) return null
   const trimmed = String(input).trim()
-  if (E164.test(trimmed)) return trimmed
+  if (E164.test(trimmed)) {
+    // Enforce NANP rules for +1 numbers so `+11248252629` (area code 124)
+    // doesn't slip through the generic E.164 regex.
+    if (trimmed.startsWith('+1') && trimmed.length === 12 && !isValidNanp10(trimmed.slice(2))) {
+      return null
+    }
+    return trimmed
+  }
   // Explicit `+` inputs that fail the strict E.164 check are malformed —
   // do NOT infer a country code (would double-prefix `+1 352 206 342` as
   // `+11352206342` which Twilio rejects).
   const startsWithPlus = trimmed.startsWith('+')
   const digits = trimmed.replace(/\D/g, '')
   if (!startsWithPlus) {
-    if (digits.length === 10) return `+1${digits}`
-    if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`
+    if (digits.length === 10 && isValidNanp10(digits)) return `+1${digits}`
+    if (digits.length === 11 && digits.startsWith('1') && isValidNanp10(digits.slice(1))) return `+${digits}`
   }
   return null
 }
@@ -67,6 +86,6 @@ export function validatePhone(input) {
   const v = (input ?? '').trim()
   if (!v) return { ok: false, error: 'Please enter your phone number.' }
   const e164 = normalizeToE164(v)
-  if (!e164) return { ok: false, error: 'Please enter a valid phone (e.g. +1 555 123 4567).' }
+  if (!e164) return { ok: false, error: 'Please enter a valid US phone number (10 digits, e.g. 555-123-4567).' }
   return { ok: true, value: e164 }
 }
