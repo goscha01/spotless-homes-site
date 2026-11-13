@@ -82,6 +82,44 @@ export default function CareersApply() {
     return e;
   };
 
+  // Blur-based validation for the format-sensitive fields so typos
+  // (`@yahoo.comj`, phone that doesn't normalize) surface the instant
+  // the candidate tabs out of the field — no need to wait for submit.
+  // Re-validation on keystroke is scoped to fields that ALREADY have an
+  // error showing: a fresh field shouldn't flash "please enter a valid
+  // email" at the first keystroke. Once an error IS visible, each
+  // keystroke re-checks so correcting the typo clears the error without
+  // the candidate needing to tab out again.
+  const validateField = (field, value) => {
+    let err = null;
+    if (field === "email") {
+      const check = validateEmail(value);
+      if (!check.ok) err = check.error;
+    } else if (field === "phone") {
+      const check = validatePhone(value);
+      if (!check.ok) err = check.error;
+    }
+    setErrors((prev) => {
+      if (err && prev[field] === err) return prev;
+      if (!err && !prev[field]) return prev;
+      const next = { ...prev };
+      if (err) next[field] = err;
+      else delete next[field];
+      return next;
+    });
+  };
+
+  const handleEmailChange = (ev) => {
+    const v = ev.target.value;
+    setEmail(v);
+    if (errors.email) validateField("email", v);
+  };
+  const handlePhoneChange = (ev) => {
+    const v = ev.target.value;
+    setPhone(v);
+    if (errors.phone) validateField("phone", v);
+  };
+
   const buildMessage = () => `EMPLOYMENT APPLICATION
 
 Name: ${name}
@@ -245,7 +283,7 @@ ${reason}`;
               </div>
               <div className="field" data-field="email">
                 <label className="lbl">Enter your email <span className="req">*</span></label>
-                <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
+                <input type="email" autoComplete="email" value={email} onChange={handleEmailChange} onBlur={(e) => validateField("email", e.target.value)} placeholder="you@example.com" />
                 {errors.email && <div className="err">{errors.email}</div>}
               </div>
             </div>
@@ -253,7 +291,7 @@ ${reason}`;
             <div className="field-row">
               <div className="field" data-field="phone">
                 <label className="lbl">Phone number <span className="req">*</span></label>
-                <input type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 555-5555" />
+                <input type="tel" autoComplete="tel" value={phone} onChange={handlePhoneChange} onBlur={(e) => validateField("phone", e.target.value)} placeholder="(555) 555-5555" />
                 {errors.phone && <div className="err">{errors.phone}</div>}
               </div>
               <div className="field">
