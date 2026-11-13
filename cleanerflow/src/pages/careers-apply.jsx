@@ -4,6 +4,8 @@ import emailjs from "emailjs-com";
 import SiteShell from "@/components/SiteShell";
 import SEO from "@/components/SEO";
 import NextdoorPixel from "@/NextdoorPixel";
+import { trackCareersLead } from "@/lib/track";
+import { validateEmail, validatePhone } from "@/lib/contact-validation";
 import { LOCATIONS } from "@/data/locations";
 import "./careers-apply.css";
 
@@ -62,9 +64,14 @@ export default function CareersApply() {
   const validate = () => {
     const e = {};
     if (!name.trim())       e.name = "Please enter your name.";
-    if (!email.trim())      e.email = "Please enter your email.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Please enter a valid email address.";
-    if (!phone.trim())      e.phone = "Please enter your phone number.";
+    // Email + phone use shared validators that mirror HireFunnel's
+    // server-side guard (TLD typo detection, strict E.164 normalization)
+    // so anything that passes here won't be rejected downstream as
+    // skipped_bad_contact.
+    const emailCheck = validateEmail(email);
+    if (!emailCheck.ok) e.email = emailCheck.error;
+    const phoneCheck = validatePhone(phone);
+    if (!phoneCheck.ok) e.phone = phoneCheck.error;
     if (!area)              e.area = "Please choose the area you're applying for.";
     if (!english)           e.english = "Please choose an option.";
     if (!hours)             e.hours = "Please choose an option.";
@@ -108,14 +115,21 @@ ${reason}`;
 
     setSubmitting(true);
 
+    // Lock in the normalized canonical forms so downstream (emailjs,
+    // HireFunnel public API, tracking pixels) all get the same canonical
+    // email (lowercased) and E.164 phone — matches what HF's server
+    // guard would canonicalize to anyway.
+    const normalizedEmail = validateEmail(email).value || email.trim();
+    const normalizedPhone = validatePhone(phone).value || phone.trim();
+
     const message = buildMessage();
     // Same template renders both the admin notification and the applicant
     // confirmation via {{#is_admin}} / {{#is_customer}} conditionals so the
     // free-tier 2-template cap covers both audiences with one template.
     const applicantData = {
       name,
-      email,
-      phone,
+      email: normalizedEmail,
+      phone: normalizedPhone,
       address,
       area,
       english_level: english,
@@ -130,14 +144,14 @@ ${reason}`;
     const adminPayload = {
       ...applicantData,
       to_email: ADMIN_EMAIL,
-      reply_to: email,
+      reply_to: normalizedEmail,
       email_subject: `New job application — ${name}`,
       is_admin: "1",
       is_customer: "",
     };
     const applicantPayload = {
       ...applicantData,
-      to_email: email,
+      to_email: normalizedEmail,
       reply_to: ADMIN_EMAIL,
       email_subject: `We received your application, ${name} — Spotless Homes`,
       is_admin: "",
@@ -158,7 +172,7 @@ ${reason}`;
           await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, { ...adminPayload, to_email: ADMIN_CC }, USER_ID);
         } catch (_) { /* CC is best-effort */ }
       }
-      if (email) {
+      if (normalizedEmail) {
         try {
           await emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, applicantPayload, USER_ID);
         } catch (_) { /* applicant confirmation is best-effort */ }
@@ -170,8 +184,8 @@ ${reason}`;
         body: JSON.stringify({
           flowSlug: HIRINGFLOW_SLUG,
           candidateName: name,
-          candidateEmail: email,
-          candidatePhone: phone,
+          candidateEmail: normalizedEmail,
+          candidatePhone: normalizedPhone,
           source: "spotless-site",
           completed: true,
           formData: {
@@ -187,6 +201,11 @@ ${reason}`;
           },
         }),
       }).catch((err) => console.warn("hiringflow mirror failed:", err));
+      // Meta `SubmitApplication` standard event (distinct from booking's
+      // Lead so hiring/booking campaigns optimize independently) + GA4
+      // `careers_lead`. email/phone are hashed locally for Advanced
+      // Matching; eventID returned for future CAPI dedupe.
+      trackCareersLead({ email: normalizedEmail, phone: normalizedPhone });
       navigate("/careers/apply/thank-you", { state: { name } });
     } catch (err) {
       console.error("emailjs send failed:", err);
