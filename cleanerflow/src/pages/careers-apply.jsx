@@ -5,7 +5,7 @@ import SiteShell from "@/components/SiteShell";
 import SEO from "@/components/SEO";
 import NextdoorPixel from "@/NextdoorPixel";
 import { LOCATIONS } from "@/data/locations";
-import { validateEmail, validatePhone } from "@/lib/contact-validation";
+import { validateEmail, validatePhone, normalizeToE164 } from "@/lib/contact-validation";
 import { trackCareersLead } from "@/lib/track";
 import "./careers-apply.css";
 
@@ -118,6 +118,22 @@ export default function CareersApply() {
     const v = ev.target.value;
     setPhone(v);
     if (errors.phone) validateField("phone", v);
+  };
+  // On blur: if the input normalizes to a +1 NANP number, strip the +1
+  // from the displayed value so the UI doesn't read as `+1 12483462681`
+  // (country code duplicated). The +1 lives in the visual prefix; the
+  // state should only carry the 10 subscriber digits once parsed.
+  // Invalid input is left untouched so validateField can flag it.
+  const handlePhoneBlur = (ev) => {
+    const raw = ev.target.value;
+    const e164 = normalizeToE164(raw);
+    if (e164 && e164.startsWith("+1") && e164.length === 12) {
+      const subscriber = e164.slice(2); // drop "+1"
+      if (subscriber !== raw) setPhone(subscriber);
+      validateField("phone", subscriber);
+    } else {
+      validateField("phone", raw);
+    }
   };
 
   const buildMessage = () => `EMPLOYMENT APPLICATION
@@ -293,7 +309,7 @@ ${reason}`;
                 <label className="lbl">Phone number <span className="req">*</span></label>
                 <div className="phone-group">
                   <span className="phone-prefix" aria-hidden="true">+1</span>
-                  <input type="tel" autoComplete="tel" value={phone} onChange={handlePhoneChange} onBlur={(e) => validateField("phone", e.target.value)} placeholder="(555) 555-5555" />
+                  <input type="tel" autoComplete="tel" value={phone} onChange={handlePhoneChange} onBlur={handlePhoneBlur} placeholder="(555) 555-5555" />
                 </div>
                 {errors.phone && <div className="err">{errors.phone}</div>}
               </div>
