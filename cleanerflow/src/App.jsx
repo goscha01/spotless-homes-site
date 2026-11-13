@@ -20,6 +20,7 @@ import BlogPost from "@/pages/blog-post";
 import LocationPage from "@/pages/location";
 import GoogleTag from "./GoogleTag";
 import ChatGPTPixel from "./ChatGPTPixel";
+import MetaPixel from "./MetaPixel";
 import { captureUTMs } from "@/lib/utm";
 import { trackPhoneClick, trackEmailClick, trackSMSClick, trackGetQuoteClick } from "@/lib/track";
 
@@ -32,6 +33,12 @@ function GAListener() {
         page_path: pathname + search,
         page_location: window.location.href,
       });
+    }
+    // Meta PageView — route-change-driven so SPA navigations each emit
+    // their own beacon. MetaPixel.jsx intentionally does NOT fire it at
+    // init time, so this is the single source of pageview truth for fbq.
+    if (typeof window !== "undefined" && window.fbq) {
+      window.fbq("track", "PageView");
     }
   }, [pathname, search]);
   return null;
@@ -78,6 +85,7 @@ function App() {
     <BrowserRouter>
       <GoogleTag />
       <ChatGPTPixel />
+      <MetaPixel />
       <GAListener />
       <ClickTracker />
       <ScrollToTop />

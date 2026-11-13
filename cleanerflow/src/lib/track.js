@@ -3,6 +3,13 @@ import { resolveSource } from "./phone";
 
 const GTAG_ID = "G-6ZB89H49SD";
 const AW_ID   = "AW-17067419398";
+// Meta Pixel ID. Site-wide: mounted at App.jsx root (MetaPixel.jsx) so all
+// paid Meta campaigns — booking, hiring, promos, future — share one pixel.
+// Distinct conversion events keep campaign types optimizable independently:
+//   - booking submit         → Meta "Lead"            (trackLead)
+//   - job application submit → Meta "SubmitApplication" (trackCareersLead)
+// Hardcoded — public identifier.
+const META_PIXEL_ID = "1406103031693683";
 // Conversion label from Google Ads (Tools → Conversions → your action →
 // Tag setup → Install manually → the string after the "/" in
 // `send_to: 'AW-XXXX/YYYY'`). Set as VITE_AW_CONVERSION_LABEL at build time.
@@ -22,6 +29,21 @@ if (typeof window !== "undefined" && !window.__PRERENDER__) {
     const q = function () { q.q.push(arguments); };
     q.q = [];
     window.oaiq = q;
+  }
+  // Meta Pixel queue stub. MetaPixel.jsx installs the same stub in its
+  // bootstrap, but React useEffects aren't guaranteed to run before this
+  // module's first helper call (e.g. a mount-time event firing), so
+  // install here too to prevent dropped events.
+  if (!window.fbq) {
+    const n = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    window.fbq = n;
+    if (!window._fbq) window._fbq = n;
+    n.push = n;
+    n.loaded = true;
+    n.version = "2.0";
+    n.queue = [];
   }
 }
 
@@ -95,6 +117,20 @@ function fireOaiqCustom(name) {
   }
 }
 
+// Meta Pixel: standard events (Lead, InitiateCheckout, Schedule, Contact,
+// SubmitApplication, Purchase, …) use `track`. Non-standard names use
+// `trackCustom` so Meta doesn't filter them.
+function fireMetaStd(name, data) {
+  if (typeof window !== "undefined" && window.fbq) {
+    try { window.fbq("track", name, data || {}); } catch (e) { /* swallow */ }
+  }
+}
+function fireMetaCustom(name, data) {
+  if (typeof window !== "undefined" && window.fbq) {
+    try { window.fbq("trackCustom", name, data || {}); } catch (e) { /* swallow */ }
+  }
+}
+
 // ─── Google Ads Enhanced Conversions ──────────────────────────────────
 //
 // Google Ads accepts either raw or pre-hashed user data. We hash locally
@@ -126,6 +162,16 @@ function normalizePhoneE164(phone) {
   if (digits.length === 10) return `+1${digits}`;
   if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
   return `+${digits}`;
+}
+
+// Meta's Advanced Matching phone format differs from Google: digits only,
+// no +, no spaces, country code required. For a US 10-digit input we
+// prepend "1" to make it a full E.164 number minus the leading +.
+function normalizePhoneMetaDigits(phone) {
+  const digits = (phone || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.length === 10) return `1${digits}`;
+  return digits;
 }
 
 // Fires the Google Ads conversion event + attaches Enhanced Conversions
@@ -173,11 +219,41 @@ export async function trackAdsConversion({ value, transactionId, email, phone } 
 
 // ─── Conversion events ────────────────────────────────────────────────
 
+// Shared helper: fire a Meta event with Advanced Matching. Email + phone
+// are hashed locally (SubtleCrypto) so plaintext PII never leaves the
+// browser — matches the Google Ads Enhanced Conversions privacy posture.
+// The event fires immediately; the AM re-init follows async so the first
+// event may land without AM, but Meta associates subsequent events with
+// the hashed user data for the rest of the session.
+function fireMetaWithAM(eventName, data, { email, phone, eventID } = {}) {
+  if (typeof window === "undefined" || !window.fbq) return;
+  try {
+    window.fbq("track", eventName, data || {}, eventID ? { eventID } : undefined);
+  } catch (e) { /* swallow */ }
+
+  if (!email && !phone) return;
+  Promise.all([
+    sha256Hex(normalizeEmail(email)),
+    sha256Hex(normalizePhoneMetaDigits(phone)),
+  ]).then(([em, ph]) => {
+    const am = {};
+    if (em) am.em = em;
+    if (ph) am.ph = ph;
+    if (em || ph) {
+      try { window.fbq("init", META_PIXEL_ID, am); } catch (e) { /* swallow */ }
+    }
+  }).catch(() => { /* hashing failed — no-op, event already fired without AM */ });
+}
+
 // Fired when the wizard's contact-step form is actually submitted. Uses
 // GA4's recommended `generate_lead` name so it shows up as a Conversion
 // in GA4 without a custom event mapping. `contact_form_submit` is also
 // fired for downstream tag setups that want a form-shaped name.
-export function trackLead({ value }) {
+//
+// `email`/`phone` are optional — when provided, hashed locally and fed
+// into Meta's Advanced Matching. Returns an `eventID` so the caller can
+// reuse it for a future CAPI server event (Meta dedupes by eventID).
+export function trackLead({ value, email, phone } = {}) {
   fireGa("generate_lead", {
     event_category: "Booking",
     event_label: "Booking Wizard Complete",
@@ -193,12 +269,35 @@ export function trackLead({ value }) {
       currency: "USD",
     });
   }
+
+  const eventID = `sh-lead-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  fireMetaWithAM(
+    "Lead",
+    { value: typeof value === "number" ? value : 0, currency: "USD" },
+    { email, phone, eventID },
+  );
+  return { eventID };
+}
+
+// Fired on a successful careers / job-application submission. Uses
+// Meta's `SubmitApplication` standard event — purpose-built for job /
+// loan / program applications and distinct from `Lead` so hiring and
+// booking campaigns can optimize independently in Ads Manager. GA4 gets
+// a `careers_lead` event (distinct from booking's `generate_lead`).
+export function trackCareersLead({ email, phone } = {}) {
+  fireGa("careers_lead", { event_category: "Careers" });
+
+  const eventID = `sh-careers-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  fireMetaWithAM("SubmitApplication", {}, { email, phone, eventID });
+  return { eventID };
 }
 
 // Fired after the "thanks — we'll be in touch" screen shows.
 export function trackBookingCompleted({ value }) {
   fireGa("booking_completed", { value, currency: "USD" });
   fireOaiqCustom("booking_completed");
+  // Meta Schedule — standard event for an appointment / booking being set.
+  fireMetaStd("Schedule", { value: typeof value === "number" ? value : 0, currency: "USD" });
 }
 
 // ─── Funnel-stage events ──────────────────────────────────────────────
@@ -210,6 +309,8 @@ export function trackQuoteStarted(pageName = "") {
   fireGa("quote_started",    { event_label: pageName });
   fireGa("estimate_started", { event_label: pageName });
   fireOaiqCustom("quote_started");
+  // Meta InitiateCheckout — closest standard event to "wizard opened".
+  fireMetaStd("InitiateCheckout", { content_name: pageName || "quote_wizard" });
 }
 
 // Fired when the wizard reaches its last (contact-info) step — the user
@@ -218,6 +319,7 @@ export function trackQuoteStarted(pageName = "") {
 export function trackEstimateCompleted({ value } = {}) {
   fireGa("estimate_completed", { value, currency: "USD" });
   fireOaiqCustom("estimate_completed");
+  fireMetaCustom("EstimateCompleted", { value: typeof value === "number" ? value : 0, currency: "USD" });
 }
 
 // Fired the moment the user hits the Submit button on the contact step.
@@ -246,6 +348,7 @@ export function trackPhoneClick(location = "") {
   fireGa("phone_click", params);
   fireGa("call_click",  params);
   fireOaiqCustom("call_click");
+  fireMetaStd("Contact", { contact_method: "phone", content_name: location });
 }
 // Legacy name kept because App.jsx + booking-page.jsx already call it.
 export const trackCallClick = trackPhoneClick;
@@ -253,11 +356,13 @@ export const trackCallClick = trackPhoneClick;
 export function trackEmailClick(location = "") {
   fireGa("email_click", { event_category: "Engagement", event_label: location, click_location: location });
   fireOaiqCustom("email_click");
+  fireMetaStd("Contact", { contact_method: "email", content_name: location });
 }
 
 export function trackSMSClick(location = "") {
   fireGa("sms_click", { event_category: "Engagement", event_label: location, click_location: location });
   fireOaiqCustom("sms_click");
+  fireMetaStd("Contact", { contact_method: "sms", content_name: location });
 }
 
 export function trackLandingView(pageName) {

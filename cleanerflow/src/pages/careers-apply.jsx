@@ -6,6 +6,7 @@ import SEO from "@/components/SEO";
 import NextdoorPixel from "@/NextdoorPixel";
 import { LOCATIONS } from "@/data/locations";
 import { validateEmail, validatePhone } from "@/lib/contact-validation";
+import { trackCareersLead } from "@/lib/track";
 import "./careers-apply.css";
 
 const APPLY_SEO = (
@@ -199,6 +200,12 @@ ${reason}`;
           },
         }),
       }).catch((err) => console.warn("hiringflow mirror failed:", err));
+      // Meta `SubmitApplication` standard event (distinct from booking's
+      // `Lead` so hiring and booking campaigns optimize independently in
+      // Meta Ads Manager) + GA4 `careers_lead` event. email/phone are
+      // hashed locally by trackCareersLead for Advanced Matching; the
+      // returned eventID lets a future CAPI server event dedupe.
+      trackCareersLead({ email: normalizedEmail, phone: normalizedPhone });
       navigate("/careers/apply/thank-you", { state: { name } });
     } catch (err) {
       console.error("emailjs send failed:", err);
