@@ -1,8 +1,8 @@
 {
   "aggregate": {
-    "totalRatingCount": 64,
-    "averageRating": 4.82,
-    "lastUpdated": "2026-11-20T19:00:02.157Z",
+    "totalRatingCount": 83,
+    "averageRating": 4.86,
+    "lastUpdated": "2026-11-21T17:54:29.879Z",
     "perPlace": [
       {
         "title": "Spotless Homes Tampa",
@@ -19,10 +19,30 @@
         "locationId": "locations/11117050976889618461",
         "userRatingCount": 25,
         "rating": 4.7
+      },
+      {
+        "title": "Spotless Homes Jacksonville",
+        "label": "Jacksonville",
+        "accountId": "accounts/103234163269032571833",
+        "locationId": "locations/18380617265025283816",
+        "userRatingCount": 19,
+        "rating": 5
       }
     ]
   },
   "reviews": [
+    {
+      "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqnYckzXVDnAxouTAV6VOAMPAhvh4NmpeCR17quGTKuJUySnyJjor_yCpWFEtpVA4N27r0mkNw",
+      "manual": false,
+      "rating": 5,
+      "author": "Donna Stone",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocIaJ-yYhHnvmDCVLIoOvR4Nbltg03lj3B7HBj72e7A1sq0O1g=s120-c-rp-mo-br100",
+      "publishTime": "2026-11-19T20:41:45.486727Z",
+      "relativeTime": "Nov 2026",
+      "text": "Today was my first time having Alina clean, and I couldn’t be happier! She was very easy to communicate with, friendly, and did an excellent job cleaning my home. I’m very pleased with her work and look forward to having her back. I highly recommend Alina to anyone looking for a reliable and thorough cleaner!",
+      "place": "Jacksonville",
+      "sourceUrl": "https://maps.google.com/maps?cid=4895929702703023189"
+    },
     {
       "id": "gmb:accounts/103234163269032571833/locations/18380617265025283816/reviews/AbFvOqkNn93_6glt28r_tVBQJveRNFo1Myp4t-F67_ICoQTVwXt5Kp59aZnJ2FCZeKrEkrucnBrp",
       "manual": false,
